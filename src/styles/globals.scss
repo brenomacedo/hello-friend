@@ -1,0 +1,30 @@
+:root {
+    --purple: #651fff;
+    --light-purple: #b388ff;
+    --lighter-purple: #ede7f6;
+    --blue: #2196f3;
+    --light-blue: #42a5f5;
+    --blue-accent: #2962ff;
+    --green: #81c784;
+    --red: #f44336;
+    --poppins: 'Poppins', sans-serif;
+    --open-sans: 'Open Sans', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+@media (max-width: 1080px) {
+    html {
+        font-size: 93.75%;
+    }
+}
+
+@media (max-width: 720px) {
+    html {
+        font-size: 87.5%;
+    }
+}
