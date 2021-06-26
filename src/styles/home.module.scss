@@ -71,3 +71,13 @@
     }
 
 }
+
+@media (max-width: 680px) {
+    .container {
+        flex-direction: column;
+
+        .banner {
+            min-height: 400px;
+        }
+    }
+}
