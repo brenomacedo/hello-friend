@@ -1,0 +1,35 @@
+.inputContainer {
+    position: relative;
+
+    .labelIcon {
+        position: absolute;
+        left: 1.3rem;
+        top: 1.95rem;
+        font-size: 1.2rem;
+        color: var(--purple);
+    }
+
+    .eye {
+        position: absolute;
+        top: 1.95rem;
+        right: 1.3rem;
+        font-size: 1.2rem;
+        color: var(--purple);
+        cursor: pointer;
+    }
+
+    input {
+        outline: none;
+        margin-top: 1rem;
+        width: 21rem;
+        height: 3rem;
+        padding-left: 3.5rem;
+        border: none;
+        border-radius: 150px;
+        -webkit-box-shadow: 1px 2px 19px -7px #000000;
+        box-shadow: 1px 2px 19px -7px #000000;
+
+        font-family: var(--open-sans);
+        font-size: 0.9rem;
+    }
+}

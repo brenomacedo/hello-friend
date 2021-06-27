@@ -1,22 +1,24 @@
 import { useState } from 'react'
 import styles from '../styles/login.module.scss'
 import { FaCheck } from 'react-icons/fa'
-import { FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi'
+import { Input } from '../components/Input'
 import { useCallback } from 'react'
 import Head from 'next/head'
+import { createRef } from 'react'
+import { PasswordInput } from '../components/PasswordInput'
+import { FiLock, FiMail } from 'react-icons/fi'
+import Button from '../components/Button'
 
 export default function Login() {
 
     const [remember, setRemember] = useState(false)
-    const [viewPassword, setViewPassword] = useState(false)
+
+    const nameRef = createRef<HTMLInputElement>()
+    const passwordRef = createRef<HTMLInputElement>()
 
     const toggleRemember = useCallback(() => {
         setRemember(!remember)
     }, [remember])
-
-    const toggleViewPassword = useCallback(() => {
-        setViewPassword(!viewPassword)
-    }, [viewPassword])
 
     return (
         <div className={styles.container}>
@@ -28,19 +30,8 @@ export default function Login() {
                     <h1>Hello!</h1>
                     <p>Sign in to your account!</p>
                     <form>
-                        <div className={styles.inputContainer}>
-                            <FiMail className={styles.labelIcon} />
-                            <input type="text" placeholder="E-mail" />
-                        </div>
-                        <div className={styles.inputContainer}>
-                            <FiLock className={styles.labelIcon} />
-                            {viewPassword ? (
-                                <FiEye className={styles.eye} onClick={toggleViewPassword} />
-                            ) : (
-                                <FiEyeOff className={styles.eye} onClick={toggleViewPassword} />
-                            )}
-                            <input type={viewPassword ? 'text' : 'password'} placeholder="Password" />
-                        </div>
+                        <Input Icon={FiMail} ref={nameRef} />
+                        <PasswordInput Icon={FiLock} ref={passwordRef} toggleEye={false} />
                         <div className={styles.options}>
                             <div className={styles.remember}>
                                 <div onClick={toggleRemember}
@@ -53,9 +44,9 @@ export default function Login() {
                                 <span>Forgot password?</span>
                             </div>
                         </div>
-                        <button className={styles.loginButton}>
+                        <Button>
                             Sign in
-                        </button>
+                        </Button>
                         <p>Don't have an account? <strong>Create</strong></p>
                     </form>
                 </div>
