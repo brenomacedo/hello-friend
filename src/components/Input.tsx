@@ -4,13 +4,14 @@ import { IconType } from 'react-icons'
 
 interface InputProps {
     Icon: IconType
+    placeholder: string
 }
 
-export const Input = React.forwardRef<HTMLInputElement, InputProps>(({ Icon }, ref) => {
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(({ Icon, placeholder }, ref) => {
     return (
         <div className={styles.inputContainer}>
             <Icon className={styles.labelIcon} />
-            <input ref={ref} type="text" placeholder="E-mail" />
+            <input ref={ref} type="text" placeholder={placeholder} />
         </div>
     )
 })

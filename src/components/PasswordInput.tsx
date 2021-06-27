@@ -6,10 +6,11 @@ import styles from '../styles/input.module.scss'
 interface PasswordInputProps {
     Icon: IconType
     toggleEye?: boolean
+    placeholder: string
 }
 
 export const PasswordInput =
-    React.forwardRef<HTMLInputElement, PasswordInputProps>(({ Icon, toggleEye = true }, ref) => {
+    React.forwardRef<HTMLInputElement, PasswordInputProps>(({ Icon, toggleEye = true, placeholder }, ref) => {
 
     const [viewPassword, setViewPassword] = useState(false)
 
@@ -27,7 +28,7 @@ export const PasswordInput =
                     <FiEyeOff className={styles.eye} onClick={toggleViewPassword} />
                 )
             )}
-            <input ref={ref} type={viewPassword ? 'text' : 'password'} placeholder="Password" />
+            <input ref={ref} type={viewPassword ? 'text' : 'password'} placeholder={placeholder} />
         </div>
     )
 })

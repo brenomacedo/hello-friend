@@ -30,8 +30,9 @@ export default function Login() {
                     <h1>Hello!</h1>
                     <p>Sign in to your account!</p>
                     <form>
-                        <Input Icon={FiMail} ref={nameRef} />
-                        <PasswordInput Icon={FiLock} ref={passwordRef} toggleEye={false} />
+                        <Input placeholder="E-mail" Icon={FiMail} ref={nameRef} />
+                        <PasswordInput placeholder="Password"
+                            Icon={FiLock} ref={passwordRef} toggleEye={false} />
                         <div className={styles.options}>
                             <div className={styles.remember}>
                                 <div onClick={toggleRemember}
