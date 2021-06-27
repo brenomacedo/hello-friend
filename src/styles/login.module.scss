@@ -1,0 +1,184 @@
+.container {
+    min-height: 100vh;
+    display: flex;
+
+    background-image: url('/background.png');
+    background-size: contain;
+
+    .formContainer {
+        min-height: 100vh;
+        flex: 6;
+
+        .form {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 0.25rem;
+
+            h1 {
+                font-family: var(--poppins);
+            }
+
+            p {
+                font-family: var(--open-sans);
+            }
+
+            form {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                input {
+                    outline: none;
+                    margin-top: 1rem;
+                    width: 21rem;
+                    height: 3rem;
+                    padding-left: 3.5rem;
+                    border: none;
+                    border-radius: 150px;
+                    -webkit-box-shadow: 1px 2px 19px -7px #000000;
+                    box-shadow: 1px 2px 19px -7px #000000;
+
+                    font-family: var(--open-sans);
+                    font-size: 0.9rem;
+                }
+
+                p {
+                    margin-top: 1rem;
+
+                    strong {
+                        color: var(--purple);
+                        cursor: pointer;
+                    }
+                }
+
+                .inputContainer {
+                    position: relative;
+
+                    .labelIcon {
+                        position: absolute;
+                        left: 1.3rem;
+                        top: 1.95rem;
+                        font-size: 1.2rem;
+                        color: var(--purple);
+                    }
+
+                    .eye {
+                        position: absolute;
+                        top: 1.95rem;
+                        right: 1.3rem;
+                        font-size: 1.2rem;
+                        color: var(--purple);
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+
+    .message {
+        min-height: 100vh;
+        flex: 5;
+    }
+
+}
+
+.options {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+
+    span {
+        font-family: var(--poppins);
+    }
+
+    .remember {
+        user-select: none;
+        display: flex;
+        align-items: center;
+
+        .checkbox {
+            transition: background-color 0.1s;
+            width: 1.2rem;
+            height: 1.2rem;
+            border: 1px solid var(--purple);
+            border-radius: 3px;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .checkIcon {
+                color: white;
+                width: 0.7rem;
+            }
+        }
+
+        .active {
+            background-color: var(--purple);
+        }
+    }
+
+    .forgotPassword {
+        cursor: pointer;
+    }
+}
+
+.loginButton {
+    margin-top: 1rem;
+    width: 21rem;
+    height: 3rem;
+    background: linear-gradient(to right, var(--purple), var(--blue-accent));
+    color: var(--lighter-purple);
+    font-family: var(--open-sans);
+    font-size: 0.9rem;
+    border: 0;
+    border-radius: 150px;
+    -webkit-box-shadow: 1px 2px 19px -7px #000000;
+    box-shadow: 1px 2px 19px -7px #000000;
+    cursor: pointer;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+
+    h2 {
+        font-family: var(--poppins);
+        margin-bottom: 1rem;
+    }
+
+    p {
+        max-width: 20rem;
+        font-family: var(--open-sans);
+        text-align: center;
+    }
+
+}
+
+@media (max-width: 1200px) {
+    .container {
+        background-size: cover;
+    }
+}
+
+@media (max-width: 660px) {
+    .container {
+        flex-direction: column-reverse;
+    }
+
+    .formContainer {
+        margin-bottom: 150px;
+    }
+
+    .message {
+        margin-top: 100px;
+    }
+}
