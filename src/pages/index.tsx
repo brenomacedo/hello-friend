@@ -14,10 +14,10 @@ export default function Home () {
         </div>
         <div className={styles.next}>
             <div className={styles.info}>
-                <h2>Uma rede social simples, mas que pode te trazer muitos amigos!</h2>
-                <p>Inscreva-se agora mesmo!</p>
+                <h2>A simple social network, but one that can bring you many friends!</h2>
+                <p>Join right now!</p>
                 <button className={styles.gonext}>
-                    Prosseguir
+                    Lets go!
                 </button>
             </div>
         </div>
