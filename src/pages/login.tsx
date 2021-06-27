@@ -7,6 +7,7 @@ import Head from 'next/head'
 import { createRef } from 'react'
 import { PasswordInput } from '../components/PasswordInput'
 import { FiLock, FiMail } from 'react-icons/fi'
+import { FaGithub } from 'react-icons/fa'
 import Button from '../components/Button'
 
 export default function Login() {
@@ -55,6 +56,10 @@ export default function Login() {
             <div className={styles.message}>
                 <h2>Welcome back!</h2>
                 <p>Glad you're here! We hope you get good conversations and new friends!</p>
+                <div className={styles.github}>
+                    <FaGithub className={styles.githubIcon} /> Sign in with github
+                </div>
+                <p>Login with github or create your account!</p>
             </div>
         </div>
     )

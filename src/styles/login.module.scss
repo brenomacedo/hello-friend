@@ -110,6 +110,34 @@
         text-align: center;
     }
 
+    p:nth-of-type(2) {
+        margin-top: 1rem;
+    }
+
+    .github {
+        margin-top: 1rem;
+        width: 21rem;
+        height: 3rem;
+        background: linear-gradient(30deg, var(--gray-dark-2), var(--gray-dark));
+        color: var(--lighter-purple);
+        font-family: var(--open-sans);
+        font-size: 0.9rem;
+        border: 0;
+        border-radius: 150px;
+        -webkit-box-shadow: 1px 2px 19px -7px #000000;
+        box-shadow: 1px 2px 19px -7px #000000;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .githubIcon {
+            color: white;
+            font-size: 1rem;
+            margin-right: 1rem;
+        }
+    }
+
 }
 
 @media (max-width: 1200px) {
