@@ -60,3 +60,9 @@
         height: 4rem;
     }
 }
+
+@media (max-width: 390px) {
+    .logo {
+        display: none;
+    }
+}
