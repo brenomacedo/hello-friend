@@ -1,0 +1,100 @@
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    .title {
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--gray);
+
+        h2 {
+            font-family: var(--poppins);
+            font-weight: 400;
+        }
+    }
+
+    .edit {
+        padding: 4rem 0;
+        display: flex;
+
+        .profile {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            border-right: 1px solid var(--gray);
+
+            p {
+                font-family: var(--poppins);
+                font-size: 0.9rem;
+            }
+
+            > h3 {
+                margin-top: 1.5rem;
+                font-family: var(--poppins);
+                color: var(--blue);
+            }
+
+            > h4 {
+                font-family: var(--open-sans);
+                color: var(--gray-dark);
+                font-weight: 400;
+            }
+
+            .profilePic {
+                margin-top: 1.5rem;
+                width: 5rem;
+                height: 5rem;
+                border-radius: 50%;
+                border: 1px solid var(--gray);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+                padding: 0.3rem;
+            }
+
+            .profilePic img {
+                border-radius: 50%;
+            }
+
+            .postCount {
+                margin: 1.5rem 0;
+
+                padding: 0 1rem;
+                border-left: 1px solid #ccc;
+                border-right: 1px solid #ccc;
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                span {
+                    font-size: 0.8rem;
+                    color: var(--gray-dark);
+                    font-family: var(--open-sans);
+                }
+            }
+
+            .bio {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                margin-top: 2.5rem;
+                font-family: var(--open-sans);
+
+                text-align: center;
+
+                p {
+                    max-width: 18rem;
+                }
+            }
+        }
+
+        .editProfile {
+            flex: 2;
+        }
+    }
+}
