@@ -1,7 +1,7 @@
 import { FiLock, FiMail, FiUser } from 'react-icons/fi'
 import Button from '../components/Button'
-import { Input } from '../components/Input'
-import { PasswordInput } from '../components/PasswordInput'
+import Input from '../components/Input'
+import PasswordInput from '../components/PasswordInput'
 import styles from '../styles/register.module.scss'
 import Head from 'next/head'
 

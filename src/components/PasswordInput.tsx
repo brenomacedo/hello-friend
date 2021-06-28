@@ -9,7 +9,7 @@ interface PasswordInputProps {
     placeholder: string
 }
 
-export const PasswordInput =
+export default
     React.forwardRef<HTMLInputElement, PasswordInputProps>(({ Icon, toggleEye = true, placeholder }, ref) => {
 
     const [viewPassword, setViewPassword] = useState(false)

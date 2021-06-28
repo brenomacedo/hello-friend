@@ -2,6 +2,8 @@ import styles from '../../styles/edit.module.scss'
 import TopBar from "../../components/TopBar"
 import Image from 'next/image'
 import Button from '../../components/Button'
+import InfoInput from '../../components/InfoInput'
+import { FiMail, FiUser } from 'react-icons/fi'
 
 export default function Edit() {
     return (
@@ -39,7 +41,19 @@ export default function Edit() {
                     </div>
 
                 </div>
-                <div className={styles.editProfile}></div>
+                <div className={styles.editProfile}>
+                    <div className={styles.basicInfo}>
+                        <h2>Basic info</h2>
+                        <Button width='8rem' marginTop='0'>
+                            Save
+                        </Button>
+                    </div>
+                    <div className={styles.basicInfoFields}>
+                        <InfoInput label='Name' Icon={FiUser} width='100%'/>
+                        <InfoInput label='E-mail' Icon={FiMail} width='100%'/>
+                        <InfoInput label='Title' Icon={FiMail} width='100%'/>
+                    </div>
+                </div>
             </div>
         </div>
     )

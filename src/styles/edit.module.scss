@@ -95,6 +95,26 @@
 
         .editProfile {
             flex: 2;
+            padding: 0 2rem;
+
+            .basicInfo {
+                max-width: 1280px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid var(--gray);
+
+                h2 {
+                    font-family: var(--poppins);
+                    font-weight: 400;
+                }
+            }
+
+            .basicInfoFields {
+                max-width: 1280px;
+
+            }
         }
     }
 }

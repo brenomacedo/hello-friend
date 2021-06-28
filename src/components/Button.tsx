@@ -5,12 +5,13 @@ interface ButtonProps {
     children: ReactNode
     width?: string
     backgroundColor?: string
+    marginTop?: string
 }
 
-export default function Button({ children, width, backgroundColor }: ButtonProps) {
+export default function Button({ children, width, backgroundColor, marginTop }: ButtonProps) {
     return (
         <button
-            style={{ width: width, background: backgroundColor }}
+            style={{ width, background: backgroundColor, marginTop }}
             className={styles.loginButton}>
             {children}
         </button>
