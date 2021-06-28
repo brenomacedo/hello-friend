@@ -24,7 +24,7 @@ export default function Login() {
     return (
         <div className={styles.container}>
             <Head>
-                <title>Hello Friend- Login</title>
+                <title>Hello Friend - Login</title>
             </Head>
             <div className={styles.formContainer}>
                 <div className={styles.form}>

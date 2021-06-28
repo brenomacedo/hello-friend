@@ -1,4 +1,5 @@
 import styles from '../styles/home.module.scss'
+import Image from 'next/image'
 import Head from 'next/head'
 
 export default function Home () {
@@ -10,7 +11,10 @@ export default function Home () {
         </Head>
 
         <div className={styles.banner}>
-            <img src='/logo-text-transparent.png' alt="lobo" />
+            <div>
+                <Image src='/logo-text-transparent.png' alt="lobo"
+                    width={600} height={600} objectFit='cover' />
+            </div>
         </div>
         <div className={styles.next}>
             <div className={styles.info}>
