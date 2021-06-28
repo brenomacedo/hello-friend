@@ -19,6 +19,21 @@
     margin: 0;
     padding: 0;
 }
+::-webkit-scrollbar {
+    width: 0.4rem;
+    height: 0.4rem;
+}
+::-webkit-scrollbar-track {
+    background: var(--blue);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gray-dark-2);;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-dark);
+}
 
 body {
     background-color: var(--lighter-purple);
