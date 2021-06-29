@@ -1,0 +1,106 @@
+.container {
+    padding: 1.5rem;
+    border-radius: 5px;
+
+    -webkit-box-shadow: 0px 3px 11px -4px #000000;
+    box-shadow: 0px 3px 11px -4px #000000;
+    background-color: white;
+
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+
+    .author {
+        display: flex;
+        gap: 1rem;
+
+        .postInfo {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            p {
+                font-family: var(--poppins);
+                font-size: 1.1rem;
+            }
+
+            span {
+                font-family: var(--open-sans);
+                font-size: 0.8rem;
+                color: var(--gray-dark);
+            }
+        }
+
+        .profilePic {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            overflow: hidden;
+
+            border: 1px solid var(--gray);
+        }
+    }
+
+    > p {
+        font-family: var(--poppins);
+        font-size: 0.9rem;
+    }
+
+    .postImage {
+        position: relative;
+        height: 35rem;
+    }
+
+    .postInfos {
+        display: flex;
+
+        p {
+            display: flex;
+            align-items: center;
+
+            font-family: var(--poppins);
+            cursor: pointer;
+
+            svg {
+                margin-right: 0.5rem;
+            }
+
+            color: var(--gray-dark);
+
+            &.liked {
+                color: var(--red);
+            }
+        }
+
+        p + p {
+            margin-left: 2rem;
+        }
+    }
+
+    .commentSection {
+
+        .writeComment {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+
+            .profilePic {
+                width: 3rem;
+                height: 3rem;
+                border: 1px solid var(--gray);
+                border-radius: 50%;
+                overflow: hidden;
+            }
+
+            textarea {
+                flex: 1;
+                resize: none;
+                outline: none;
+                padding: 0.5rem;
+                border: 0;
+                font-family: var(--poppins);
+                font-size: 0.9rem;
+            }
+        }
+    }
+}

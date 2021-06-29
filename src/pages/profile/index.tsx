@@ -3,6 +3,7 @@ import TopBar from '../../components/TopBar'
 import WritePost from '../../components/WritePost'
 import styles from '../../styles/profile.module.scss'
 import Head from 'next/head'
+import Post from '../../components/Post'
 
 export default function Profile() {
     return (
@@ -16,6 +17,7 @@ export default function Profile() {
                     <Sidebar selected='Games' />
                     <div className={styles.feed}>
                         <WritePost />
+                        <Post />
                     </div>
                 </div>
             </div>
