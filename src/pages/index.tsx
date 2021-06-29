@@ -2,7 +2,7 @@ import styles from '../styles/home.module.scss'
 import Image from 'next/image'
 import Head from 'next/head'
 
-export default function Home () {
+export default function Home() {
   return (
     <div className={styles.container}>
 
