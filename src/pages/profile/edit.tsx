@@ -5,10 +5,14 @@ import Button from '../../components/Button'
 import PasswordInput from '../../components/PasswordInput'
 import InfoInput from '../../components/InfoInput'
 import { FiLock, FiMail, FiUser } from 'react-icons/fi'
+import Head from 'next/head'
 
 export default function Edit() {
     return (
         <div className={styles.container}>
+            <Head>
+                <title>Hello Friend - Edit profile</title>
+            </Head>
             <TopBar active='edit' />
             <div className={styles.title}>
                 <h2>Settings</h2>
@@ -43,7 +47,7 @@ export default function Edit() {
 
                 </div>
                 <div className={styles.editProfile}>
-                <div className={styles.basicInfo}>
+                    <div className={styles.basicInfo}>
                         <h2>Basic info</h2>
                         <Button width='8rem' marginTop='0'>
                             Save

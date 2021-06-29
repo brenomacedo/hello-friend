@@ -7,7 +7,7 @@ export default function Home () {
     <div className={styles.container}>
 
         <Head>
-            <title>Hello Friend - Início</title>
+            <title>Hello Friend - Home</title>
         </Head>
 
         <div className={styles.banner}>
