@@ -2,8 +2,9 @@ import styles from '../../styles/edit.module.scss'
 import TopBar from "../../components/TopBar"
 import Image from 'next/image'
 import Button from '../../components/Button'
+import PasswordInput from '../../components/PasswordInput'
 import InfoInput from '../../components/InfoInput'
-import { FiMail, FiUser } from 'react-icons/fi'
+import { FiLock, FiMail, FiUser } from 'react-icons/fi'
 
 export default function Edit() {
     return (
@@ -42,7 +43,7 @@ export default function Edit() {
 
                 </div>
                 <div className={styles.editProfile}>
-                    <div className={styles.basicInfo}>
+                <div className={styles.basicInfo}>
                         <h2>Basic info</h2>
                         <Button width='8rem' marginTop='0'>
                             Save
@@ -52,6 +53,37 @@ export default function Edit() {
                         <InfoInput label='Name' Icon={FiUser} width='100%'/>
                         <InfoInput label='E-mail' Icon={FiMail} width='100%'/>
                         <InfoInput label='Title' Icon={FiMail} width='100%'/>
+                    </div>
+                    <div className={styles.specificInfo}>
+                        <h2>Specific information</h2>
+                    </div>
+                    <div className={styles.specificInfoFields}>
+                        <p>About you</p>
+                        <textarea className={styles.textarea} placeholder='Enter something about you'>
+
+                        </textarea>
+                    </div>
+                    <div className={styles.specificInfo}>
+                        <h2>External Links</h2>
+                    </div>
+                    <div className={styles.specificInfoFields}>
+                        <InfoInput label='Facebook URL' Icon={FiUser} width='100%'/>
+                        <InfoInput label='Twitter URL' Icon={FiMail} width='100%'/>
+                        <InfoInput label='Instagram URL' Icon={FiMail} width='100%'/>
+                    </div>
+                    <div className={styles.specificInfo}>
+                        <h2>Security</h2>
+                    </div>
+                    <div className={styles.specificInfoFields}>
+                        <p>Update password</p>
+                        <PasswordInput placeholder='Enter your current password' Icon={FiLock} width='100%'/>
+                        <PasswordInput placeholder='Enter your new password' Icon={FiLock} width='100%' />
+                        <PasswordInput placeholder='Confirm your new password' Icon={FiLock}
+                            width='100%' toggleEye={false} />
+
+                        <div className={styles.updatePassword}>
+                            <Button width='15rem'>Update Password</Button>
+                        </div>
                     </div>
                 </div>
             </div>

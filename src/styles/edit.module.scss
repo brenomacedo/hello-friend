@@ -113,8 +113,55 @@
 
             .basicInfoFields {
                 max-width: 1280px;
+            }
+
+            .specificInfo {
+                margin-top: 3rem;
+                max-width: 1280px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid var(--gray);
+
+                h2 {
+                    font-family: var(--poppins);
+                    font-weight: 400;
+                }
+            }
+
+            .specificInfoFields {
+                max-width: 1280px;
+                margin-top: 1rem;
+
+                p {
+                    font-family: var(--poppins);
+                    font-size: 0.8rem;
+                }
+
+                .updatePassword {
+                    display: flex;
+                    justify-content: flex-end;
+                }
+
+                .textarea {
+                    outline: none;
+                    margin-top: 0.5rem;
+                    width: 100%;
+                    resize: none;
+                    height: 8.8rem;
+                    padding: 1.5rem;
+                    border: none;
+                    border-radius: 1.5rem;
+                    -webkit-box-shadow: 1px 2px 19px -7px #000000;
+                    box-shadow: 1px 2px 19px -7px #000000;
+
+                    font-family: var(--open-sans);
+                    font-size: 0.9rem;
+                }
 
             }
         }
+
     }
 }
