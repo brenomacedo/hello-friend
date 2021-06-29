@@ -1,21 +1,22 @@
-import SidebarTile from '../../components/SidebarTile'
+import Sidebar from '../../components/Sidebar'
+import TopBar from '../../components/TopBar'
+import WritePost from '../../components/WritePost'
 import styles from '../../styles/profile.module.scss'
+import Head from 'next/head'
 
 export default function Profile() {
     return (
         <div className={styles.container}>
-            <div className={styles.content}>
-                <div className={styles.sidebar}>
-                    <div className={styles.title}>
-                        <p>Favourites</p>
+            <Head>
+                <title>Hello Friend - Profile</title>
+            </Head>
+            <TopBar active='home' />
+            <div className={styles.home}>
+                <div className={styles.content}>
+                    <Sidebar selected='Games' />
+                    <div className={styles.feed}>
+                        <WritePost />
                     </div>
-                    <SidebarTile label='All' src='/logo-only-text.png' />
-                    <SidebarTile label='Games' src='/games.png' />
-                    <SidebarTile label='Series' src='/series.png' />
-                    <SidebarTile label='Sports' src='/sports.png' />
-                </div>
-                <div className={styles.feed}>
-
                 </div>
             </div>
         </div>

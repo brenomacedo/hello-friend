@@ -5,12 +5,23 @@
     align-items: center;
     gap: 0.8rem;
 
+    &.selected {
+        background-color: var(--purple);
+        transform: scale(1.04);
+        cursor: initial;
+        border-radius: 3px;
+    }
+
     .icon {
         width: 1.8rem;
         height: 1.8rem;
     }
 
-    &:hover {
+    p.selected {
+        color: white;
+    }
+
+    &:not(.selected):hover {
         background-color: var(--gray);
     }
 }
