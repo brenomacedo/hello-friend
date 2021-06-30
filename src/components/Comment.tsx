@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import styles from '../styles/comment.module.scss'
 import Button from './Button'
+import LoadMore from './LoadMore'
 
 export default function Comment() {
 
@@ -37,6 +38,7 @@ export default function Comment() {
 
             <div className={styles.responses}>
                 {renderResponses()}
+                <LoadMore />
             </div>
             <div className={styles.writeResponses}>
                 <button className={`${styles.writeResponseButton}`}>Answer</button>
