@@ -1,0 +1,48 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 1rem;
+    cursor: pointer;
+
+    transition: 0.2s;
+    border-radius: 5px;
+
+    padding: 0.5rem;
+
+    &:hover {
+        background-color: var(--light-blue);
+        transform: scale(1.02);
+    }
+
+    .communityInfo {
+        display: flex;
+        gap: 1rem;
+
+        align-items: center;
+
+        .communityPic {
+            width: 2rem;
+            height: 2rem;
+        }
+
+        p {
+            font-family: var(--poppins);
+            font-size: 0.9rem;
+        }
+    }
+
+    .favorites {
+        margin-right: 0.5rem;
+        color: var(--gray);
+
+        &:hover {
+            transform: scale(1.1);
+        }
+
+        &.active {
+            color: var(--purple);
+        }
+    }
+}
