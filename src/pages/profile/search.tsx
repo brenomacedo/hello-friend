@@ -4,10 +4,14 @@ import Button from '../../components/Button'
 import styles from '../../styles/search.module.scss'
 import { FiSearch } from 'react-icons/fi'
 import Community from '../../components/Community'
+import Head from 'next/head'
 
 export default function Search() {
     return (
         <div className={styles.container}>
+            <Head>
+                <title>Hello Friend - Search</title>
+            </Head>
             <TopBar active='search' />
             <div className={styles.searchBoxContainer}>
                 <div className={styles.searchBox}>
