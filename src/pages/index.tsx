@@ -1,16 +1,8 @@
 import styles from '../styles/home.module.scss'
 import Image from 'next/image'
 import Head from 'next/head'
-import { useEffect } from 'react'
-import useTheme from '../hooks/useTheme'
 
 export default function Home() {
-
-    const { theme } = useTheme()
-
-    useEffect(() => {
-        alert(theme)
-    }, [])
 
     return (
         <div className={styles.container}>

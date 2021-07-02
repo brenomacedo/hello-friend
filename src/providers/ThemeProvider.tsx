@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 
 interface ThemeProps {
-    theme: 'dark' | 'light'
+    isDark: boolean
     toggleTheme: () => void
 }
 
@@ -32,7 +32,7 @@ export default function ThemeProvider({ children }: ThemeProviderProps) {
     }, [])
 
     return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        <ThemeContext.Provider value={{ isDark: theme === 'dark', toggleTheme }}>
             {children}
         </ThemeContext.Provider>
     )

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from '../styles/login.module.scss'
 import { FaCheck } from 'react-icons/fa'
 import Input from '../components/Input'
@@ -9,8 +9,11 @@ import PasswordInput from '../components/PasswordInput'
 import { FiLock, FiMail } from 'react-icons/fi'
 import { FaGithub } from 'react-icons/fa'
 import Button from '../components/Button'
+import useTheme from '../hooks/useTheme'
 
 export default function Login() {
+
+    const { isDark } = useTheme()
 
     const [remember, setRemember] = useState(false)
 

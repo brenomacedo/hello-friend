@@ -2,7 +2,8 @@
     min-height: 100vh;
     display: flex;
 
-    background-image: url('/background.png');
+    background-image: var(--login-bg);
+
     background-size: contain;
 
     .formContainer {
@@ -19,10 +20,12 @@
 
             h1 {
                 font-family: var(--poppins);
+                color: var(--black);
             }
 
             p {
                 font-family: var(--open-sans);
+                color: var(--black);
             }
 
             form {
@@ -56,6 +59,7 @@
 
     span {
         font-family: var(--poppins);
+        color: var(--black);
     }
 
     .remember {
@@ -76,7 +80,7 @@
             align-items: center;
 
             .checkIcon {
-                color: white;
+                color: var(--white);
                 width: 0.7rem;
             }
         }
@@ -101,12 +105,14 @@
 
     h2 {
         font-family: var(--poppins);
+        color: var(--black);
         margin-bottom: 1rem;
     }
 
     p {
         max-width: 20rem;
         font-family: var(--open-sans);
+        color: var(--black);
         text-align: center;
     }
 
@@ -118,8 +124,8 @@
         margin-top: 1rem;
         width: 21rem;
         height: 3rem;
-        background: linear-gradient(30deg, var(--gray-dark-2), var(--gray-dark));
-        color: var(--lighter-purple);
+        background: var(--github-btn-gradient);
+        color: var(--white);
         font-family: var(--open-sans);
         font-size: 0.9rem;
         border: 0;
@@ -132,7 +138,7 @@
         align-items: center;
 
         .githubIcon {
-            color: white;
+            color: var(--white);
             font-size: 1rem;
             margin-right: 1rem;
         }

@@ -6,12 +6,13 @@ interface ButtonProps {
     width?: string
     backgroundColor?: string
     marginTop?: string
+    color?: string
 }
 
-export default function Button({ children, width, backgroundColor, marginTop }: ButtonProps) {
+export default function Button({ children, width, backgroundColor, marginTop, color }: ButtonProps) {
     return (
         <button
-            style={{ width, background: backgroundColor, marginTop }}
+            style={{ width, background: backgroundColor, marginTop, color: color }}
             className={styles.loginButton}>
             {children}
         </button>

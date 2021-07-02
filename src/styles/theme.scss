@@ -1,0 +1,39 @@
+body {
+    --purple: #651fff;
+    --light-purple: #b388ff;
+    --lighter-purple: #ede7f6;
+    --blue: #2196f3;
+    --light-blue: #42a5f5;
+    --blue-accent: #2962ff;
+    --green: #81c784;
+    --red: #f44336;
+    --gray: #ccc;
+    --gray-dark: #424242;
+    --gray-dark-2: #212121;
+    --white: #fff;
+    --black: #000;
+
+    --login-bg: url('/background.png');
+
+    --github-btn-gradient: linear-gradient(30deg, var(--gray-dark-2), var(--gray-dark));
+}
+
+body.dark {
+    --purple: #651fff;
+    --light-purple: #b388ff;
+    --lighter-purple: #212121;
+    --blue: #2196f3;
+    --light-blue: #42a5f5;
+    --blue-accent: #2962ff;
+    --green: #81c784;
+    --red: #f44336;
+    --gray: #ccc;
+    --gray-dark: #424242;
+    --gray-dark-2: #212121;
+    --white: #000;
+    --black: #fff;
+
+    --login-bg: url('/background-dark.png');
+
+    --github-btn-gradient: linear-gradient(30deg, var(--lighter-purple), var(--black));
+}

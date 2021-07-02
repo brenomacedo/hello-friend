@@ -1,5 +1,6 @@
-import '../styles/globals.scss'
 import ThemeProvider from '../providers/ThemeProvider'
+import '../styles/globals.scss'
+import '../styles/theme.scss'
 
 function MyApp({ Component, pageProps }) {
   return (
