@@ -21,7 +21,7 @@
         flex: 6;
         min-height: 100vh;
 
-        background-color: var(--lighter-purple);
+        background-color: var(--light-lgpurple-dark-dkgray);
 
         display: flex;
         justify-content: flex-start;
@@ -36,14 +36,14 @@
             h2 {
                 font-family: var(--poppins);
                 font-size: 2rem;
-                color: var(--black);
+                color: var(--light-black-dark-white);
             }
 
             p {
                 font-family: var(--open-sans);
                 font-size: 1.5rem;
                 margin-top: 0.5rem;
-                color: var(--black);
+                color: var(--light-black-dark-white);
             }
 
             .gonext {
@@ -56,7 +56,7 @@
                 cursor: pointer;
 
                 background-color: var(--purple);
-                color: var(--black);
+                color: white;
 
                 font-family: var(--open-sans);
                 font-size: 0.8rem;

@@ -10,6 +10,7 @@
         h2 {
             font-family: var(--poppins);
             font-weight: 400;
+            color: var(--light-black-dark-white);
         }
     }
 
@@ -28,6 +29,7 @@
             p {
                 font-family: var(--poppins);
                 font-size: 0.9rem;
+                color: var(--light-black-dark-white);
             }
 
             > h3 {
@@ -38,7 +40,7 @@
 
             > h4 {
                 font-family: var(--open-sans);
-                color: var(--gray-dark);
+                color: var(--light-dkgray-dark-lgpurple);
                 font-weight: 400;
             }
 
@@ -72,7 +74,7 @@
 
                 span {
                     font-size: 0.8rem;
-                    color: var(--gray-dark);
+                    color: var(--light-dkgray-dark-lgpurple);
                     font-family: var(--open-sans);
                 }
             }
@@ -86,6 +88,7 @@
                 font-family: var(--open-sans);
 
                 text-align: center;
+                color: var(--light-black-dark-white);
 
                 p {
                     max-width: 18rem;
@@ -108,6 +111,7 @@
                 h2 {
                     font-family: var(--poppins);
                     font-weight: 400;
+                    color: var(--light-black-dark-white);
                 }
             }
 
@@ -127,6 +131,7 @@
                 h2 {
                     font-family: var(--poppins);
                     font-weight: 400;
+                    color: var(--light-black-dark-white);
                 }
             }
 
@@ -137,6 +142,7 @@
                 p {
                     font-family: var(--poppins);
                     font-size: 0.8rem;
+                    color: var(--light-black-dark-white);
                 }
 
                 .updatePassword {

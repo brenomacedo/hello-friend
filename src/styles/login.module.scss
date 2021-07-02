@@ -20,12 +20,12 @@
 
             h1 {
                 font-family: var(--poppins);
-                color: var(--black);
+                color: var(--light-black-dark-white);
             }
 
             p {
                 font-family: var(--open-sans);
-                color: var(--black);
+                color: var(--light-black-dark-white);
             }
 
             form {
@@ -59,7 +59,7 @@
 
     span {
         font-family: var(--poppins);
-        color: var(--black);
+        color: var(--light-black-dark-white);
     }
 
     .remember {
@@ -80,7 +80,7 @@
             align-items: center;
 
             .checkIcon {
-                color: var(--white);
+                color: var(--light-white-dark-black);
                 width: 0.7rem;
             }
         }
@@ -105,14 +105,14 @@
 
     h2 {
         font-family: var(--poppins);
-        color: var(--black);
+        color: var(--light-black-dark-white);
         margin-bottom: 1rem;
     }
 
     p {
         max-width: 20rem;
         font-family: var(--open-sans);
-        color: var(--black);
+        color: var(--light-black-dark-white);
         text-align: center;
     }
 
@@ -125,7 +125,7 @@
         width: 21rem;
         height: 3rem;
         background: var(--github-btn-gradient);
-        color: var(--white);
+        color: var(--light-white-dark-black);
         font-family: var(--open-sans);
         font-size: 0.9rem;
         border: 0;
@@ -138,7 +138,7 @@
         align-items: center;
 
         .githubIcon {
-            color: var(--white);
+            color: var(--light-white-dark-black);
             font-size: 1rem;
             margin-right: 1rem;
         }
