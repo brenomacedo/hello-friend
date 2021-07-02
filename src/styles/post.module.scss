@@ -103,4 +103,19 @@
             }
         }
     }
+
+    .editPost {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .editField {
+        border: 0;
+        font-family: var(--poppins);
+        padding: 0.5rem;
+        outline: none;
+        resize: none;
+        background-color: var(--gray);
+        border-radius: 5px;
+    }
 }

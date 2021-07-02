@@ -7,11 +7,12 @@ interface ButtonProps {
     backgroundColor?: string
     marginTop?: string
     color?: string
+    onClick?: () => void
 }
 
-export default function Button({ children, width, backgroundColor, marginTop, color }: ButtonProps) {
+export default function Button({ children, width, backgroundColor, marginTop, color, onClick }: ButtonProps) {
     return (
-        <button
+        <button onClick={onClick}
             style={{ width, background: backgroundColor, marginTop, color: color }}
             className={styles.loginButton}>
             {children}
