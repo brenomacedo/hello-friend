@@ -5,5 +5,13 @@ module.exports = {
     clearMocks: true,
     preset: 'ts-jest',
     setupFilesAfterEnv: ['./tests/setupTests.ts'],
-    testEnvironment: 'jsdom'
+    testEnvironment: 'jsdom',
+    preset: 'ts-jest',
+    transform: {
+      '^.+\\.tsx?$': 'babel-jest',
+    },
+    testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
+    moduleNameMapper: {
+        '\\.(scss|sass|css)$': 'identity-obj-proxy',
+    },
 }

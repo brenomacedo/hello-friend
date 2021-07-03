@@ -24,9 +24,9 @@ export default
             <Icon className={styles.labelIcon} />
             {toggleEye && (
                 viewPassword ?(
-                    <FiEye className={styles.eye} onClick={toggleViewPassword} />
+                    <FiEye className={styles.eye} onClick={toggleViewPassword} role='switch' />
                 ) : (
-                    <FiEyeOff className={styles.eye} onClick={toggleViewPassword} />
+                    <FiEyeOff className={styles.eye} onClick={toggleViewPassword} role='switch' />
                 )
             )}
             <input ref={ref} type={viewPassword ? 'text' : 'password'} placeholder={placeholder}
