@@ -1,6 +1,6 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import UserController from "../../../database/controllers/UserController";
-import client from "../../../utils/client";
+import { NextApiRequest, NextApiResponse } from "next"
+import UserController from "../../../database/controllers/UserController"
+import client from "../../../utils/client"
 
 export default async function Register(req: NextApiRequest, res: NextApiResponse) {
 

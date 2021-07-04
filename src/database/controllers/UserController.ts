@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import config from '../../../config.json'
 import renderUser from "../views/UserView"
+import { createUser } from "../functions/userFunctions"
 
 class UserController {
 
@@ -42,11 +43,7 @@ class UserController {
         }
 
         try {
-            const user = await this.prisma.user.create({
-                data: {
-                    type, email, password, name
-                }
-            })
+            const user = await createUser({ email, name, password, type }, this.prisma)
 
             const token = jwt.sign({ id: user.id }, config.key, { expiresIn: '30d' })
 
