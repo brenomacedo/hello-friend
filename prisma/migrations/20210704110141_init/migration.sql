@@ -10,6 +10,8 @@ CREATE TABLE "User" (
     "facebook" VARCHAR(255),
     "instagram" VARCHAR(255),
     "twitter" VARCHAR(255),
+    "resetPasswordToken" VARCHAR(255),
+    "resetPasswordTokenExpires" TIMESTAMP(3),
 
     PRIMARY KEY ("id")
 );
@@ -60,6 +62,9 @@ CREATE TABLE "_CategoryToUser" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_CategoryToUser_AB_unique" ON "_CategoryToUser"("A", "B");

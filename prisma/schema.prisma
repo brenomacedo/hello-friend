@@ -14,13 +14,16 @@ model User {
     id Int @default(autoincrement()) @id
     type String @db.VarChar(255)
     name String @db.VarChar(255)
-    email String @db.VarChar(255)
+    email String @db.VarChar(255) @unique
     password String? @db.VarChar(255)
     title String? @db.VarChar(20)
     about String? @db.VarChar(255)
     facebook String? @db.VarChar(255)
     instagram String? @db.VarChar(255)
     twitter String? @db.VarChar(255)
+
+    resetPasswordToken String? @db.VarChar(255)
+    resetPasswordTokenExpires DateTime?
 
     posts Post[]
     category Category[]
