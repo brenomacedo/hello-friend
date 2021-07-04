@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest"
+    "test": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {
     "@prisma/client": "2.26.0",
@@ -44,12 +44,14 @@
     "@types/node": "^15.12.4",
     "@types/react": "^17.0.11",
     "babel-jest": "^27.0.5",
+    "cross-env": "^7.0.3",
     "eslint": "7.12.1",
     "eslint-config-next": "11.0.1",
     "faker": "^5.5.3",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.0.5",
     "jest-mock-extended": "^1.0.16",
+    "node-mocks-http": "^1.10.1",
     "prisma": "2.26.0",
     "ts-jest": "^27.0.3",
     "typescript": "^4.3.4"
