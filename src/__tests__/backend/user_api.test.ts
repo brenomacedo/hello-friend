@@ -5,6 +5,15 @@ import faker from 'faker'
 
 describe('user api', () => {
 
+    afterEach(async () => {
+        await prisma.user.deleteMany()
+    })
+
+    afterAll(async () => {
+        // setImmediate is not defined (ignore that)
+        await prisma.$disconnect()
+    })
+
     it('should create a new user', async () => {
 
         const { req, res } = createMocks({
@@ -21,14 +30,6 @@ describe('user api', () => {
 
         expect(res._getStatusCode()).toBe(201)
 
-    })
-
-    afterEach(async () => {
-        await prisma.user.deleteMany()
-    })
-
-    afterAll(async () => {
-        // await prisma.$disconnect()
     })
 
 })

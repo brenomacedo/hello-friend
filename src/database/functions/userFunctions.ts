@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from "@prisma/client"
+import { prismaClient } from "../../utils/types"
 
 interface CreateUser {
     name: string
@@ -7,9 +8,7 @@ interface CreateUser {
     password: string
 }
 
-export async function createUser({ email, name, password, type }: CreateUser,
-    prisma: PrismaClient<Prisma.PrismaClientOptions, never,
-    Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined>) {
+export async function createUser({ email, name, password, type }: CreateUser, prisma: prismaClient) {
 
     const user = await prisma.user.create({
         data: {
@@ -18,4 +17,18 @@ export async function createUser({ email, name, password, type }: CreateUser,
     })
 
     return user
+}
+
+interface FindUser {
+    email: string
+}
+
+export async function findUser({ email }: FindUser, prisma: prismaClient){
+
+    const user = await prisma.user.findFirst({
+        where: { email }
+    })
+
+    return user
+
 }
