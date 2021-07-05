@@ -37,19 +37,24 @@ export default async function AuthMiddleware(req: NextApiRequest, res: NextApiRe
         })
     }
 
-    jwt.verify(token, config.key, async (error, decoded) => {
-        if(error || !decoded) {
-            return res.status(401).json({
-                errors: [
-                    'Unauthorized',
-                    'Invalid token'
-                ]
-            })
-        }
+    const verifyJwt = new Promise<void>((resolve, reject) => {
+        jwt.verify(token, config.key, async (error, decoded) => {
+            if(error || !decoded) {
+                return res.status(401).json({
+                    errors: [
+                        'Unauthorized',
+                        'Invalid token'
+                    ]
+                })
+            }
 
-        req.body.id = decoded.id
+            req.body.id = decoded.id
 
-        return await next(req, res)
+            const response = await next(req, res)
+            resolve(response)
+        })
     })
+
+    await Promise.resolve(verifyJwt)
 
 }
