@@ -2,9 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next"
 import jwt from 'jsonwebtoken'
 import config from  '../../../config.json'
 
-type NextFunction = (req: NextApiRequest, res: NextApiResponse) => any
+type NextFunction = (req: NextApiRequest, res: NextApiResponse) => Promise<any>
 
-export default function AuthMiddleware(req: NextApiRequest, res: NextApiResponse, next: NextFunction) {
+export default async function AuthMiddleware(req: NextApiRequest, res: NextApiResponse, next: NextFunction) {
 
     const authorization = req.headers.authorization
 
@@ -37,7 +37,7 @@ export default function AuthMiddleware(req: NextApiRequest, res: NextApiResponse
         })
     }
 
-    jwt.verify(token, config.key, (error, decoded) => {
+    jwt.verify(token, config.key, async (error, decoded) => {
         if(error || !decoded) {
             return res.status(401).json({
                 errors: [
@@ -49,7 +49,7 @@ export default function AuthMiddleware(req: NextApiRequest, res: NextApiResponse
 
         req.body.id = decoded.id
 
-        return next(req, res)
+        return await next(req, res)
     })
 
 }

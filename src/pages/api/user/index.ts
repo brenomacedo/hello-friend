@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 import UserController from "../../../database/controllers/UserController"
 import client from "../../../database/client"
 
-export default async function Register(req: NextApiRequest, res: NextApiResponse) {
+export default async function User(req: NextApiRequest, res: NextApiResponse) {
 
     const userController = new UserController(client)
 

@@ -1,5 +1,5 @@
 import { createMocks } from 'node-mocks-http'
-import Register from '../../pages/api/user/register'
+import User from '../../pages/api/user'
 import prisma from '../../database/client'
 import faker from 'faker'
 
@@ -26,7 +26,7 @@ describe('user api', () => {
             }
         })
 
-        await Register(req, res)
+        await User(req, res)
 
         expect(res._getStatusCode()).toBe(201)
 
