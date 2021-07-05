@@ -55,6 +55,6 @@ export default async function AuthMiddleware(req: NextApiRequest, res: NextApiRe
         })
     })
 
-    await Promise.resolve(verifyJwt)
+    return await Promise.resolve(verifyJwt)
 
 }

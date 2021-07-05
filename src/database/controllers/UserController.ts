@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import config from '../../../config.json'
 import renderUser from "../views/UserView"
-import { createUser, editUser, findUserById } from "../functions/userFunctions"
+import { createUser, deleteUser, editUser, findUserById } from "../functions/userFunctions"
 import { prismaClient } from "../../utils/types"
 
 class UserController {
@@ -82,6 +82,24 @@ class UserController {
         }, this.prisma)
 
         return res.status(200).json(renderUser(updatedUser))
+
+    }
+
+    async delete(req: NextApiRequest, res: NextApiResponse) {
+
+        const { id } = req.body
+
+        try {
+            await deleteUser({ id }, this.prisma)
+
+            return res.status(200).send('User successfully deleted')
+        } catch {
+            return res.status(404).json({
+                errors: [
+                    'User not found'
+                ]
+            })
+        }
 
     }
 

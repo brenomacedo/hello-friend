@@ -108,3 +108,19 @@ export async function editUser({ id, data }: EditUser, prisma: prismaClient) {
     return user
 
 }
+
+interface DeleteUser {
+    id: number
+}
+
+export async function deleteUser({ id }: DeleteUser, prisma: prismaClient) {
+
+    const user = await prisma.user.delete({
+        where: {
+            id
+        }
+    })
+
+    return user
+
+}

@@ -1,4 +1,4 @@
-import { createUser, editUser, findUser } from '../../database/functions/userFunctions'
+import { createUser, deleteUser, editUser, findUser } from '../../database/functions/userFunctions'
 import { prismaMock } from '../../utils/singleton'
 import faker from 'faker'
 
@@ -57,6 +57,14 @@ describe('user', () => {
             name: faker.name.findName()
         } }, prismaMock)).resolves.toEqual(user)
 
+    })
+
+    it('should delete an user', async () => {
+
+        prismaMock.user.delete.mockResolvedValue(user)
+
+        await expect(deleteUser({ id: user.id }, prismaMock))
+            .resolves.toEqual(user)
     })
 })
 
