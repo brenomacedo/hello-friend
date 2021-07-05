@@ -1,4 +1,3 @@
-import { Prisma, PrismaClient } from "@prisma/client"
 import { NextApiRequest, NextApiResponse } from "next"
 import * as Yup from 'yup'
 import bcrypt from 'bcrypt'
@@ -63,8 +62,7 @@ class UserController {
 
     async edit(req: NextApiRequest, res: NextApiResponse) {
 
-        const id = req.body.id
-        const { name, title, facebook, twitter, instagram, about } = req.body
+        const { id, name, title, facebook, twitter, instagram, about } = req.body
 
         const user = await findUserById({ id }, this.prisma)
 

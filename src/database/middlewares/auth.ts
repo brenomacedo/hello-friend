@@ -21,7 +21,7 @@ export default async function AuthMiddleware(req: NextApiRequest, res: NextApiRe
         return res.status(401).json({
             errors: [
                 'Unauthorized',
-                'Token was not provided'
+                'Token format invalid'
             ]
         })
     }
