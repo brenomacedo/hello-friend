@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import config from '../../../config.json'
 import renderUser from "../views/UserView"
-import { createUser } from "../functions/userFunctions"
+import { createUser, editUser, findUserById } from "../functions/userFunctions"
 import { prismaClient } from "../../utils/types"
 
 class UserController {
@@ -66,11 +66,7 @@ class UserController {
         const id = req.body.id
         const { name, title, facebook, twitter, instagram, about } = req.body
 
-        const user = await this.prisma.user.findFirst({
-            where: {
-                id
-            }
-        })
+        const user = await findUserById({ id }, this.prisma)
 
         if(!user) {
             return res.status(404).json({
@@ -80,16 +76,14 @@ class UserController {
             })
         }
 
-        const updatedUser = await this.prisma.user.update({
-            where: {
-                id: Number((id as any) as string)
-            },
+        const updatedUser = await editUser({
+            id,
             data: {
-                name, title, facebook, twitter, instagram, about
+                about, facebook, instagram, name, title, twitter
             }
-        })
+        }, this.prisma)
 
-        return res.status(200).json(renderUser(user))
+        return res.status(200).json(renderUser(updatedUser))
 
     }
 

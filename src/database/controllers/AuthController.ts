@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import * as Yup from 'yup'
 import { prismaClient } from "../../utils/types"
-import { findUser } from "../functions/userFunctions"
+import { createGitHubUser, findUser, findUserByGithubId } from "../functions/userFunctions"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import config from '../../../config.json'
@@ -38,7 +38,7 @@ class AuthController {
             })
         }
 
-        const user = await findUser(email, this.prisma)
+        const user = await findUser({ email }, this.prisma)
 
         if(!user || !user.password) {
             return res.status(404).json({
@@ -99,9 +99,23 @@ class AuthController {
                     }
                 })
 
-                const user = await userResponse.json()
+                const gitHubUser = await userResponse.json()
 
-                return res.status(200).json(user)
+                const user = await findUserByGithubId({ id: gitHubUser.id }, this.prisma)
+
+                if(!user) {
+
+                    const newUser = await createGitHubUser({
+                        avatar: gitHubUser.avatar_url,
+                        githubId: gitHubUser.id,
+                        name: gitHubUser.name,
+                        type: 'github'
+                    }, this.prisma)
+
+                    return res.status(200).json(renderUser(newUser))
+                }
+
+                return res.status(200).json(renderUser(user))
             } catch {
                 return res.status(401).json({
                     errors: [
