@@ -13,7 +13,6 @@ describe('authentication', () => {
     })
 
     afterAll(async () => {
-        // setImmediate is not defined (ignore that)
         await prisma.$disconnect()
     })
 

@@ -10,7 +10,6 @@ describe('user api', () => {
     })
 
     afterAll(async () => {
-        // setImmediate is not defined (ignore that)
         await prisma.$disconnect()
     })
 
