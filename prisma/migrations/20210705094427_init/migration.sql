@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "avatar" VARCHAR(255),
+ALTER COLUMN "email" DROP NOT NULL;

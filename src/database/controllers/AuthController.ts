@@ -40,18 +40,10 @@ class AuthController {
 
         const user = await findUser(email, this.prisma)
 
-        if(!user) {
+        if(!user || !user.password) {
             return res.status(404).json({
                 errors: [
                     'User not found'
-                ]
-            })
-        }
-
-        if(user.type === 'github' || !user.password) {
-            return res.status(400).json({
-                errors: [
-                    'This email is signed with a github account!'
                 ]
             })
         }
@@ -67,6 +59,65 @@ class AuthController {
         const token = jwt.sign({ id: user.id }, config.key, { expiresIn: '30d' })
 
         return res.status(200).json({ user: renderUser(user), token })
+
+    }
+
+    async loginWithGithub(req: NextApiRequest, res: NextApiResponse) {
+
+        const { code } = req.body
+
+        const schema = Yup.string().required('The code is required!')
+
+        try {
+            await schema.validate(code)
+        } catch(e) {
+            return res.status(400).json({
+                errors: e.errors
+            })
+        }
+
+        const data = new FormData()
+        data.append('client_id', process.env.CLIENT_ID as string)
+        data.append('client_secret', process.env.CLIENT_SECRET as string)
+        data.append('redirect_uri', process.env.REDIRECT_URI as string)
+        data.append('code', code)
+
+        try {
+
+            const response = await fetch('https://github.com/login/oauth/access_token', {
+                method: 'POST',
+                body: data
+            })
+
+            const params = new URLSearchParams(await response.text())
+            const access_token = params.get('access_token')
+
+            try {
+                const userResponse = await fetch('https://api.github.com/user', {
+                    headers: {
+                        Authorization: `token ${access_token}`
+                    }
+                })
+
+                const user = await userResponse.json()
+
+                return res.status(200).json(user)
+            } catch {
+                return res.status(401).json({
+                    errors: [
+                        'Unauthorized'
+                    ]
+                })
+            }
+
+
+        } catch {
+            return res.status(401).json({
+                errors: [
+                    'Invalid code'
+                ]
+            })
+        }
 
     }
 
