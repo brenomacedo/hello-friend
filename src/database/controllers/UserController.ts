@@ -6,15 +6,14 @@ import jwt from 'jsonwebtoken'
 import config from '../../../config.json'
 import renderUser from "../views/UserView"
 import { createUser } from "../functions/userFunctions"
+import { prismaClient } from "../../utils/types"
 
 class UserController {
 
-    private readonly prisma: PrismaClient<Prisma.PrismaClientOptions, never,
-        Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined>
+    private readonly prisma: prismaClient
 
     constructor(
-        client: PrismaClient<Prisma.PrismaClientOptions, never,
-        Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined>
+        client: prismaClient
     ) {
         this.prisma = client
     }
@@ -59,6 +58,38 @@ class UserController {
                 ]
             })
         }
+
+    }
+
+    async edit(req: NextApiRequest, res: NextApiResponse) {
+
+        const id = req.body.id
+        const { name, title, facebook, twitter, instagram, about } = req.body
+
+        const user = await this.prisma.user.findFirst({
+            where: {
+                id
+            }
+        })
+
+        if(!user) {
+            return res.status(404).json({
+                errors: [
+                    'User not found!'
+                ]
+            })
+        }
+
+        const updatedUser = await this.prisma.user.update({
+            where: {
+                id: Number((id as any) as string)
+            },
+            data: {
+                name, title, facebook, twitter, instagram, about
+            }
+        })
+
+        return res.status(200).json(renderUser(user))
 
     }
 

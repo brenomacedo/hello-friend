@@ -55,7 +55,6 @@ export default function Edit() {
                     </div>
                     <div className={styles.basicInfoFields}>
                         <InfoInput label='Name' Icon={FiUser} width='100%'/>
-                        <InfoInput label='E-mail' Icon={FiMail} width='100%'/>
                         <InfoInput label='Title' Icon={FiMail} width='100%'/>
                     </div>
                     <div className={styles.specificInfo}>
