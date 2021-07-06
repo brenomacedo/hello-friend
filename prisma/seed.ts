@@ -1,13 +1,12 @@
 import prisma from '../src/database/client'
+import { seedCategories } from '../src/database/functions/categoryFunctions'
 
-export async function seed() {
-
-}
+export async function seed(){}
 
 async function main() {
 
-    const categories = await prisma.category.createMany({
-        data: [
+    await seedCategories({
+        categories: [
             {
                 name: 'Films'
             },
@@ -39,7 +38,7 @@ async function main() {
                 name: 'university'
             }
         ]
-    })
+    }, prisma)
 
 }
 
