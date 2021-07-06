@@ -6,6 +6,7 @@ import config from '../../../config.json'
 import renderUser from "../views/UserView"
 import { createUser, deleteUser, editUser, findUserById } from "../functions/userFunctions"
 import { prismaClient } from "../../utils/types"
+import { followUserCategory, unfollowUserCategory } from "../functions/categoryFunctions"
 
 class UserController {
 
@@ -101,6 +102,59 @@ class UserController {
             })
         }
 
+    }
+
+    async followCategory(req: NextApiRequest, res: NextApiResponse) {
+
+        const { id: userId, categoryId } = req.body
+
+        const schema = Yup.number().required('The category id is required!')
+
+        try {
+            await schema.validate(categoryId)
+        } catch(e) {
+            return res.status(400).json({
+                errors: e.errors
+            })
+        }
+
+        try {
+            const relation = await followUserCategory({ categoryId, userId }, this.prisma)
+            return res.status(200).json(relation)
+        } catch {
+            return res.status(409).json({
+                errors: [
+                    'This category is already being followed by this user'
+                ]
+            })
+        }
+
+    }
+
+    async unfollowCategory(req: NextApiRequest, res: NextApiResponse) {
+        const { id: userId, categoryId } = req.body
+
+        const schema = Yup.number().required('The category id is required!')
+
+        try {
+            await schema.validate(categoryId)
+        } catch(e) {
+            return res.status(400).json({
+                errors: e.errors
+            })
+        }
+
+        try {
+            const relation = await unfollowUserCategory({ categoryId, userId }, this.prisma)
+
+            return res.status(200).json(relation)
+        } catch {
+            return res.status(409).json({
+                errors: [
+                    'This category is already not followed by this user!'
+                ]
+            })
+        }
     }
 
 }

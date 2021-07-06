@@ -15,3 +15,39 @@ export async function seedCategories({ categories }: SeedCategories, prisma: pri
     return seededCategories
 
 }
+
+interface FollowUserCategory {
+    userId: number
+    categoryId: number
+}
+
+export async function followUserCategory({ categoryId, userId }: FollowUserCategory, prisma: prismaClient) {
+
+    const relation = await prisma.categoriesOnUser.create({
+        data: {
+            categoryId, userId
+        }
+    })
+
+    return relation
+
+}
+
+interface UnfollowUserCategory {
+    userId: number
+    categoryId: number
+}
+
+export async function unfollowUserCategory({ categoryId, userId }: UnfollowUserCategory, prisma: prismaClient) {
+
+    const relation = await prisma.categoriesOnUser.delete({
+        where: {
+            userId_categoryId: {
+                categoryId, userId
+            }
+        }
+    })
+
+    return relation
+
+}
