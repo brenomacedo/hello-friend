@@ -65,6 +65,25 @@ class UserController {
 
         const { id, name, title, facebook, twitter, instagram, about } = req.body
 
+        const schema = Yup.object().shape({
+            name: Yup.string(),
+            title: Yup.string(),
+            facebook: Yup.string(),
+            twitter: Yup.string(),
+            instagram: Yup.string(),
+            about: Yup.string()
+        })
+
+        try {
+            await schema.validate({ name, title, facebook, twitter, instagram, about }, {
+                abortEarly: false
+            })
+        } catch (e) {
+            return res.status(400).json({
+                errors: e.errors
+            })
+        }
+
         const user = await findUserById({ id }, this.prisma)
 
         if(!user) {

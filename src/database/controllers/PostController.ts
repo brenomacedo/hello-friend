@@ -23,7 +23,9 @@ export default class PostController {
         })
 
         try {
-            await schema.validate({ description, imageUrl, categoryId })
+            await schema.validate({ description, imageUrl, categoryId }, {
+                abortEarly: false
+            })
         } catch(e) {
             return res.status(400).json({
                 errors: e.errors

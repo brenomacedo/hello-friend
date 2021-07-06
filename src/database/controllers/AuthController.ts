@@ -30,7 +30,9 @@ class AuthController {
 
         try {
 
-            await schema.validate({ email, password })
+            await schema.validate({ email, password }, {
+                abortEarly: false
+            })
 
         } catch(e) {
             return res.status(400).json({
