@@ -120,7 +120,7 @@ class UserController {
 
         try {
             const relation = await followUserCategory({ categoryId, userId }, this.prisma)
-            return res.status(200).json(relation)
+            return res.status(201).json(relation)
         } catch {
             return res.status(409).json({
                 errors: [

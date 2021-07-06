@@ -1,37 +1,20 @@
-import { createMocks } from 'node-mocks-http'
-import User from '../../pages/api/user'
-import prisma from '../../database/client'
+import { createMocks } from "node-mocks-http"
 import faker from 'faker'
+import User from "../../pages/api/user"
+import Category from "../../pages/api/category"
+import prisma from '../../database/client'
 
-describe('user api', () => {
+describe('category api', () => {
 
-    afterEach(async () => {
-        await prisma.user.deleteMany()
+    beforeEach(async () => {
+        await prisma.categoriesOnUser.deleteMany()
     })
 
     afterAll(async () => {
         await prisma.$disconnect()
     })
 
-    it('should create a new user', async () => {
-
-        const { req, res } = createMocks({
-            method: 'POST',
-            body: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                password: faker.internet.password(),
-                type: 'email'
-            }
-        })
-
-        await User(req, res)
-
-        expect(res._getStatusCode()).toBe(201)
-
-    })
-
-    it('should edit a new user', async () => {
+    it('should make an user follow an category', async () => {
 
         const { req: userReq, res: userRes } = createMocks({
             method: 'POST',
@@ -48,25 +31,23 @@ describe('user api', () => {
         const { token } = userRes._getJSONData()
 
         const { req, res } = createMocks({
-            method: 'PUT',
+            method: 'POST',
             body: {
-                name: faker.name.findName(),
-                email: faker.internet.email(),
-                password: faker.internet.password(),
-                type: 'email'
+                categoryId: 1
             },
             headers: {
                 authorization: `Bearer ${token}`
             }
         })
 
-        await User(req, res)
+        await Category(req, res)
 
-        expect(res._getStatusCode()).toBe(200)
+        expect(res._getStatusCode()).toBe(201)
 
     })
 
-    it('should delete an user', async () => {
+    it('should make an user follow an category', async () => {
+
         const { req: userReq, res: userRes } = createMocks({
             method: 'POST',
             body: {
@@ -81,16 +62,32 @@ describe('user api', () => {
 
         const { token } = userRes._getJSONData()
 
-        const { req, res } = createMocks({
-            method: 'DELETE',
+        const { req: followReq, res: followRes } = createMocks({
+            method: 'POST',
+            body: {
+                categoryId: 1
+            },
             headers: {
                 authorization: `Bearer ${token}`
             }
         })
 
-        await User(req, res)
+        await Category(followReq, followRes)
+
+        const { req, res } = createMocks({
+            method: 'DELETE',
+            body: {
+                categoryId: 1
+            },
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+
+        await Category(req, res)
 
         expect(res._getStatusCode()).toBe(200)
+
     })
 
 })
