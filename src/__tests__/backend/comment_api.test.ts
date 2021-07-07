@@ -8,8 +8,6 @@ import Comment from '../../pages/api/comment'
 describe('comment api', () => {
 
     afterEach(async () => {
-        await prisma.comment.deleteMany()
-        await prisma.post.deleteMany()
         await prisma.user.deleteMany()
     })
 

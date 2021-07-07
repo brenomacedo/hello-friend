@@ -7,7 +7,6 @@ import prisma from '../../database/client'
 describe('category api', () => {
 
     afterEach(async () => {
-        await prisma.categoriesOnUser.deleteMany()
         await prisma.user.deleteMany()
     })
 

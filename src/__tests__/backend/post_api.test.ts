@@ -8,7 +8,6 @@ import PostId from "../../pages/api/post/[id]"
 describe('Post api', () => {
 
     afterEach(async () => {
-        await prisma.post.deleteMany()
         await prisma.user.deleteMany()
     })
 
