@@ -35,7 +35,7 @@ export default class PostController {
         try {
             const post = await createPost({ categoryId, description, userId, imageUrl }, this.prisma)
 
-            return res.status(200).json(renderCreatedPost(post))
+            return res.status(201).json(renderCreatedPost(post))
         } catch {
             return res.status(400).json({
                 errors: [
