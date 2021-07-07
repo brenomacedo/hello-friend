@@ -49,3 +49,30 @@ export async function editResponse({ authorId, content, id }: EditResponse, pris
     return response
 
 }
+
+interface DeleteResponse {
+    id: number
+    authorId: number
+}
+
+export async function deleteResponse({ authorId, id }: DeleteResponse, prisma: prismaClient) {
+
+    const responseToDelete = await prisma.response.findFirst({
+        where: {
+            id
+        }
+    })
+
+    if(responseToDelete?.authorId !== authorId) {
+        throw new Error('This response is not yours')
+    }
+
+    const response = await prisma.response.delete({
+        where: {
+            id
+        }
+    })
+
+    return response
+
+}

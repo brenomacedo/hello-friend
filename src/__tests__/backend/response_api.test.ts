@@ -153,6 +153,8 @@ describe('response api', () => {
             }
         })
 
+        await ResponseId(req, res)
+
         expect(res._getStatusCode()).toBe(200)
     })
 

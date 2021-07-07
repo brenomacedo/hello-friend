@@ -17,6 +17,16 @@ export default async function ResponseId(req: NextApiRequest, res: NextApiRespon
 
     }
 
+    if(req.method === 'DELETE') {
+
+        const next = async () => {
+            return await responseController.delete(req, res)
+        }
+
+        return await AuthMiddleware(req, res, next)
+
+    }
+
     return res.status(405).json({
         errors: [
             'This method is not allowed in this route'

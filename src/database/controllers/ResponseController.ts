@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { prismaClient } from "../../utils/types"
 import * as Yup from 'yup'
-import { createResponse, editResponse } from "../functions/responseFunctions"
+import { createResponse, deleteResponse, editResponse } from "../functions/responseFunctions"
 import { RenderCreatedResponse } from "../views/ResponseView"
 
 class ResponseController {
@@ -45,7 +45,7 @@ class ResponseController {
     async edit(req: NextApiRequest, res: NextApiResponse) {
 
         const { id: authorId, content } = req.body
-        const { responseId } = req.query
+        const { id: responseId } = req.query
 
         const id = Number(responseId) || undefined
 
@@ -66,6 +66,36 @@ class ResponseController {
             const response = await editResponse({ authorId, content, id: id as any }, this.prisma)
             return res.status(200).json(RenderCreatedResponse(response))
         } catch (e) {
+            return res.status(401).json({
+                errors: [
+                    'This response is not yours'
+                ]
+            })
+        }
+
+    }
+
+    async delete(req: NextApiRequest, res: NextApiResponse) {
+
+        const { id: authorId } = req.body
+        const { id: responseId } = req.query
+
+        const id = Number(responseId) || undefined
+
+        const schema = Yup.number().required('The response id is required')
+
+        try {
+            await schema.validate(id)
+        } catch(e) {
+            return res.status(400).json({
+                errors: e.errors
+            })
+        }
+
+        try {
+            await deleteResponse({ authorId, id: id as any }, this.prisma)
+            return res.status(200).send('Response successfully deleted!')
+        } catch {
             return res.status(401).json({
                 errors: [
                     'This response is not yours'
