@@ -5,6 +5,7 @@ import Register from '../../pages/api/user'
 import Auth from '../../pages/api/auth'
 import { NextApiRequest, NextApiResponse } from 'next'
 import AuthMiddleware from '../../database/middlewares/auth'
+import Verify from '../../pages/api/auth/verify'
 
 describe('authentication', () => {
 
@@ -132,5 +133,37 @@ describe('authentication', () => {
         await AuthMiddleware(req, res, editProfile)
 
         expect(res._getStatusCode()).toBe(200)
+    })
+
+    it('should return the user if the token is valid', async () => {
+
+        const email = faker.internet.email()
+        const password = faker.internet.password()
+
+        const { req: registerReq, res: registerRes } = createMocks({
+            method: 'POST',
+            body: {
+                name: faker.name.findName(),
+                email,
+                password,
+                type: 'email'
+            }
+        })
+
+        await Register(registerReq, registerRes)
+
+        const { token } = registerRes._getJSONData()
+
+        const { req, res } = createMocks({
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+
+        await Verify(req, res)
+
+        expect(res._getStatusCode()).toBe(200)
+
     })
 })
