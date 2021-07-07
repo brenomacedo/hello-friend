@@ -1,6 +1,6 @@
 import { prismaMock } from "../../utils/singleton"
 import faker from 'faker'
-import { createResponse, editResponse } from "../../database/functions/responseFunctions"
+import { createResponse, deleteResponse, editResponse } from "../../database/functions/responseFunctions"
 
 describe('response', () => {
 
@@ -22,5 +22,12 @@ describe('response', () => {
         prismaMock.response.update.mockResolvedValue(response)
 
         await expect(editResponse(response, prismaMock)).resolves.toEqual(response)
+    })
+
+    it('should delete a response', async () => {
+        prismaMock.response.findFirst.mockResolvedValue(response)
+        prismaMock.response.delete.mockResolvedValue(response)
+
+        await expect(deleteResponse(response, prismaMock)).resolves.toEqual(response)
     })
 })

@@ -79,7 +79,7 @@ describe('response api', () => {
         expect(res._getStatusCode()).toBe(201)
     })
 
-    it('should create a response', async () => {
+    it('should edit a response', async () => {
         const { req: userReq, res: userRes } = createMocks({
             method: 'POST',
             body: {
@@ -145,6 +145,82 @@ describe('response api', () => {
             body: {
                 content: faker.random.words()
             },
+            query: {
+                id
+            },
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+
+        await ResponseId(req, res)
+
+        expect(res._getStatusCode()).toBe(200)
+    })
+
+    it('should delete a response', async () => {
+        const { req: userReq, res: userRes } = createMocks({
+            method: 'POST',
+            body: {
+                name: faker.name.findName(),
+                email: faker.internet.email(),
+                password: faker.internet.password(),
+                type: 'email'
+            }
+        })
+
+        await User(userReq, userRes)
+
+        const { token } = userRes._getJSONData()
+
+        const { req: postReq, res: postRes } = createMocks({
+            method: 'POST',
+            body: {
+                description: faker.random.words(),
+                categoryId: 1,
+                imageUrl: faker.image.cats()
+            },
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+
+        await Post(postReq, postRes)
+
+        const { id: postId } = postRes._getJSONData()
+
+        const { req: commentReq, res: commentRes } = createMocks({
+            method: 'POST',
+            body: {
+                postId,
+                content: faker.random.words()
+            },
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+
+        await Comment(commentReq, commentRes)
+
+        const { id: commentId } = commentRes._getJSONData()
+
+        const { req: responseReq, res: responseRes } = createMocks({
+            method: 'POST',
+            body: {
+                commentId,
+                content: faker.random.words()
+            },
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+
+        await Response(responseReq, responseRes)
+
+        const { id } = responseRes._getJSONData()
+
+        const { req, res } = createMocks({
+            method: 'DELETE',
             query: {
                 id
             },
