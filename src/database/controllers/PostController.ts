@@ -80,7 +80,7 @@ export default class PostController {
     async edit(req: NextApiRequest, res: NextApiResponse) {
 
         const { id: postId } = req.query
-        const { description } = req.body
+        const { description, id: userId } = req.body
 
         const id = Number(postId) | undefined as any
 
@@ -98,7 +98,7 @@ export default class PostController {
         }
 
         try {
-            const post = await editPost({ id, description }, this.prisma)
+            const post = await editPost({ id, description, userId }, this.prisma)
 
             return res.status(200).json(renderEditedPost(post))
         } catch {
@@ -113,6 +113,7 @@ export default class PostController {
 
     async delete(req: NextApiRequest, res: NextApiResponse) {
         const { id: postId } = req.query
+        const { id: userId } = req.body
 
         const id = Number(postId) | undefined as any
 
@@ -127,7 +128,7 @@ export default class PostController {
         }
 
         try {
-            await deletePost({ id }, this.prisma)
+            await deletePost({ id, userId }, this.prisma)
             return res.status(200).send('Deleted successfully')
         } catch {
             return res.status(400).json({

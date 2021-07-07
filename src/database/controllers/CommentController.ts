@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { prismaClient } from "../../utils/types"
 import * as Yup from 'yup'
-import { createComment } from "../functions/commentFunctions"
+import { createComment, editComment } from "../functions/commentFunctions"
 import { RenderCreatedComment } from "../views/CommentView"
 
 class CommentController {
@@ -32,6 +32,44 @@ class CommentController {
         const comment = await createComment({ content, postId, userId }, this.prisma)
 
         return res.status(201).json(RenderCreatedComment(comment))
+
+    }
+
+    async edit(req: NextApiRequest, res: NextApiResponse) {
+
+        const { content, id: userId } = req.body
+        const { id: commentId } = req.query
+
+        const id = Number(commentId) | undefined as any
+
+        const schema = Yup.object().shape({
+            content: Yup.string().required('The content is required!'),
+            id: Yup.number().required('The comment id is required!')
+        })
+
+        try {
+            await schema.validate({
+                content, id
+            })
+        } catch(e) {
+            return res.status(400).json({
+                errors: e.errors
+            })
+        }
+
+        try {
+            const comment = await editComment({
+                id, content, userId
+            }, this.prisma)
+
+            return res.status(200).json(RenderCreatedComment(comment))
+        } catch(e) {
+            return res.status(401).json({
+                errors: [
+                    'This comment does not exist in your comment list'
+                ]
+            })
+        }
 
     }
 

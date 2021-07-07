@@ -63,10 +63,19 @@ export async function listPostsByUser({ userId }: ListPostsByUser, prisma: prism
 
 interface EditPost {
     id: number
+    userId: number
     description: string
 }
 
-export async function editPost({ id, description }: EditPost, prisma: prismaClient) {
+export async function editPost({ id, description, userId }: EditPost, prisma: prismaClient) {
+
+    const postToEdit = await prisma.post.findFirst({
+        where: { id }
+    })
+
+    if(postToEdit?.userId !== userId) {
+        throw new Error('This post is not yours')
+    }
 
     const post = await prisma.post.update({
         where: { id },
@@ -79,9 +88,21 @@ export async function editPost({ id, description }: EditPost, prisma: prismaClie
 
 interface DeletePost {
     id: number
+    userId: number
 }
 
-export async function deletePost({ id }: DeletePost, prisma: prismaClient) {
+export async function deletePost({ id, userId }: DeletePost, prisma: prismaClient) {
+
+    const postToDelete = await prisma.post.findFirst({
+        where: {
+            id
+        }
+    })
+
+    if(postToDelete?.userId !== userId) {
+        throw new Error('This post is not yours')
+    }
+
     const post = await prisma.post.delete({
         where: {
             id

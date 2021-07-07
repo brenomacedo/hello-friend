@@ -17,3 +17,30 @@ export async function createComment({ content, postId, userId }: CreateComment, 
     return comment
 
 }
+
+interface EditComment {
+    userId: number,
+    id: number,
+    content: string
+}
+
+export async function editComment({ userId, content, id }: EditComment, prisma: prismaClient) {
+
+    const commentToEdit = await prisma.comment.findFirst({
+        where: { id }
+    })
+
+    if(commentToEdit?.userId !== userId) {
+        throw new Error('This comment is not yours')
+    }
+
+    const comment = await prisma.comment.update({
+        where: { id },
+        data: {
+            content
+        }
+    })
+
+    return comment
+
+}
