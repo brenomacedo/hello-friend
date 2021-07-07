@@ -184,7 +184,7 @@ describe('Post api', () => {
 
         await User(userReq, userRes)
 
-        const { token, user: { id } } = userRes._getJSONData()
+        const { token } = userRes._getJSONData()
 
         const { req: postReq, res: postRes } = createMocks({
             method: 'POST',
@@ -200,12 +200,62 @@ describe('Post api', () => {
 
         await Post(postReq, postRes)
 
+        const { id } = postRes._getJSONData()
+
         const { req, res } = createMocks({
             method: 'PUT',
             body: {
-                descripton: faker.random.words()
+                description: faker.random.words()
             },
-            params: {
+            query: {
+                id
+            },
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+
+        await PostId(req, res)
+
+        expect(res._getStatusCode()).toBe(200)
+    })
+
+    it('should delete an post', async () => {
+
+        const { req: userReq, res: userRes } = createMocks({
+            method: 'POST',
+            body: {
+                name: faker.name.findName(),
+                email: faker.internet.email(),
+                password: faker.internet.password(),
+                type: 'email'
+            }
+        })
+
+        await User(userReq, userRes)
+
+        const { token } = userRes._getJSONData()
+
+        const { req: postReq, res: postRes } = createMocks({
+            method: 'POST',
+            body: {
+                description: faker.random.words(),
+                categoryId: 1,
+                imageUrl: faker.image.cats()
+            },
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+
+        await Post(postReq, postRes)
+
+        const { id } = postRes._getJSONData()
+
+
+        const { req, res } = createMocks({
+            method: 'DELETE',
+            query: {
                 id
             },
             headers: {

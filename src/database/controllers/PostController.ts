@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { prismaClient } from "../../utils/types"
 import * as Yup from 'yup'
-import { createPost, editPost, listPosts, listPostsByUser } from "../functions/postFunctions"
+import { createPost, deletePost, editPost, listPosts, listPostsByUser } from "../functions/postFunctions"
 import { renderCreatedPost, renderEditedPost, renderPost, renderPosts } from "../views/PostView"
 
 export default class PostController {
@@ -109,9 +109,33 @@ export default class PostController {
             })
         }
 
+    }
 
+    async delete(req: NextApiRequest, res: NextApiResponse) {
+        const { id: postId } = req.query
 
+        const id = Number(postId) | undefined as any
 
+        const schema = Yup.number().required()
+
+        try {
+            await schema.validate(id)
+        } catch(e) {
+            return res.status(400).json({
+                errors: e.errors
+            })
+        }
+
+        try {
+            await deletePost({ id }, this.prisma)
+            return res.status(200).send('Deleted successfully')
+        } catch {
+            return res.status(400).json({
+                errors: [
+                    'Post not found'
+                ]
+            })
+        }
     }
 
 }

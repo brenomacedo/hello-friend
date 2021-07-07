@@ -76,3 +76,17 @@ export async function editPost({ id, description }: EditPost, prisma: prismaClie
     return post
 
 }
+
+interface DeletePost {
+    id: number
+}
+
+export async function deletePost({ id }: DeletePost, prisma: prismaClient) {
+    const post = await prisma.post.delete({
+        where: {
+            id
+        }
+    })
+
+    return post
+}
