@@ -52,7 +52,7 @@ export default class PostController {
 
         try {
 
-            const categoryId = Number(stringCategoryId) | undefined as any
+            const categoryId = Number(stringCategoryId) || undefined
 
             const posts = await listPosts({ categoryId }, this.prisma)
 
@@ -82,7 +82,7 @@ export default class PostController {
         const { id: postId } = req.query
         const { description, id: userId } = req.body
 
-        const id = Number(postId) | undefined as any
+        const id = Number(postId) || undefined
 
         const schema = Yup.object().shape({
             id: Yup.number().required('The post id is required'),
@@ -98,7 +98,7 @@ export default class PostController {
         }
 
         try {
-            const post = await editPost({ id, description, userId }, this.prisma)
+            const post = await editPost({ id: id as any, description, userId }, this.prisma)
 
             return res.status(200).json(renderEditedPost(post))
         } catch {
@@ -115,7 +115,7 @@ export default class PostController {
         const { id: postId } = req.query
         const { id: userId } = req.body
 
-        const id = Number(postId) | undefined as any
+        const id = Number(postId) || undefined
 
         const schema = Yup.number().required()
 
@@ -128,7 +128,7 @@ export default class PostController {
         }
 
         try {
-            await deletePost({ id, userId }, this.prisma)
+            await deletePost({ id: id as any, userId }, this.prisma)
             return res.status(200).send('Deleted successfully')
         } catch {
             return res.status(400).json({

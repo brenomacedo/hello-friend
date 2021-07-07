@@ -40,7 +40,7 @@ class CommentController {
         const { content, id: userId } = req.body
         const { id: commentId } = req.query
 
-        const id = Number(commentId) | undefined as any
+        const id = Number(commentId) || undefined
 
         const schema = Yup.object().shape({
             content: Yup.string().required('The content is required!'),
@@ -59,7 +59,7 @@ class CommentController {
 
         try {
             const comment = await editComment({
-                id, content, userId
+                id: id as any, content, userId
             }, this.prisma)
 
             return res.status(200).json(RenderCreatedComment(comment))
@@ -78,7 +78,7 @@ class CommentController {
         const { id: userId } = req.body
         const { id: commentId } = req.query
 
-        const id = Number(commentId) | undefined as any
+        const id = Number(commentId) || undefined
 
         const schema = Yup.number().required('the comment id is required')
 
@@ -91,7 +91,7 @@ class CommentController {
         }
 
         try {
-            await deleteComment({ id, userId }, this.prisma)
+            await deleteComment({ id: id as any, userId }, this.prisma)
             return res.status(200).send('Comment successfully deleted')
         } catch(e) {
             return res.status(401).json({

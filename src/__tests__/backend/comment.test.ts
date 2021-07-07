@@ -1,5 +1,5 @@
 import faker from 'faker'
-import { createComment, editComment } from '../../database/functions/commentFunctions'
+import { createComment, deleteComment, editComment } from '../../database/functions/commentFunctions'
 import { prismaMock } from '../../utils/singleton'
 
 describe('Comment', () => {
@@ -29,6 +29,15 @@ describe('Comment', () => {
         prismaMock.comment.update.mockResolvedValue(comment)
 
         await expect(editComment(comment, prismaMock)).resolves.toEqual(comment)
+
+    })
+
+    it('Should delete a comment', async () => {
+
+        prismaMock.comment.findFirst.mockResolvedValue(comment)
+        prismaMock.comment.delete.mockResolvedValue(comment)
+
+        await expect(deleteComment(comment, prismaMock)).resolves.toEqual(comment)
 
     })
 
