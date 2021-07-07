@@ -4,6 +4,7 @@ import { createMocks } from 'node-mocks-http'
 import User from '../../pages/api/user'
 import Post from '../../pages/api/post'
 import Comment from '../../pages/api/comment'
+import CommentId from '../../pages/api/comment/[id]'
 
 describe('comment api', () => {
 
@@ -124,7 +125,7 @@ describe('comment api', () => {
             }
         })
 
-        await Comment(req, res)
+        await CommentId(req, res)
 
         expect(res._getStatusCode()).toBe(200)
 
@@ -188,7 +189,7 @@ describe('comment api', () => {
             }
         })
 
-        await Comment(req, res)
+        await CommentId(req, res)
 
         expect(res._getStatusCode()).toBe(200)
 
