@@ -17,3 +17,35 @@ export async function createResponse({ commentId, content, authorId }: CreateRes
     return response
 
 }
+
+interface EditResponse {
+    authorId: number
+    id: number
+    content: string
+}
+
+
+export async function editResponse({ authorId, content, id }: EditResponse, prisma: prismaClient) {
+
+    const responseToEdit = await prisma.response.findFirst({
+        where: {
+            id
+        }
+    })
+
+    if(responseToEdit?.authorId !== authorId) {
+        throw new Error('This response is not yours!')
+    }
+
+    const response = await prisma.response.update({
+        where: {
+            id
+        },
+        data: {
+            content
+        }
+    })
+
+    return response
+
+}
