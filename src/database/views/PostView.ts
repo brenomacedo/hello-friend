@@ -15,3 +15,21 @@ export function renderCreatedPost(post: PostWithUser) {
     }
 
 }
+
+export function renderPost(post: PostWithUser) {
+
+    return {
+        id: post.id,
+        description: post.description,
+        imageUrl: post.imageUrl,
+        createdAt: post.createdAt,
+        updatedAt: post.updatedAt,
+        user: renderUser(post.user)
+        // INCLUDE COMMENTS AFTER
+    }
+
+}
+
+export function renderPosts(posts: PostWithUser[]) {
+    return posts.map(post => renderPost(post))
+}

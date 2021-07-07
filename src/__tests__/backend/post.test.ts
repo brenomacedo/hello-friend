@@ -1,5 +1,5 @@
 import faker from 'faker'
-import { createPost } from '../../database/functions/postFunctions'
+import { createPost, listPosts } from '../../database/functions/postFunctions'
 import { prismaMock } from '../../utils/singleton'
 
 describe('Posts', () => {
@@ -40,6 +40,14 @@ describe('Posts', () => {
             description: post.description,
             userId: post.userId,
             imageUrl: post.imageUrl }, prismaMock)).resolves.toEqual(post)
+
+    })
+
+    it('should list posts', async () => {
+
+        prismaMock.post.findMany.mockResolvedValue([post])
+
+        await expect(listPosts({ categoryId: 1 }, prismaMock)).resolves.toEqual([post])
 
     })
 })

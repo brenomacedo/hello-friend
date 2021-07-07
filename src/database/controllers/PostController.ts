@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { prismaClient } from "../../utils/types"
 import * as Yup from 'yup'
-import { createPost } from "../functions/postFunctions"
-import { renderCreatedPost } from "../views/PostView"
+import { createPost, listPosts } from "../functions/postFunctions"
+import { renderCreatedPost, renderPosts } from "../views/PostView"
 
 export default class PostController {
 
@@ -44,7 +44,26 @@ export default class PostController {
             })
         }
 
+    }
 
+    async index(req: NextApiRequest, res: NextApiResponse) {
+
+        const { categoryId: stringCategoryId } = req.query
+
+        try {
+
+            const categoryId = Number(stringCategoryId) | undefined as any
+
+            const posts = await listPosts({ categoryId }, this.prisma)
+
+            return res.status(200).json(renderPosts(posts))
+        } catch {
+            return res.status(400).json({
+                errors: [
+                    'Invalid category id, it should be a number!'
+                ]
+            })
+        }
 
     }
 

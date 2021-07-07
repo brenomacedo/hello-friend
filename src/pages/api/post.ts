@@ -15,6 +15,10 @@ export default async function Post(req: NextApiRequest, res: NextApiResponse) {
         return await AuthMiddleware(req, res, next)
     }
 
+    if(req.method === 'GET') {
+        return await postController.index(req, res)
+    }
+
     return res.status(405).json({
         errors: [
             'This method is not allowed in this route!'
