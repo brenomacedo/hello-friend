@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import client from "../../database/client"
-import PostController from "../../database/controllers/PostController"
-import AuthMiddleware from "../../database/middlewares/auth"
+import client from "../../../database/client"
+import PostController from "../../../database/controllers/PostController"
+import AuthMiddleware from "../../../database/middlewares/auth"
 
 export default async function Post(req: NextApiRequest, res: NextApiResponse) {
 

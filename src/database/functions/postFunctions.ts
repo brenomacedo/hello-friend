@@ -60,3 +60,19 @@ export async function listPostsByUser({ userId }: ListPostsByUser, prisma: prism
     return posts
 
 }
+
+interface EditPost {
+    id: number
+    description: string
+}
+
+export async function editPost({ id, description }: EditPost, prisma: prismaClient) {
+
+    const post = await prisma.post.update({
+        where: { id },
+        data: { description }
+    })
+
+    return post
+
+}

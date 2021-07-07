@@ -33,3 +33,13 @@ export function renderPost(post: PostWithUser) {
 export function renderPosts(posts: PostWithUser[]) {
     return posts.map(post => renderPost(post))
 }
+
+export function renderEditedPost(post: Post) {
+    return {
+        id: post.id,
+        description: post.description,
+        imageUrl: post.imageUrl,
+        createdAt: post.createdAt,
+        updatedAt: post.updatedAt
+    }
+}
