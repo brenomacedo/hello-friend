@@ -15,4 +15,10 @@ export default async function Post(req: NextApiRequest, res: NextApiResponse) {
         return await AuthMiddleware(req, res, next)
     }
 
+    return res.status(405).json({
+        errors: [
+            'This method is not allowed in this route!'
+        ]
+    })
+
 }

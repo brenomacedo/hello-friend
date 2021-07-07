@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import client from '../../database/client'
-import AuthController from '../../database/controllers/AuthController'
+import client from '../../../database/client'
+import AuthController from '../../../database/controllers/AuthController'
 
 export default async function Auth(req: NextApiRequest, res: NextApiResponse) {
 

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import * as Yup from 'yup'
 import { prismaClient } from "../../utils/types"
-import { createGitHubUser, findUser, findUserByGithubId } from "../functions/userFunctions"
+import { createGitHubUser, findUser, findUserByGithubId, findUserById } from "../functions/userFunctions"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import config from '../../../config.json'
@@ -134,6 +134,26 @@ class AuthController {
                 ]
             })
         }
+
+    }
+
+    async loginByToken(req: NextApiRequest, res: NextApiResponse) {
+
+        const { id } = req.body
+
+
+        const user = await findUserById({ id }, this.prisma)
+
+        if(!user) {
+            return res.status(404).json({
+                errors: [
+                    'User not found'
+                ]
+            })
+        }
+
+        return res.status(200).json(renderUser(user))
+
 
     }
 
