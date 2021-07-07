@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { prismaClient } from "../../utils/types"
 import * as Yup from 'yup'
 import { createPost, deletePost, editPost, listPosts, listPostsByUser } from "../functions/postFunctions"
-import { renderCreatedPost, renderEditedPost, renderPost, renderPosts } from "../views/PostView"
+import { RenderCreatedPost, RenderEditedPost, RenderPost, RenderPosts } from "../views/PostView"
 
 export default class PostController {
 
@@ -35,7 +35,7 @@ export default class PostController {
         try {
             const post = await createPost({ categoryId, description, userId, imageUrl }, this.prisma)
 
-            return res.status(201).json(renderCreatedPost(post))
+            return res.status(201).json(RenderCreatedPost(post))
         } catch {
             return res.status(400).json({
                 errors: [
@@ -56,7 +56,7 @@ export default class PostController {
 
             const posts = await listPosts({ categoryId }, this.prisma)
 
-            return res.status(200).json(renderPosts(posts))
+            return res.status(200).json(RenderPosts(posts))
         } catch {
             return res.status(400).json({
                 errors: [
@@ -73,7 +73,7 @@ export default class PostController {
 
         const posts = await listPostsByUser({ userId }, this.prisma)
 
-        return res.status(200).json(renderPosts(posts))
+        return res.status(200).json(RenderPosts(posts))
 
     }
 
@@ -100,7 +100,7 @@ export default class PostController {
         try {
             const post = await editPost({ id: id as any, description, userId }, this.prisma)
 
-            return res.status(200).json(renderEditedPost(post))
+            return res.status(200).json(RenderEditedPost(post))
         } catch {
             return res.status(404).json({
                 errors: [

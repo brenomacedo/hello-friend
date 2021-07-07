@@ -1,9 +1,18 @@
-import { Post, User } from "@prisma/client";
-import renderUser from "./UserView";
+import { Comment, Post, Response, User } from "@prisma/client";
+import { RenderComments } from "./CommentView";
+import { RenderUser } from "./UserView";
 
-type PostWithUser = Post & { user: User }
+type PostWithUser = Post & {
+    user: User
+    comments?: (Comment & {
+        responses: (Response & {
+            author: User;
+        })[]
+        author: User
+    })[]
+}
 
-export function renderCreatedPost(post: PostWithUser) {
+export function RenderCreatedPost(post: PostWithUser) {
 
     return {
         id: post.id,
@@ -11,12 +20,12 @@ export function renderCreatedPost(post: PostWithUser) {
         imageUrl: post.imageUrl,
         createdAt: post.createdAt,
         updatedAt: post.updatedAt,
-        user: renderUser(post.user)
+        user: RenderUser(post.user)
     }
 
 }
 
-export function renderPost(post: PostWithUser) {
+export function RenderPost(post: PostWithUser) {
 
     return {
         id: post.id,
@@ -24,17 +33,17 @@ export function renderPost(post: PostWithUser) {
         imageUrl: post.imageUrl,
         createdAt: post.createdAt,
         updatedAt: post.updatedAt,
-        user: renderUser(post.user)
-        // INCLUDE COMMENTS AFTER
+        user: RenderUser(post.user),
+        comments: RenderComments(post.comments || [])
     }
 
 }
 
-export function renderPosts(posts: PostWithUser[]) {
-    return posts.map(post => renderPost(post))
+export function RenderPosts(posts: PostWithUser[]) {
+    return posts.map(post => RenderPost(post))
 }
 
-export function renderEditedPost(post: Post) {
+export function RenderEditedPost(post: Post) {
     return {
         id: post.id,
         description: post.description,

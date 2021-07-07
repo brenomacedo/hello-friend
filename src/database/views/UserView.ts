@@ -1,6 +1,6 @@
 import { User } from "@prisma/client";
 
-export default function renderUser(user: User) {
+export function RenderUser(user: User) {
 
     return {
         id: user.id,

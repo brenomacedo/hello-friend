@@ -1,5 +1,5 @@
 import { Response, User } from "@prisma/client"
-import renderUser from "./UserView"
+import { RenderUser } from "./UserView"
 
 type ResponseWithUser = Response & {
     author: User
@@ -20,6 +20,10 @@ export function RenderResponse(response: ResponseWithUser) {
         content: response.content,
         commentId: response.commentId,
         authorId: response.authorId,
-        author: renderUser(response.author)
+        author: RenderUser(response.author)
     }
+}
+
+export function RenderResponses(responses: ResponseWithUser[]) {
+    return responses.map(response => RenderResponse(response))
 }

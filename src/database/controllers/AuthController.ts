@@ -5,7 +5,7 @@ import { createGitHubUser, findUser, findUserByGithubId, findUserById } from "..
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import config from '../../../config.json'
-import renderUser from "../views/UserView"
+import { RenderUser } from "../views/UserView"
 
 class AuthController {
 
@@ -60,7 +60,7 @@ class AuthController {
 
         const token = jwt.sign({ id: user.id }, config.key, { expiresIn: '30d' })
 
-        return res.status(200).json({ user: renderUser(user), token })
+        return res.status(200).json({ user: RenderUser(user), token })
 
     }
 
@@ -114,10 +114,10 @@ class AuthController {
                         type: 'github'
                     }, this.prisma)
 
-                    return res.status(200).json(renderUser(newUser))
+                    return res.status(200).json(RenderUser(newUser))
                 }
 
-                return res.status(200).json(renderUser(user))
+                return res.status(200).json(RenderUser(user))
             } catch {
                 return res.status(401).json({
                     errors: [
@@ -152,7 +152,7 @@ class AuthController {
             })
         }
 
-        return res.status(200).json(renderUser(user))
+        return res.status(200).json(RenderUser(user))
 
 
     }

@@ -3,7 +3,7 @@ import * as Yup from 'yup'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import config from '../../../config.json'
-import renderUser from "../views/UserView"
+import { RenderUser } from "../views/UserView"
 import { createUser, deleteUser, editUser, findUserById } from "../functions/userFunctions"
 import { prismaClient } from "../../utils/types"
 import { followUserCategory, unfollowUserCategory } from "../functions/categoryFunctions"
@@ -47,7 +47,7 @@ class UserController {
             const token = jwt.sign({ id: user.id }, config.key, { expiresIn: '30d' })
 
             return res.status(201).json({
-                user: renderUser(user),
+                user: RenderUser(user),
                 token
             })
 
@@ -101,7 +101,7 @@ class UserController {
             }
         }, this.prisma)
 
-        return res.status(200).json(renderUser(updatedUser))
+        return res.status(200).json(RenderUser(updatedUser))
 
     }
 

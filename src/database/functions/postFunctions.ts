@@ -34,9 +34,16 @@ export async function listPosts({ categoryId }: ListPosts, prisma: prismaClient)
         },
         include: {
             user: true,
-            // comment: {
-            //     include: response: true
-            // }
+            comments: {
+                include: {
+                    responses: {
+                        include: {
+                            author: true
+                        }
+                    },
+                    author: true
+                }
+            }
         }
     })
 
