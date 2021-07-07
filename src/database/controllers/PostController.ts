@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { prismaClient } from "../../utils/types"
 import * as Yup from 'yup'
-import { createPost, listPosts } from "../functions/postFunctions"
+import { createPost, listPosts, listPostsByUser } from "../functions/postFunctions"
 import { renderCreatedPost, renderPosts } from "../views/PostView"
 
 export default class PostController {
@@ -64,6 +64,16 @@ export default class PostController {
                 ]
             })
         }
+
+    }
+
+    async indexByUser(req: NextApiRequest, res: NextApiResponse) {
+
+        const { id: userId } = req.body
+
+        const posts = await listPostsByUser({ userId }, this.prisma)
+
+        return res.status(200).json(renderPosts(posts))
 
     }
 

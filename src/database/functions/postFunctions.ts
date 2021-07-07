@@ -43,3 +43,20 @@ export async function listPosts({ categoryId }: ListPosts, prisma: prismaClient)
     return posts
 
 }
+
+interface ListPostsByUser {
+    userId: number
+}
+
+export async function listPostsByUser({ userId }: ListPostsByUser, prisma: prismaClient) {
+
+    const posts = await prisma.post.findMany({
+        where: { userId },
+        include: {
+            user: true
+        }
+    })
+
+    return posts
+
+}
