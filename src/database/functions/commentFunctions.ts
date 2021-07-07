@@ -44,3 +44,30 @@ export async function editComment({ userId, content, id }: EditComment, prisma: 
     return comment
 
 }
+
+interface DeleteComment {
+    userId: number
+    id: number
+}
+
+export async function deleteComment({ id, userId }: DeleteComment, prisma: prismaClient) {
+
+    const commentToDelete = await prisma.comment.findFirst({
+        where: {
+            id
+        }
+    })
+
+    if(commentToDelete?.userId !== userId) {
+        throw new Error('This comment is not yours')
+    }
+
+    const comment = await prisma.comment.delete({
+        where: {
+            id
+        }
+    })
+
+    return comment
+
+}

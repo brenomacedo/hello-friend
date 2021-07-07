@@ -27,6 +27,16 @@ export default async function Comment(req: NextApiRequest, res: NextApiResponse)
 
     }
 
+    if(req.method === 'DELETE') {
+
+        const next = async () => {
+            return await commentController.delete(req, res)
+        }
+
+        return await AuthMiddleware(req, res, next)
+
+    }
+
     return res.status(405).json({
         errors: [
             'This method is not allowed in this route'

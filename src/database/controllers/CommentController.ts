@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { prismaClient } from "../../utils/types"
 import * as Yup from 'yup'
-import { createComment, editComment } from "../functions/commentFunctions"
+import { createComment, deleteComment, editComment } from "../functions/commentFunctions"
 import { RenderCreatedComment } from "../views/CommentView"
 
 class CommentController {
@@ -67,6 +67,36 @@ class CommentController {
             return res.status(401).json({
                 errors: [
                     'This comment does not exist in your comment list'
+                ]
+            })
+        }
+
+    }
+
+    async delete(req: NextApiRequest, res: NextApiResponse) {
+
+        const { id: userId } = req.body
+        const { id: commentId } = req.query
+
+        const id = Number(commentId) | undefined as any
+
+        const schema = Yup.number().required('the comment id is required')
+
+        try {
+            await schema.validate(id)
+        } catch(e) {
+            return res.status(400).json({
+                errors: e.errors
+            })
+        }
+
+        try {
+            await deleteComment({ id, userId }, this.prisma)
+            return res.status(200).send('Comment successfully deleted')
+        } catch(e) {
+            return res.status(401).json({
+                errors: [
+                    'This comment is not yours'
                 ]
             })
         }
