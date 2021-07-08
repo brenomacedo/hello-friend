@@ -1,4 +1,6 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react"
+import Cookies from 'js-cookie'
+import { api } from "../services/api"
 
 interface User {
     id: number
@@ -44,7 +46,7 @@ const AuthContext = createContext<AuthProps>({} as any)
 export default function AuthProvider({ children }: AuthProviderProps) {
 
     const [token, _setToken] = useState('')
-    const [loading, _setLoading] = useState(false)
+    const [loading, _setLoading] = useState(true)
     const [isAuth, _setIsAuth] = useState(false)
     const [id, _setId] = useState(0)
     const [type, _setType] = useState<'email' | 'github' | ''>('')
@@ -113,6 +115,53 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     const setGithubId = (githubId: number) => {
         _setGithubId(githubId)
     }
+
+    useEffect(() => {
+
+        const verifyUser = async () => {
+
+            const token = Cookies.get('token')
+
+            if(token) {
+                const { data: user } = await api.post<User>('/auth/verify', {}, {
+                    headers: {
+                        authorization: `Bearer ${token}`
+                    }
+                })
+
+                if(user) {
+
+                    setToken(token)
+                    setId(user.id)
+                    setType(user.type)
+                    setName(user.name)
+                    setEmail(user.email || '')
+                    setAvatar(user.avatar || '')
+                    setTitle(user.title || '')
+                    setAbout(user.about || '')
+                    setFacebook(user.facebook || '')
+                    setTwitter(user.twitter || '')
+                    setInstagram(user.instagram || '')
+                    setGithubId(user.githubId || 0)
+
+                    setIsAuth(true)
+                    setLoading(false)
+
+                } else {
+                    setIsAuth(false)
+                    setLoading(false)
+                }
+
+            } else {
+                setIsAuth(false)
+                setLoading(false)
+            }
+
+        }
+
+        verifyUser()
+
+    }, [])
 
     return (
         <AuthContext.Provider value={{
