@@ -67,7 +67,7 @@ class UserController {
         const { id, name, title, facebook, twitter, instagram, about } = req.body
 
         const schema = Yup.object().shape({
-            name: Yup.string(),
+            name: Yup.string().required('The name is required!'),
             title: Yup.string(),
             facebook: Yup.string(),
             twitter: Yup.string(),

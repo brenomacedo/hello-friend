@@ -4,8 +4,21 @@ import WritePost from '../../components/WritePost'
 import styles from '../../styles/profile.module.scss'
 import Head from 'next/head'
 import Post from '../../components/Post'
+import router from 'next/router'
+import Loading from '../../components/Loading'
+import useAuth from '../../hooks/useAuth'
 
 export default function Profile() {
+
+    const { isAuth } = useAuth()
+
+    if(isAuth === undefined)
+        return <Loading />
+    else if(!isAuth) {
+        router.push('/login')
+        return false
+    }
+
     return (
         <div className={styles.container}>
             <Head>

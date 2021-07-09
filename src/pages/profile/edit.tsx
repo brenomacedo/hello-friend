@@ -6,8 +6,55 @@ import PasswordInput from '../../components/PasswordInput'
 import InfoInput from '../../components/InfoInput'
 import { FiLock, FiMail, FiUser } from 'react-icons/fi'
 import Head from 'next/head'
+import useAuth from '../../hooks/useAuth'
+import Loading from '../../components/Loading'
+import router from 'next/router'
+import { createRef, useEffect } from 'react'
 
 export default function Edit() {
+
+    const { isAuth, user, updateUser } = useAuth()
+
+    if(isAuth === undefined)
+        return <Loading />
+    else if(!isAuth) {
+        router.push('/login')
+        return false
+    }
+
+    const nameRef = createRef<HTMLInputElement>()
+    const titleRef = createRef<HTMLInputElement>()
+    const aboutRef = createRef<HTMLTextAreaElement>()
+    const facebookRef = createRef<HTMLInputElement>()
+    const twitterRef = createRef<HTMLInputElement>()
+    const instagramRef = createRef<HTMLInputElement>()
+
+    const handleUpdate = () => {
+
+        updateUser(
+            nameRef.current?.value,
+            titleRef.current?.value,
+            aboutRef.current?.value,
+            facebookRef.current?.value,
+            twitterRef.current?.value,
+            instagramRef.current?.value,
+        )
+
+    }
+
+    useEffect(() => {
+
+        if(isAuth) {
+            nameRef.current?.setAttribute('value', user.name)
+            titleRef.current?.setAttribute('value', user.title || '')
+            aboutRef.current?.setAttribute('value', user.about || '')
+            facebookRef.current?.setAttribute('value', user.facebook || '')
+            twitterRef.current?.setAttribute('value', user.twitter || '')
+            instagramRef.current?.setAttribute('value', user.instagram || '')
+        }
+
+    }, [isAuth])
+
     return (
         <div className={styles.container}>
             <Head>
@@ -21,11 +68,11 @@ export default function Edit() {
                 <div className={styles.profile}>
                     <p>Profile</p>
                     <div className={styles.profilePic}>
-                        <Image src="https://avatars.githubusercontent.com/u/55261375?v=4" alt="breno"
+                        <Image src={'/default-avatar.png'} alt="breno"
                             objectFit="cover" width={72} height={72} />
                     </div>
-                    <h3>Breno Macêdo</h3>
-                    <h4>Programador</h4>
+                    <h3>{user.name}</h3>
+                    <h4>{user.title}</h4>
 
                     <div className={styles.postCount}>
                         <p>1.5k</p>
@@ -42,27 +89,30 @@ export default function Edit() {
 
                     <div className={styles.bio}>
                         <h3>About me</h3>
-                        <p>Oi! sou um programador full stack e esse é um projeto pessoal que eu estou desenvolvendo! Espero que goste!</p>
+                        <p>{user.about || 'Nothing :('}</p>
                     </div>
 
                 </div>
                 <div className={styles.editProfile}>
                     <div className={styles.basicInfo}>
                         <h2>Basic info</h2>
-                        <Button width='8rem' marginTop='0'>
+                        <Button width='8rem' marginTop='0' onClick={handleUpdate}>
                             Save
                         </Button>
                     </div>
                     <div className={styles.basicInfoFields}>
-                        <InfoInput label='Name' Icon={FiUser} width='100%'/>
-                        <InfoInput label='Title' Icon={FiMail} width='100%'/>
+                        <InfoInput label='Name' ref={nameRef}
+                            Icon={FiUser} width='100%'/>
+                        <InfoInput label='Title' ref={titleRef}
+                        Icon={FiMail} width='100%'/>
                     </div>
                     <div className={styles.specificInfo}>
                         <h2>Specific information</h2>
                     </div>
                     <div className={styles.specificInfoFields}>
                         <p>About you</p>
-                        <textarea className={styles.textarea} placeholder='Enter something about you'>
+                        <textarea className={styles.textarea} ref={aboutRef}
+                            placeholder='Enter something about you'>
 
                         </textarea>
                     </div>
@@ -70,9 +120,12 @@ export default function Edit() {
                         <h2>External Links</h2>
                     </div>
                     <div className={styles.specificInfoFields}>
-                        <InfoInput label='Facebook URL' Icon={FiUser} width='100%'/>
-                        <InfoInput label='Twitter URL' Icon={FiMail} width='100%'/>
-                        <InfoInput label='Instagram URL' Icon={FiMail} width='100%'/>
+                        <InfoInput label='Facebook URL' ref={facebookRef}
+                            Icon={FiUser} width='100%'/>
+                        <InfoInput label='Twitter URL' ref={twitterRef}
+                            Icon={FiMail} width='100%'/>
+                        <InfoInput label='Instagram URL' ref={instagramRef}
+                            Icon={FiMail} width='100%'/>
                     </div>
                     <div className={styles.specificInfo}>
                         <h2>Security</h2>

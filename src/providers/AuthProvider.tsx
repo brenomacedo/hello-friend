@@ -28,20 +28,11 @@ interface AuthProps {
     setToken: (token: string) => void
     setLoading: (loading: boolean) => void
     setIsAuth: (isAuth: boolean) => void
-    setId: (id: number) => void
-    setType: (type: ('email' | 'github' | '')) => void
-    setName: (name: string) => void
-    setEmail: (email: string) => void
-    setAvatar: (avatar: string) => void
-    setTitle: (title: string) => void
-    setAbout: (about: string) => void
-    setFacebook: (facebook: string) => void
-    setInstagram: (instagram: string) => void
-    setTwitter: (twitter: string) => void
-    setGithubId: (githubId: number) => void
     signUp: (name?: string, email?: string, password?: string, confirmPassword?: string) => void
     signIn: (remember: boolean, email?: string, password?: string) => void
     signInWithGithub: (code: string) => void
+    updateUser: (name?: string, title?: string, about?: string, facebook?: string,
+        twitter?: string, instagram?: string) => void
 }
 
 interface RegisterResponse {
@@ -320,6 +311,52 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
     }
 
+    const updateUser = async (name?: string, title?: string, about?: string,
+        facebook?: string, twitter?: string, instagram?: string) => {
+
+            if(!name) {
+                toast.error('The name is required!')
+                return
+            }
+
+            if(loading) {
+                return
+            }
+
+            NProgress.start()
+            setLoading(true)
+
+            try {
+
+                const { data: user } = await api.put<User>('/user', {
+                    name, title, about, facebook, twitter, instagram
+                })
+
+                setName(user.name)
+                setTitle(user.title)
+                setAbout(user.about)
+                setFacebook(user.facebook)
+                setTwitter(user.twitter)
+                setInstagram(user.instagram)
+
+                toast.success('User successfully updated!')
+            } catch(e) {
+                const errors = e as AxiosError
+
+                if(!errors.response) {
+                    toast.error('An unexpected error ocurred, please try again.')
+                } else {
+                    errors.response.data.errors.forEach((error: string) => {
+                        toast.error(error)
+                    })
+                }
+            }
+
+            NProgress.done()
+            setLoading(false)
+
+    }
+
     useEffect(() => {
 
         const verifyUser = async () => {
@@ -387,23 +424,13 @@ export default function AuthProvider({ children }: AuthProviderProps) {
                 title,
                 twitter
             },
-            setAbout,
-            setAvatar,
-            setEmail,
-            setFacebook,
-            setGithubId,
-            setId,
-            setInstagram,
             setLoading,
-            setName,
-            setTitle,
             setToken,
-            setTwitter,
-            setType,
             setIsAuth,
             signUp,
             signIn,
-            signInWithGithub
+            signInWithGithub,
+            updateUser
         }}>
             {children}
         </AuthContext.Provider>
