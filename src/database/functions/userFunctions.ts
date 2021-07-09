@@ -1,5 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client"
 import { prismaClient } from "../../utils/types"
+import bcrypt from 'bcrypt'
 
 interface CreateUser {
     name: string
@@ -127,10 +128,23 @@ export async function deleteUser({ id }: DeleteUser, prisma: prismaClient) {
 
 interface UpdatePassword {
     id: number
-    password: string
+    newPassword: string
+    oldPassword: string
 }
 
-export async function updatePassword({ id, password }: UpdatePassword, prisma: prismaClient) {
+export async function updatePassword({ id, newPassword, oldPassword }: UpdatePassword, prisma: prismaClient) {
+
+    const userToUpdate = await prisma.user.findFirst({
+        where: {
+            id
+        }
+    })
+
+    if(!await bcrypt.compare(oldPassword, userToUpdate?.password || '')) {
+        throw new Error('Incorrect password!')
+    }
+
+    const password = await bcrypt.hash(newPassword, 10)
 
     const user = await prisma.user.update({
         where: {

@@ -95,12 +95,15 @@ describe('user api', () => {
     })
 
     it('should update an user password', async () => {
+
+        const password = faker.internet.password()
+
         const { req: userReq, res: userRes } = createMocks({
             method: 'POST',
             body: {
                 name: faker.name.findName(),
                 email: faker.internet.email(),
-                password: faker.internet.password(),
+                password,
                 type: 'email'
             }
         })
@@ -112,7 +115,8 @@ describe('user api', () => {
         const { req, res } = createMocks({
             method: 'PUT',
             body: {
-                password: faker.internet.password()
+                password: faker.internet.password(),
+                oldPassword: password
             },
             headers: {
                 authorization: `Bearer ${token}`

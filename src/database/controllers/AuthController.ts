@@ -162,21 +162,24 @@ class AuthController {
 
     async editPassword(req: NextApiRequest, res: NextApiResponse) {
 
-        const { id, password: newPassword } = req.body
+        const { id, password: newPassword, oldPassword } = req.body
 
-        const schema = Yup.string().required('The password is required!')
+        const schema = Yup.object().shape({
+            newPassword: Yup.string().required('The password is required!'),
+            oldPassword: Yup.string().required('The old password is required!')
+        })
 
         try {
-            await schema.validate(newPassword)
+            await schema.validate({
+                newPassword, oldPassword
+            })
         } catch(e) {
             return res.status(400).json({
                 errors: e.errors
             })
         }
 
-        const password = await bcrypt.hash(newPassword, 10)
-
-        await updatePassword({ id, password }, this.prisma)
+        await updatePassword({ id, newPassword, oldPassword }, this.prisma)
 
         return res.status(200).send('Password updated successfully')
 

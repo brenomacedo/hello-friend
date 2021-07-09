@@ -33,6 +33,7 @@ interface AuthProps {
     signInWithGithub: (code: string) => void
     updateUser: (name?: string, title?: string, about?: string, facebook?: string,
         twitter?: string, instagram?: string) => void
+    updatePassword: (oldPassword?: string, password?: string, confirmPassword?: string) => void
 }
 
 interface RegisterResponse {
@@ -357,6 +358,42 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
     }
 
+    const updatePassword = async (oldPassword?: string, password?: string, confirmPassword?: string) => {
+
+        if(!password) {
+            return toast.error('The new password is required!')
+        }
+
+        if(password !== confirmPassword) {
+            return toast.error('The new password and his confirmation does not match!')
+        }
+
+        NProgress.start()
+        setLoading(true)
+
+        try {
+            await api.put('/auth', {
+                password, oldPassword
+            })
+
+            toast.success('Password successfully updated!')
+        } catch(e) {
+            const error = e as AxiosError
+
+            if(!error.response) {
+                toast.error('An unexpected error ocurred, try again.')
+            } else {
+                error.response.data.errors.forEach((error: string) => {
+                    toast.error(error)
+                })
+            }
+        }
+
+        NProgress.done()
+        setLoading(false)
+
+    }
+
     useEffect(() => {
 
         const verifyUser = async () => {
@@ -430,7 +467,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             signUp,
             signIn,
             signInWithGithub,
-            updateUser
+            updateUser,
+            updatePassword
         }}>
             {children}
         </AuthContext.Provider>

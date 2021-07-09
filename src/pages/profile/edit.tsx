@@ -13,7 +13,7 @@ import { createRef, useEffect } from 'react'
 
 export default function Edit() {
 
-    const { isAuth, user, updateUser } = useAuth()
+    const { isAuth, user, updateUser, updatePassword } = useAuth()
 
     if(isAuth === undefined)
         return <Loading />
@@ -28,6 +28,9 @@ export default function Edit() {
     const facebookRef = createRef<HTMLInputElement>()
     const twitterRef = createRef<HTMLInputElement>()
     const instagramRef = createRef<HTMLInputElement>()
+    const oldPasswordRef = createRef<HTMLInputElement>()
+    const passwordRef = createRef<HTMLInputElement>()
+    const confirmPasswordRef = createRef<HTMLInputElement>()
 
     const handleUpdate = () => {
 
@@ -39,6 +42,20 @@ export default function Edit() {
             twitterRef.current?.value,
             instagramRef.current?.value,
         )
+
+    }
+
+    const handleUpdatePassword = () => {
+
+        updatePassword(
+            oldPasswordRef.current?.value,
+            passwordRef.current?.value,
+            confirmPasswordRef.current?.value
+        )
+
+        oldPasswordRef.current?.setAttribute('value', '')
+        passwordRef.current?.setAttribute('value', '')
+        confirmPasswordRef.current?.setAttribute('value', '')
 
     }
 
@@ -127,20 +144,28 @@ export default function Edit() {
                         <InfoInput label='Instagram URL' ref={instagramRef}
                             Icon={FiMail} width='100%'/>
                     </div>
-                    <div className={styles.specificInfo}>
-                        <h2>Security</h2>
-                    </div>
-                    <div className={styles.specificInfoFields}>
-                        <p>Update password</p>
-                        <PasswordInput placeholder='Enter your current password' Icon={FiLock} width='100%'/>
-                        <PasswordInput placeholder='Enter your new password' Icon={FiLock} width='100%' />
-                        <PasswordInput placeholder='Confirm your new password' Icon={FiLock}
-                            width='100%' toggleEye={false} />
-
-                        <div className={styles.updatePassword}>
-                            <Button width='15rem'>Update Password</Button>
+                    {user.type === 'email' && (
+                        <>
+                        <div className={styles.specificInfo}>
+                            <h2>Security</h2>
                         </div>
-                    </div>
+                        <div className={styles.specificInfoFields}>
+                            <p>Update password</p>
+                            <PasswordInput placeholder='Enter your current password' ref={oldPasswordRef}
+                                Icon={FiLock} width='100%'/>
+                            <PasswordInput placeholder='Enter your new password' ref={passwordRef}
+                                Icon={FiLock} width='100%' />
+                            <PasswordInput placeholder='Confirm your new password' ref={oldPasswordRef}
+                                Icon={FiLock}
+                                width='100%' toggleEye={false} />
+
+                            <div className={styles.updatePassword}>
+                                <Button width='15rem' onClick={handleUpdatePassword}
+                                    >Update Password</Button>
+                            </div>
+                        </div>
+                        </>
+                    )}
                 </div>
             </div>
         </div>
