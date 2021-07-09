@@ -2,6 +2,7 @@ import styles from '../styles/home.module.scss'
 import Image from 'next/image'
 import Head from 'next/head'
 import router from 'next/router'
+import Loading from '../components/Loading'
 
 export default function Home() {
 

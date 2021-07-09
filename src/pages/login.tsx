@@ -11,10 +11,11 @@ import Button from '../components/Button'
 import Link from 'next/link'
 import useAuth from '../hooks/useAuth'
 import router from 'next/router'
+import Loading from '../components/Loading'
 
 export default function Login() {
 
-    const { signIn, signInWithGithub } = useAuth()
+    const { signIn, signInWithGithub, isAuth } = useAuth()
 
     const [remember, setRemember] = useState(false)
 
@@ -51,6 +52,14 @@ export default function Login() {
         verifyGithubLogin()
 
     }, [])
+
+    if(isAuth === undefined)
+        return <Loading />
+    else if(isAuth) {
+        router.push('/profile')
+        return false
+    }
+
 
     return (
         <div className={styles.container}>

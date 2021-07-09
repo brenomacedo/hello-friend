@@ -23,7 +23,7 @@ interface User {
 interface AuthProps {
     token: string
     loading: boolean
-    isAuth: boolean
+    isAuth?: boolean
     user: User
     setToken: (token: string) => void
     setLoading: (loading: boolean) => void
@@ -64,7 +64,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
     const [token, _setToken] = useState('')
     const [loading, _setLoading] = useState(true)
-    const [isAuth, _setIsAuth] = useState(false)
+    const [isAuth, _setIsAuth] = useState<boolean>()
     const [id, _setId] = useState(0)
     const [type, _setType] = useState<'email' | 'github' | ''>('')
     const [name, _setName] = useState('')
@@ -176,6 +176,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             const { data: { token, user } } = await api.post<RegisterResponse>('/user', {
                 name, email, password, type: 'email'
             })
+
+            api.defaults.headers.authorization = `Bearer ${token}`
 
             setId(user.id)
             setName(user.name)
@@ -289,6 +291,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         try {
             const { data: { token, user } } = await api.post<AuthResponse>('/github/auth', { code })
             Cookies.set('token', token)
+
+            api.defaults.headers.authorization = `Bearer ${token}`
 
             setId(user.id)
             setType(user.type)
