@@ -1,29 +1,39 @@
-import { useEffect, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import styles from '../styles/login.module.scss'
 import { FaCheck } from 'react-icons/fa'
 import Input from '../components/Input'
-import { useCallback } from 'react'
 import Head from 'next/head'
 import { createRef } from 'react'
 import PasswordInput from '../components/PasswordInput'
 import { FiLock, FiMail } from 'react-icons/fi'
 import { FaGithub } from 'react-icons/fa'
 import Button from '../components/Button'
-import useTheme from '../hooks/useTheme'
 import Link from 'next/link'
+import useAuth from '../hooks/useAuth'
 
 export default function Login() {
 
-    const { isDark } = useTheme()
+    const { signIn } = useAuth()
 
     const [remember, setRemember] = useState(false)
 
-    const nameRef = createRef<HTMLInputElement>()
+    const emailRef = createRef<HTMLInputElement>()
     const passwordRef = createRef<HTMLInputElement>()
 
-    const toggleRemember = useCallback(() => {
+    const toggleRemember = () => {
         setRemember(!remember)
-    }, [remember])
+    }
+
+    const handleSubmit = (e: FormEvent) => {
+        e.preventDefault()
+
+        signIn(
+            remember,
+            emailRef.current?.value,
+            passwordRef.current?.value
+        )
+
+    }
 
     return (
         <div className={styles.container}>
@@ -34,10 +44,10 @@ export default function Login() {
                 <div className={styles.form}>
                     <h1>Hello!</h1>
                     <p>Sign in to your account!</p>
-                    <form>
-                        <Input placeholder="E-mail" Icon={FiMail} ref={nameRef} />
+                    <form onSubmit={handleSubmit}>
+                        <Input placeholder="E-mail" Icon={FiMail} ref={emailRef} />
                         <PasswordInput placeholder="Password"
-                            Icon={FiLock} ref={passwordRef} toggleEye={false} />
+                            Icon={FiLock} ref={passwordRef} />
                         <div className={styles.options}>
                             <div className={styles.remember}>
                                 <div onClick={toggleRemember}

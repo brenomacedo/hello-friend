@@ -10,7 +10,7 @@ interface User {
     id: number
     type: 'email' | 'github' | ''
     name: string
-    email: string
+    email?: string
     avatar?: string
     title?: string
     about?: string
@@ -40,6 +40,12 @@ interface AuthProps {
     setTwitter: (twitter: string) => void
     setGithubId: (githubId: number) => void
     signUp: (name?: string, email?: string, password?: string, confirmPassword?: string) => void
+    signIn: (remember: boolean, email?: string, password?: string) => void
+}
+
+interface RegisterResponse {
+    user: User
+    token: string
 }
 
 interface AuthResponse {
@@ -94,36 +100,36 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         _setName(name)
     }
 
-    const setEmail = (email: string) => {
-        _setEmail(email)
+    const setEmail = (email?: string) => {
+        _setEmail(email || '')
     }
 
-    const setAvatar = (avatar: string) => {
-        _setAvatar(avatar)
+    const setAvatar = (avatar?: string) => {
+        _setAvatar(avatar || '')
     }
 
-    const setTitle = (title: string) => {
-        _setTitle(title)
+    const setTitle = (title?: string) => {
+        _setTitle(title || '')
     }
 
-    const setAbout = (about: string) => {
-        _setAbout(about)
+    const setAbout = (about?: string) => {
+        _setAbout(about || '')
     }
 
-    const setTwitter = (twitter: string) => {
-        _setTwitter(twitter)
+    const setTwitter = (twitter?: string) => {
+        _setTwitter(twitter || '')
     }
 
-    const setFacebook = (facebook: string) => {
-        _setFacebook(facebook)
+    const setFacebook = (facebook?: string) => {
+        _setFacebook(facebook || '')
     }
 
-    const setInstagram = (instagram: string) => {
-        _setInstagram(instagram)
+    const setInstagram = (instagram?: string) => {
+        _setInstagram(instagram || '')
     }
 
-    const setGithubId = (githubId: number) => {
-        _setGithubId(githubId)
+    const setGithubId = (githubId?: number) => {
+        _setGithubId(githubId || 0)
     }
 
     const signUp = async (name?: string, email?: string, password?: string, confirmPassword?: string) => {
@@ -166,7 +172,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
         try {
 
-            const { data: { token, user } } = await api.post<AuthResponse>('/user', {
+            const { data: { token, user } } = await api.post<RegisterResponse>('/user', {
                 name, email, password, type: 'email'
             })
 
@@ -179,28 +185,99 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             setToken(token)
 
             toast.success('Account successfully created!')
-            NProgress.done()
-            setLoading(false)
 
             router.push('/profile')
 
         } catch(e) {
             const error = e as AxiosError
 
-            if(!error.response) {
-                NProgress.done()
-                setLoading(false)
-
-                return toast.error('Unexpected error, please try again.')
+            if(!error.response)
+                 toast.error('Unexpected error, please try again.')
+            else {
+                error.response.data.errors.forEach((error: string) => {
+                    toast.error(error)
+                })
             }
 
-            error.response.data.errors.forEach((error: string) => {
-                toast.error(error)
+        }
+
+        NProgress.done()
+        setLoading(false)
+    }
+
+    const signIn = async (remember: boolean, email?: string, password?: string) => {
+
+        if(loading)
+            return
+
+        let validationError = false
+
+        if(!email) {
+            validationError = true
+            toast.error('The email is required!')
+        }
+
+        if(!email?.match(/([A-Z]|[a-z])[\w_\.]+@([A-Z]|[a-z])+\.([A-Z]|[a-z])(\.([A-Z]|[a-z]))*/)) {
+            validationError = true
+            toast.error('The email format is invalid!')
+        }
+
+        if(!password) {
+            validationError = true
+            toast.error('The password is required!')
+        }
+
+        if(validationError)
+            return
+
+        NProgress.start()
+        setLoading(true)
+
+        try {
+
+            const { data: { token, user } } = await api.post<AuthResponse>('/auth', {
+                email, password
             })
 
-            NProgress.done()
-            setLoading(false)
+            api.defaults.headers.authorization = `Bearer ${token}`
+
+            setToken(token)
+            setId(user.id)
+            setType(user.type)
+            setName(user.name)
+            setEmail(user.email)
+            setTitle(user.title)
+            setAbout(user.about)
+            setAvatar(user.avatar)
+            setFacebook(user.facebook)
+            setInstagram(user.instagram)
+            setTwitter(user.twitter)
+
+            if(remember)
+                Cookies.set('token', token)
+
+            toast.success('Successfully logged in!')
+            router.push('/profile')
+
+        } catch(e) {
+
+            const error = e as AxiosError
+
+            if(!error.response)
+                toast.error('Unexpected error, please try again.')
+            else {
+                error.response.data.errors.forEach((error: string) => {
+                    toast.error(error)
+                })
+            }
+
         }
+
+        NProgress.done()
+        setLoading(false)
+
+
+
     }
 
     useEffect(() => {
@@ -217,6 +294,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
                 })
 
                 if(user) {
+
+                    api.defaults.headers.authorization = `Bearer ${token}`
 
                     setToken(token)
                     setId(user.id)
@@ -282,7 +361,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             setTwitter,
             setType,
             setIsAuth,
-            signUp
+            signUp,
+            signIn
         }}>
             {children}
         </AuthContext.Provider>
