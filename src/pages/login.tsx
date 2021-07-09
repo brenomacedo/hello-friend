@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import styles from '../styles/login.module.scss'
 import { FaCheck } from 'react-icons/fa'
 import Input from '../components/Input'
@@ -10,10 +10,11 @@ import { FaGithub } from 'react-icons/fa'
 import Button from '../components/Button'
 import Link from 'next/link'
 import useAuth from '../hooks/useAuth'
+import router from 'next/router'
 
 export default function Login() {
 
-    const { signIn } = useAuth()
+    const { signIn, signInWithGithub } = useAuth()
 
     const [remember, setRemember] = useState(false)
 
@@ -34,6 +35,22 @@ export default function Login() {
         )
 
     }
+
+    useEffect(() => {
+
+        function verifyGithubLogin() {
+            const url = window.location.href
+            const hasCode = url.includes("?code=")
+
+            if(hasCode) {
+                const code = url.split('?code=')[1]
+                signInWithGithub(code)
+            }
+        }
+
+        verifyGithubLogin()
+
+    }, [])
 
     return (
         <div className={styles.container}>
@@ -74,9 +91,9 @@ export default function Login() {
             <div className={styles.message}>
                 <h2>Welcome back!</h2>
                 <p>Glad you're here! We hope you get good conversations and new friends!</p>
-                <div className={styles.github}>
+                <a href={`https://github.com/login/oauth/authorize?scope=user&client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}`} className={styles.github}>
                     <FaGithub className={styles.githubIcon} /> Sign in with github
-                </div>
+                </a>
                 <p>Login with github or create your account!</p>
             </div>
         </div>

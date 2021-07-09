@@ -6,6 +6,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import config from '../../../config.json'
 import { RenderUser } from "../views/UserView"
+import axios from 'axios'
 
 class AuthController {
 
@@ -78,30 +79,28 @@ class AuthController {
             })
         }
 
-        const data = new FormData()
-        data.append('client_id', process.env.CLIENT_ID as string)
-        data.append('client_secret', process.env.CLIENT_SECRET as string)
-        data.append('redirect_uri', process.env.REDIRECT_URI as string)
-        data.append('code', code)
+        const data = {
+            client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
+            client_secret: process.env.CLIENT_SECRET,
+            redirect_uri: process.env.NEXT_PUBLIC_REDIRECT_URI,
+            code
+        }
 
         try {
 
-            const response = await fetch('https://github.com/login/oauth/access_token', {
-                method: 'POST',
-                body: data
-            })
+            const response = await axios.post('https://github.com/login/oauth/access_token', data)
 
-            const params = new URLSearchParams(await response.text())
+            const params = new URLSearchParams(response.data)
             const access_token = params.get('access_token')
 
             try {
-                const userResponse = await fetch('https://api.github.com/user', {
+                const userResponse = await axios.get('https://api.github.com/user', {
                     headers: {
                         Authorization: `token ${access_token}`
                     }
                 })
 
-                const gitHubUser = await userResponse.json()
+                const gitHubUser = userResponse.data
 
                 const user = await findUserByGithubId({ id: gitHubUser.id }, this.prisma)
 
@@ -114,10 +113,14 @@ class AuthController {
                         type: 'github'
                     }, this.prisma)
 
-                    return res.status(200).json(RenderUser(newUser))
+                    const token = jwt.sign({ id: newUser.id }, config.key, { expiresIn: '30d' })
+
+                    return res.status(200).json({ user: RenderUser(newUser), token })
                 }
 
-                return res.status(200).json(RenderUser(user))
+                const token = jwt.sign({ id: user.id }, config.key, { expiresIn: '30d' })
+
+                return res.status(200).json({ user: RenderUser(user), token })
             } catch {
                 return res.status(401).json({
                     errors: [

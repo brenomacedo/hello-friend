@@ -41,6 +41,7 @@ interface AuthProps {
     setGithubId: (githubId: number) => void
     signUp: (name?: string, email?: string, password?: string, confirmPassword?: string) => void
     signIn: (remember: boolean, email?: string, password?: string) => void
+    signInWithGithub: (code: string) => void
 }
 
 interface RegisterResponse {
@@ -241,7 +242,6 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
             api.defaults.headers.authorization = `Bearer ${token}`
 
-            setToken(token)
             setId(user.id)
             setType(user.type)
             setName(user.name)
@@ -252,6 +252,9 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             setFacebook(user.facebook)
             setInstagram(user.instagram)
             setTwitter(user.twitter)
+
+            setToken(token)
+            setIsAuth(true)
 
             if(remember)
                 Cookies.set('token', token)
@@ -276,7 +279,40 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         NProgress.done()
         setLoading(false)
 
+    }
 
+    const signInWithGithub = async (code: string) => {
+
+        NProgress.start()
+        setLoading(true)
+
+        try {
+            const { data: { token, user } } = await api.post<AuthResponse>('/github/auth', { code })
+            Cookies.set('token', token)
+
+            setId(user.id)
+            setType(user.type)
+            setName(user.name)
+            setAvatar(user.avatar)
+            setEmail(user.email)
+            setTitle(user.title)
+            setAbout(user.about)
+            setFacebook(user.facebook)
+            setInstagram(user.instagram)
+            setTitle(user.twitter)
+            setGithubId(user.githubId)
+
+            setToken(token)
+            setIsAuth(true)
+
+            router.push('/profile')
+            toast.success('Successfully logged in!')
+        } catch {
+            toast.error('Expired github session')
+        }
+
+        NProgress.done()
+        setLoading(false)
 
     }
 
@@ -362,7 +398,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             setType,
             setIsAuth,
             signUp,
-            signIn
+            signIn,
+            signInWithGithub
         }}>
             {children}
         </AuthContext.Provider>
