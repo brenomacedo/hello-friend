@@ -1,8 +1,13 @@
 import styles from '../styles/home.module.scss'
 import Image from 'next/image'
 import Head from 'next/head'
+import router from 'next/router'
 
 export default function Home() {
+
+    const goToLogin = () => {
+        router.push('/login')
+    }
 
     return (
         <div className={styles.container}>
@@ -21,7 +26,7 @@ export default function Home() {
                 <div className={styles.info}>
                     <h2>A simple social network, but one that can bring you many friends!</h2>
                     <p>Join right now!</p>
-                    <button className={styles.gonext}>
+                    <button onClick={goToLogin} className={styles.gonext}>
                         Lets go!
                     </button>
                 </div>

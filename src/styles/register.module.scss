@@ -19,11 +19,12 @@
 
         h2 {
             margin-bottom: 1rem;
+            color: var(--light-dkgray-dark-lgpurple);
         }
 
         padding: 3rem;
 
-        background-color: var(--lighter-purple);
+        background-color: var(--light-lgpurple-dark-dkgray);
         font-family: var(--poppins);
 
         -webkit-box-shadow: 1px 2px 19px -7px #000000;
@@ -31,6 +32,8 @@
 
         p {
             margin-top: 1rem;
+
+            color: var(--light-dkgray-dark-lgpurple);
 
             strong {
                 color: var(--purple);

@@ -29,10 +29,9 @@ class UserController {
             password: Yup.string().required('The password is required!')
         })
 
-        const password = await bcrypt.hash(uncryptedPassword, 10)
 
         try {
-            await schema.validate({ type, name, email, password }, {
+            await schema.validate({ type, name, email, password: uncryptedPassword }, {
                 abortEarly: false
             })
         } catch(e) {
@@ -40,6 +39,8 @@ class UserController {
                 errors: e.errors
             })
         }
+
+        const password = await bcrypt.hash(uncryptedPassword, 10)
 
         try {
             const user = await createUser({ email, name, password, type }, this.prisma)

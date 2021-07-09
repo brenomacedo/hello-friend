@@ -1,6 +1,10 @@
 import { createContext, ReactNode, useEffect, useState } from "react"
 import Cookies from 'js-cookie'
 import { api } from "../services/api"
+import { AxiosError } from "axios"
+import { toast } from 'react-toastify'
+import NProgress from 'nprogress'
+import router from "next/router"
 
 interface User {
     id: number
@@ -35,6 +39,12 @@ interface AuthProps {
     setInstagram: (instagram: string) => void
     setTwitter: (twitter: string) => void
     setGithubId: (githubId: number) => void
+    signUp: (name?: string, email?: string, password?: string, confirmPassword?: string) => void
+}
+
+interface AuthResponse {
+    user: User
+    token: string
 }
 
 interface AuthProviderProps {
@@ -116,6 +126,83 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         _setGithubId(githubId)
     }
 
+    const signUp = async (name?: string, email?: string, password?: string, confirmPassword?: string) => {
+
+        if(loading)
+            return
+
+        let validationError = false
+
+        if(!name) {
+            validationError = true
+            toast.error('The name is required!')
+        }
+
+        if(!email) {
+            validationError = true
+            toast.error('The email is required!')
+        }
+
+        if(!email?.match(/([A-Z]|[a-z])[\w_\.]+@([A-Z]|[a-z])+\.([A-Z]|[a-z])(\.([A-Z]|[a-z]))*/)) {
+            validationError = true
+            toast.error('The email format is invalid!')
+        }
+
+        if(!password) {
+            validationError = true
+            toast.error('The password is required!')
+        }
+
+        if(confirmPassword !== password) {
+            validationError = true
+            toast.error('The password and the confirmation password does not match!')
+        }
+
+        if(validationError)
+            return
+
+        NProgress.start()
+        setLoading(true)
+
+        try {
+
+            const { data: { token, user } } = await api.post<AuthResponse>('/user', {
+                name, email, password, type: 'email'
+            })
+
+            setId(user.id)
+            setName(user.name)
+            setEmail(user.email)
+            setType('email')
+
+            setIsAuth(true)
+            setToken(token)
+
+            toast.success('Account successfully created!')
+            NProgress.done()
+            setLoading(false)
+
+            router.push('/profile')
+
+        } catch(e) {
+            const error = e as AxiosError
+
+            if(!error.response) {
+                NProgress.done()
+                setLoading(false)
+
+                return toast.error('Unexpected error, please try again.')
+            }
+
+            error.response.data.errors.forEach((error: string) => {
+                toast.error(error)
+            })
+
+            NProgress.done()
+            setLoading(false)
+        }
+    }
+
     useEffect(() => {
 
         const verifyUser = async () => {
@@ -194,7 +281,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             setToken,
             setTwitter,
             setType,
-            setIsAuth
+            setIsAuth,
+            signUp
         }}>
             {children}
         </AuthContext.Provider>

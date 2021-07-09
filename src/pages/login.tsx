@@ -10,6 +10,7 @@ import { FiLock, FiMail } from 'react-icons/fi'
 import { FaGithub } from 'react-icons/fa'
 import Button from '../components/Button'
 import useTheme from '../hooks/useTheme'
+import Link from 'next/link'
 
 export default function Login() {
 
@@ -46,13 +47,17 @@ export default function Login() {
                                 <span>Remember me</span>
                             </div>
                             <div className={styles.forgotPassword}>
-                                <span>Forgot password?</span>
+                                <Link href='/forgot-password'>
+                                    <span>
+                                        Forgot password?
+                                    </span>
+                                </Link>
                             </div>
                         </div>
                         <Button>
                             Sign in
                         </Button>
-                        <p>Don't have an account? <strong>Create</strong></p>
+                        <p>Don't have an account? <Link href='/register'><strong>Create</strong></Link></p>
                     </form>
                 </div>
             </div>
