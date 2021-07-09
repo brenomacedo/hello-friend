@@ -90,7 +90,7 @@ export default function Edit() {
                 <div className={styles.profile}>
                     <p>Profile</p>
                     <div className={styles.profilePic}>
-                        <Image src={'/default-avatar.png'} alt="breno"
+                        <Image src={user.avatar || '/default-avatar.png'} alt="breno"
                             objectFit="cover" width={72} height={72} />
                     </div>
                     <h3>{user.name}</h3>

@@ -4,26 +4,63 @@ import { FaComment, FaHeart } from 'react-icons/fa'
 import Button from './Button'
 import CommentsList from './CommentsList'
 
-export default function Post() {
+type Author = {
+    id: number
+    type: string
+    name: string
+    email: string | null
+    title: string | null
+    avatar: string | null
+    about: string | null
+    facebook: string | null
+    twitter: string | null
+    instagram: string | null
+    githubId: number | null
+}
+
+type PostWithUser = {
+    id: number
+    description: string
+    imageUrl: string | null
+    createdAt: string
+    updatedAt: string
+    user: Author
+    comments: {
+        id: number
+        content: string
+        postId: number
+        userId: number
+        author: Author
+        responses: {
+            id: number
+            content: string
+            postId: number
+            userId: number
+            author: Author
+        }[]
+    }[]
+}
+
+export default function Post({ comments, createdAt, description,
+    imageUrl, user }: PostWithUser) {
     return (
         <div className={styles.container}>
             <div className={styles.author}>
                 <div className={styles.profilePic}>
-                    <Image src='https://avatars.githubusercontent.com/u/55261375?v=4'
+                    <Image src={user.avatar || '/default-avatar.png'}
                         width={48} height={48} />
                 </div>
                 <div className={styles.postInfo}>
-                    <p>Breno Macêdo</p>
-                    <span>8 hours ago</span>
+                    <p>{user.name}</p>
+                    <span>{createdAt}</span>
                 </div>
             </div>
-            <p>Esse é o meu post! Apreciem-o!</p>
-            <div className={styles.postImage}>
+            <p>{description}</p>
+            {imageUrl && (<div className={styles.postImage}>
                 <Image src='/postimage.jpg'  layout='fill' objectFit='contain' />
-            </div>
+            </div>)}
             <div className={styles.postInfos}>
-                <p className={`${styles.liked}`}><FaHeart /> 80</p>
-                <p><FaComment /> 30</p>
+                <p><FaComment /> {comments.length}</p>
             </div>
             <div className={styles.commentSection}>
                 <form className={styles.writeComment}>
@@ -37,7 +74,7 @@ export default function Post() {
                     </Button>
                 </form>
 
-                <CommentsList />
+                <CommentsList comments={comments} />
             </div>
         </div>
     )

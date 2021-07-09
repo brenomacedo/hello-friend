@@ -3,10 +3,48 @@ import styles from '../styles/commentslist.module.scss'
 import Comment from './Comment'
 import LoadMore from './LoadMore'
 
-export default function CommentsList() {
+type Author = {
+    id: number
+    type: string
+    name: string
+    email: string | null
+    title: string | null
+    avatar: string | null
+    about: string | null
+    facebook: string | null
+    twitter: string | null
+    instagram: string | null
+    githubId: number | null
+}
+
+interface CommentsListProps {
+    comments: {
+        id: number
+        content: string
+        postId: number
+        userId: number
+        author: Author
+        responses: {
+            id: number
+            content: string
+            postId: number
+            userId: number
+            author: Author
+        }[]
+    }[]
+}
+
+export default function CommentsList({ comments }: CommentsListProps) {
+
+    const renderComments = () => {
+        return comments.map(comment => {
+            return <Comment {...comment} />
+        })
+    }
+
     return (
         <div className={styles.container}>
-            <Comment />
+            {renderComments()}
             <LoadMore />
         </div>
     )

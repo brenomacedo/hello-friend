@@ -1,6 +1,8 @@
-import { Comment, Post, Response, User } from "@prisma/client";
-import { RenderComments } from "./CommentView";
-import { RenderUser } from "./UserView";
+import { Comment, Post, Response, User } from "@prisma/client"
+import { RenderComments } from "./CommentView"
+import { RenderUser } from "./UserView"
+import dayjs from 'dayjs'
+import 'dayjs/locale/es-us'
 
 type PostWithUser = Post & {
     user: User
@@ -18,8 +20,8 @@ export function RenderCreatedPost(post: PostWithUser) {
         id: post.id,
         description: post.description,
         imageUrl: post.imageUrl,
-        createdAt: post.createdAt,
-        updatedAt: post.updatedAt,
+        createdAt: dayjs(post.createdAt).format('MMM-D-YYYY HH:mm:ss'),
+        updatedAt: dayjs(post.updatedAt).format('MMM-D-YYYY HH:mm:ss'),
         user: RenderUser(post.user)
     }
 
@@ -31,8 +33,8 @@ export function RenderPost(post: PostWithUser) {
         id: post.id,
         description: post.description,
         imageUrl: post.imageUrl,
-        createdAt: post.createdAt,
-        updatedAt: post.updatedAt,
+        createdAt: dayjs(post.createdAt).format('MMM-D-YYYY HH:mm:ss'),
+        updatedAt: dayjs(post.updatedAt).format('MMM-D-YYYY HH:mm:ss'),
         user: RenderUser(post.user),
         comments: RenderComments(post.comments || [])
     }
@@ -48,7 +50,7 @@ export function RenderEditedPost(post: Post) {
         id: post.id,
         description: post.description,
         imageUrl: post.imageUrl,
-        createdAt: post.createdAt,
-        updatedAt: post.updatedAt
+        createdAt: dayjs(post.createdAt).format('MMM-D-YYYY HH:mm:ss'),
+        updatedAt: dayjs(post.updatedAt).format('MMM-D-YYYY HH:mm:ss')
     }
 }

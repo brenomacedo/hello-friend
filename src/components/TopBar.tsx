@@ -1,12 +1,15 @@
 import styles from '../styles/topbar.module.scss'
 import Image from 'next/image'
 import router from 'next/router'
+import useAuth from '../hooks/useAuth'
 
 interface TopBarProps {
     active: 'edit' | 'home' | 'search'
 }
 
 export default function TopBar({ active }: TopBarProps) {
+
+    const { user } = useAuth()
 
     const navigate = (to: string) => {
         if(to === active)
@@ -36,9 +39,9 @@ export default function TopBar({ active }: TopBarProps) {
                 </div>
             </div>
             <div className={styles.profile}>
-                <p>Breno Macêdo</p>
+                <p>{user.name}</p>
                 <div className={styles.profilePic}>
-                    <Image src="https://avatars.githubusercontent.com/u/55261375?v=4" alt="breno"
+                    <Image src={user.avatar || ''} alt="breno"
                         objectFit="cover" width={40} height={40} />
                 </div>
             </div>
