@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--light-dkgray-dark-lgpurple);
+
+    border-radius: 50%;
+    cursor: pointer;
+
+    transition: background-color 0.3s;
+
+    border: 1px solid var(--gray);
+
+    &:hover {
+        background-color: var(--light-blue);
+    }
+
+    .icon {
+        color: var(--light-lgpurple-dark-dkgray);
+    }
+}

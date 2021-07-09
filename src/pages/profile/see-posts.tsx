@@ -5,6 +5,7 @@ import Head from 'next/head'
 import useAuth from '../../hooks/useAuth'
 import Loading from '../../components/Loading'
 import router from 'next/router'
+import Logout from '../../components/Logout'
 
 export default function SeePosts() {
 
@@ -31,6 +32,7 @@ export default function SeePosts() {
                     <UserPost />
                 </div>
             </div>
+            <Logout />
         </div>
     )
 }

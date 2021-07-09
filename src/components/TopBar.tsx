@@ -1,11 +1,20 @@
 import styles from '../styles/topbar.module.scss'
 import Image from 'next/image'
+import router from 'next/router'
 
 interface TopBarProps {
     active: 'edit' | 'home' | 'search'
 }
 
 export default function TopBar({ active }: TopBarProps) {
+
+    const navigate = (to: string) => {
+        if(to === active)
+            return
+
+        router.push(to)
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.logo}>
@@ -13,13 +22,16 @@ export default function TopBar({ active }: TopBarProps) {
                     objectFit="cover" width={64} height={64} />
             </div>
             <div className={styles.options}>
-                <div className={`${styles.option} ${active === 'edit' && styles.active}`}>
+                <div className={`${styles.option} ${active === 'edit' && styles.active}`}
+                    onClick={() => navigate('/profile/edit')}>
                     <p>Edit Profile</p>
                 </div>
-                <div className={`${styles.option} ${active === 'home' && styles.active}`}>
+                <div className={`${styles.option} ${active === 'home' && styles.active}`}
+                    onClick={() => navigate('/profile')}>
                     <p>Home</p>
                 </div>
-                <div className={`${styles.option} ${active === 'search' && styles.active}`}>
+                <div className={`${styles.option} ${active === 'search' && styles.active}`}
+                    onClick={() => navigate('/profile/search')}>
                     <p>Search</p>
                 </div>
             </div>

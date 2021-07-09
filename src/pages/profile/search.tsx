@@ -8,6 +8,7 @@ import Head from 'next/head'
 import useAuth from '../../hooks/useAuth'
 import Loading from '../../components/Loading'
 import router from 'next/router'
+import Logout from '../../components/Logout'
 
 export default function Search() {
 
@@ -42,6 +43,7 @@ export default function Search() {
                     </div>
                 </div>
             </div>
+            <Logout />
         </div>
     )
 }

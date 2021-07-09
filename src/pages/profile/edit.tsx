@@ -10,6 +10,7 @@ import useAuth from '../../hooks/useAuth'
 import Loading from '../../components/Loading'
 import router from 'next/router'
 import { createRef, useEffect } from 'react'
+import Logout from '../../components/Logout'
 
 export default function Edit() {
 
@@ -59,6 +60,10 @@ export default function Edit() {
 
     }
 
+    const navigateToSeeMyPosts = () => {
+        router.push('/profile/see-posts')
+    }
+
     useEffect(() => {
 
         if(isAuth) {
@@ -100,7 +105,7 @@ export default function Edit() {
                         Upload new avatar
                     </Button>
 
-                    <Button width='10rem' backgroundColor='#2196f3'>
+                    <Button width='10rem' backgroundColor='#2196f3' onClick={navigateToSeeMyPosts}>
                         See my posts
                     </Button>
 
@@ -168,6 +173,7 @@ export default function Edit() {
                     )}
                 </div>
             </div>
+            <Logout />
         </div>
     )
 }

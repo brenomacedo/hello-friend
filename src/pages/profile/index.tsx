@@ -7,6 +7,7 @@ import Post from '../../components/Post'
 import router from 'next/router'
 import Loading from '../../components/Loading'
 import useAuth from '../../hooks/useAuth'
+import Logout from '../../components/Logout'
 
 export default function Profile() {
 
@@ -34,6 +35,7 @@ export default function Profile() {
                     </div>
                 </div>
             </div>
+            <Logout />
         </div>
     )
 }

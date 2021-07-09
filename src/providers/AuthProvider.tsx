@@ -34,6 +34,7 @@ interface AuthProps {
     updateUser: (name?: string, title?: string, about?: string, facebook?: string,
         twitter?: string, instagram?: string) => void
     updatePassword: (oldPassword?: string, password?: string, confirmPassword?: string) => void
+    logout: () => void
 }
 
 interface RegisterResponse {
@@ -394,6 +395,27 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
     }
 
+    const logout = () => {
+        Cookies.set('token', '')
+        api.defaults.headers.authorization = ''
+
+        setToken('')
+        setId(0)
+        setType('')
+        setName('')
+        setEmail('')
+        setAvatar('')
+        setTitle('')
+        setAbout('')
+        setFacebook('')
+        setTwitter('')
+        setInstagram('')
+        setGithubId(0)
+
+        router.push('/')
+        setIsAuth(false)
+    }
+
     useEffect(() => {
 
         const verifyUser = async () => {
@@ -468,7 +490,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             signIn,
             signInWithGithub,
             updateUser,
-            updatePassword
+            updatePassword,
+            logout
         }}>
             {children}
         </AuthContext.Provider>
