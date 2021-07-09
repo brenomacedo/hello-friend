@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import config from '../../../config.json'
 import { RenderCreatedUser, RenderUser } from "../views/UserView"
-import { createUser, deleteUser, editUser, findUserById } from "../functions/userFunctions"
+import { createUser, deleteUser, editUser, findUserById, updatePassword } from "../functions/userFunctions"
 import { prismaClient } from "../../utils/types"
 import { followUserCategory, unfollowUserCategory } from "../functions/categoryFunctions"
 

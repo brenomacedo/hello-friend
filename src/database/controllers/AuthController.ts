@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import * as Yup from 'yup'
 import { prismaClient } from "../../utils/types"
-import { createGitHubUser, findUser, findUserByGithubId, findUserById } from "../functions/userFunctions"
+import { createGitHubUser, findUser, findUserByGithubId, findUserById, updatePassword } from "../functions/userFunctions"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import config from '../../../config.json'
@@ -157,6 +157,28 @@ class AuthController {
 
         return res.status(200).json(RenderUser(user))
 
+
+    }
+
+    async editPassword(req: NextApiRequest, res: NextApiResponse) {
+
+        const { id, password: newPassword } = req.body
+
+        const schema = Yup.string().required('The password is required!')
+
+        try {
+            await schema.validate(newPassword)
+        } catch(e) {
+            return res.status(400).json({
+                errors: e.errors
+            })
+        }
+
+        const password = await bcrypt.hash(newPassword, 10)
+
+        await updatePassword({ id, password }, this.prisma)
+
+        return res.status(200).send('Password updated successfully')
 
     }
 

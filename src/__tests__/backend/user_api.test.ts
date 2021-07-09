@@ -2,6 +2,7 @@ import { createMocks } from 'node-mocks-http'
 import User from '../../pages/api/user'
 import prisma from '../../database/client'
 import faker from 'faker'
+import Auth from '../../pages/api/auth'
 
 describe('user api', () => {
 
@@ -89,6 +90,36 @@ describe('user api', () => {
         })
 
         await User(req, res)
+
+        expect(res._getStatusCode()).toBe(200)
+    })
+
+    it('should update an user password', async () => {
+        const { req: userReq, res: userRes } = createMocks({
+            method: 'POST',
+            body: {
+                name: faker.name.findName(),
+                email: faker.internet.email(),
+                password: faker.internet.password(),
+                type: 'email'
+            }
+        })
+
+        await User(userReq, userRes)
+
+        const { token } = userRes._getJSONData()
+
+        const { req, res } = createMocks({
+            method: 'PUT',
+            body: {
+                password: faker.internet.password()
+            },
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+
+        await Auth(req, res)
 
         expect(res._getStatusCode()).toBe(200)
     })

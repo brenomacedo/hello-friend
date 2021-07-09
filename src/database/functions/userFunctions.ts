@@ -124,3 +124,23 @@ export async function deleteUser({ id }: DeleteUser, prisma: prismaClient) {
     return user
 
 }
+
+interface UpdatePassword {
+    id: number
+    password: string
+}
+
+export async function updatePassword({ id, password }: UpdatePassword, prisma: prismaClient) {
+
+    const user = await prisma.user.update({
+        where: {
+            id
+        },
+        data: {
+            password
+        }
+    })
+
+    return user
+
+}
