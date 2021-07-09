@@ -65,6 +65,16 @@
                 background-color: var(--purple);
                 color: white;
             }
+
+            &.cancel {
+                color: var(--red);
+                border: 1px solid var(--red);
+            }
+
+            &.cancel:hover {
+                background-color: var(--red);
+                color: white;
+            }
         }
 
         .writeResponseButton.cancel {

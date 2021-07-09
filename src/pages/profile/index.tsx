@@ -11,6 +11,8 @@ import Logout from '../../components/Logout'
 import { GetServerSideProps } from 'next'
 import client from '../../database/client'
 import { RenderPosts } from '../../database/views/PostView'
+import { useState } from 'react'
+import { api } from '../../services/api'
 
 type Author = {
     id: number
@@ -53,7 +55,7 @@ interface ProfileProps {
     posts: PostWithUser[]
 }
 
-export default function Profile({ posts }: ProfileProps) {
+export default function Profile({ posts: initialPosts }: ProfileProps) {
 
     const { isAuth } = useAuth()
 
@@ -63,6 +65,8 @@ export default function Profile({ posts }: ProfileProps) {
         router.push('/login')
         return false
     }
+
+    const [posts, setPosts] = useState(initialPosts)
 
     const renderPosts = () => {
         return posts.map(post => {

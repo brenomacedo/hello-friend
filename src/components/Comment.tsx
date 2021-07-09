@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { useState } from 'react'
 import styles from '../styles/comment.module.scss'
 import Button from './Button'
 import LoadMore from './LoadMore'
@@ -35,6 +36,12 @@ interface CommentProps {
 
 export default function Comment({ author, content, id, postId, responses, userId }: CommentProps) {
 
+    const [openField, setOpenField] = useState(false)
+
+    const toggleOpenField = () => {
+        setOpenField(!openField)
+    }
+
     const renderResponses = () => {
         return responses.map(response => {
             return (
@@ -59,13 +66,19 @@ export default function Comment({ author, content, id, postId, responses, userId
                 <LoadMore />
             </div>
             <div className={styles.writeResponses}>
-                <button className={`${styles.writeResponseButton}`}>Answer</button>
-                <form className={styles.submitResponse}>
+                {openField ? (
+                    <button className={`${styles.writeResponseButton} ${styles.cancel}`}
+                        onClick={toggleOpenField}>Cancel</button>
+                ) : (
+                    <button className={`${styles.writeResponseButton}`}
+                        onClick={toggleOpenField}>Answer</button>
+                )}
+                {openField && (<form className={styles.submitResponse}>
                     <textarea placeholder='Enter your response'></textarea>
                     <Button marginTop='0' width='7rem'>
                         Answer
                     </Button>
-                </form>
+                </form>)}
             </div>
         </div>
     )

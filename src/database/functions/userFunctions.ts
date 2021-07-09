@@ -20,10 +20,6 @@ export async function createUser({ email, name, password, type }: CreateUser, pr
     return user
 }
 
-interface FindUser {
-    email: string
-}
-
 interface CreateGitHubUser {
     name: string
     type: string
@@ -36,6 +32,13 @@ export async function createGitHubUser({ avatar, name, type, githubId }: CreateG
     const user = await prisma.user.create({
         data: {
             name, type, avatar, githubId
+        },
+        include: {
+            categories: {
+                include: {
+                    category: true
+                }
+            }
         }
     })
 
@@ -43,10 +46,21 @@ export async function createGitHubUser({ avatar, name, type, githubId }: CreateG
 
 }
 
+interface FindUser {
+    email: string
+}
+
 export async function findUser({ email }: FindUser, prisma: prismaClient) {
 
     const user = await prisma.user.findFirst({
-        where: { email }
+        where: { email },
+        include: {
+            categories: {
+                include: {
+                    category: true
+                }
+            }
+        }
     })
 
     return user
@@ -62,6 +76,13 @@ export async function findUserById({ id }: FindUserById, prisma: prismaClient) {
     const user = await prisma.user.findFirst({
         where: {
             id
+        },
+        include: {
+            categories: {
+                include: {
+                    category: true
+                }
+            }
         }
     })
 
@@ -78,6 +99,13 @@ export async function findUserByGithubId({ id }: FindUserByGithubId, prisma: pri
     const user = await prisma.user.findFirst({
         where: {
             githubId: id
+        },
+        include: {
+            categories: {
+                include: {
+                    category: true
+                }
+            }
         }
     })
 

@@ -5,7 +5,7 @@ import { createGitHubUser, findUser, findUserByGithubId, findUserById, updatePas
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import config from '../../../config.json'
-import { RenderUser } from "../views/UserView"
+import { RenderLoggedUser } from "../views/UserView"
 import axios from 'axios'
 
 class AuthController {
@@ -61,7 +61,7 @@ class AuthController {
 
         const token = jwt.sign({ id: user.id }, config.key, { expiresIn: '30d' })
 
-        return res.status(200).json({ user: RenderUser(user), token })
+        return res.status(200).json({ user: RenderLoggedUser(user), token })
 
     }
 
@@ -115,12 +115,12 @@ class AuthController {
 
                     const token = jwt.sign({ id: newUser.id }, config.key, { expiresIn: '30d' })
 
-                    return res.status(200).json({ user: RenderUser(newUser), token })
+                    return res.status(200).json({ user: RenderLoggedUser(newUser), token })
                 }
 
                 const token = jwt.sign({ id: user.id }, config.key, { expiresIn: '30d' })
 
-                return res.status(200).json({ user: RenderUser(user), token })
+                return res.status(200).json({ user: RenderLoggedUser(user), token })
             } catch {
                 return res.status(401).json({
                     errors: [
@@ -155,7 +155,7 @@ class AuthController {
             })
         }
 
-        return res.status(200).json(RenderUser(user))
+        return res.status(200).json(RenderLoggedUser(user))
 
 
     }

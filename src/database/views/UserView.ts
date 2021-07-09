@@ -1,4 +1,10 @@
-import { User } from "@prisma/client";
+import { CategoriesOnUser, Category, User } from "@prisma/client"
+
+type UserWithCategory = User & {
+    categories: (CategoriesOnUser & {
+        category: Category
+    })[]
+}
 
 export function RenderCreatedUser(user: User) {
 
@@ -25,6 +31,30 @@ export function RenderUser(user: User) {
         twitter: user.twitter,
         instagram: user.instagram,
         githubId: user.githubId
+    }
+
+}
+
+export function RenderLoggedUser(user: UserWithCategory) {
+
+    return {
+        id: user.id,
+        type: user.type,
+        name: user.name,
+        email: user.email,
+        title: user.title,
+        avatar: user.avatar,
+        about: user.about,
+        facebook: user.facebook,
+        twitter: user.twitter,
+        instagram: user.instagram,
+        githubId: user.githubId,
+        categories: user.categories.map(category => {
+            return {
+                id: category.categoryId,
+                category: category.category.name
+            }
+        })
     }
 
 }
