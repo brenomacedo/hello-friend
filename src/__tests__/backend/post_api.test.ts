@@ -4,6 +4,7 @@ import faker from 'faker'
 import Post from "../../pages/api/post"
 import prisma from '../../database/client'
 import PostId from "../../pages/api/post/[id]"
+import UserPost from "../../pages/api/user/post"
 
 describe('Post api', () => {
 
@@ -164,6 +165,8 @@ describe('Post api', () => {
                 authorization: `Bearer ${token}`
             }
         })
+
+        await UserPost(req, res)
 
         expect(res._getStatusCode()).toBe(200)
 

@@ -44,12 +44,6 @@ export function RenderPosts(posts: PostWithUser[]) {
     return posts.map(post => RenderPost(post))
 }
 
-export function RenderEditedPost(post: Post) {
-    return {
-        id: post.id,
-        description: post.description,
-        imageUrl: post.imageUrl,
-        createdAt: dayjs(post.createdAt).format('MMM-D-YYYY HH:mm:ss'),
-        updatedAt: dayjs(post.updatedAt).format('MMM-D-YYYY HH:mm:ss')
-    }
+export function RenderCreatedPosts(posts: Post[]) {
+    return posts.map(post => RenderCreatedPost(post))
 }

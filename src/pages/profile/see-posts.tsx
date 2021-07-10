@@ -6,16 +6,53 @@ import useAuth from '../../hooks/useAuth'
 import Loading from '../../components/Loading'
 import router from 'next/router'
 import Logout from '../../components/Logout'
+import { GetServerSideProps } from 'next'
+import { useEffect, useState } from 'react'
+import { api } from '../../services/api'
+
+type Post = {
+    id: number
+    description: string
+    imageUrl: string | null
+    createdAt: string
+    updatedAt: string
+}
 
 export default function SeePosts() {
 
     const { isAuth } = useAuth()
+    const [posts, setPosts] = useState<Post[]>([])
+
+    useEffect(() => {
+
+        if(isAuth) {
+
+            const getPosts = async () => {
+                const { data: posts } = await api.get<Post[]>('/user/post', {
+                    data: {}
+                })
+                setPosts(posts)
+            }
+
+            getPosts()
+        }
+
+    }, [isAuth])
 
     if(isAuth === undefined)
         return <Loading />
     else if(!isAuth) {
         router.push('/login')
         return false
+    }
+
+    const renderPosts = () => {
+        return posts.map(post => {
+            return (
+                <UserPost createdAt={post.createdAt} description={post.description}
+                    id={post.id} imageUrl={post.imageUrl} />
+            )
+        })
     }
 
     return (
@@ -26,10 +63,7 @@ export default function SeePosts() {
             <TopBar active='edit' />
             <div className={styles.postListContainer}>
                 <div className={styles.postList}>
-                    <UserPost />
-                    <UserPost />
-                    <UserPost />
-                    <UserPost />
+                    {renderPosts()}
                 </div>
             </div>
             <Logout />

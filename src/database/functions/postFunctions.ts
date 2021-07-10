@@ -43,7 +43,7 @@ export async function listPosts({ categoryId }: ListPosts, prisma: prismaClient)
             }
         },
         orderBy: {
-            createdAt: 'desc'
+            id: 'desc'
         }
     })
 
@@ -59,11 +59,8 @@ export async function listPostsByUser({ userId }: ListPostsByUser, prisma: prism
 
     const posts = await prisma.post.findMany({
         where: { userId },
-        include: {
-            user: true
-        },
         orderBy: {
-            createdAt: 'desc'
+            id: 'desc'
         }
     })
 

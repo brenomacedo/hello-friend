@@ -7,7 +7,7 @@ export default async function UserPost(req: NextApiRequest, res: NextApiResponse
 
     const postController = new PostController(client)
 
-    if(req.method === 'POST') {
+    if(req.method === 'GET') {
         const next = async () => {
             return await postController.indexByUser(req, res)
         }

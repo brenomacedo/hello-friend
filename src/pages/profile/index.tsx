@@ -190,7 +190,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
             }
         },
         orderBy: {
-            createdAt: 'desc'
+            id: 'desc'
         }
     })
 
