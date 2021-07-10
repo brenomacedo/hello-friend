@@ -19,7 +19,7 @@ interface Category {
 
 export default function Search() {
 
-    const { isAuth } = useAuth()
+    const { isAuth, user } = useAuth()
     const [categories, setCategories] = useState<Category[]>([])
 
     if(isAuth === undefined)
@@ -42,8 +42,10 @@ export default function Search() {
     const renderCommunities = () => {
         return categories.map(category => {
             return (
-                <Community active={false} src={`/${category.name.toLowerCase()}.png`}
-                    label={category.name} />
+                <Community active={user.categories.some(userCategory => {
+                    return userCategory.id === category.id
+                })} src={`/${category.name.toLowerCase()}.png`} name={category.name}
+                    label={category.name} categoryId={category.id} />
             )
         })
     }

@@ -41,6 +41,8 @@ interface AuthProps {
         twitter?: string, instagram?: string) => void
     updatePassword: (oldPassword?: string, password?: string, confirmPassword?: string) => void
     logout: () => void
+    followCategory: (categoryId: number, name: string) => void
+    unfollowCategory: (categoryId: number) => void
 }
 
 interface RegisterResponse {
@@ -408,6 +410,73 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
     }
 
+    const followCategory = async (categoryId: number, name: string) => {
+        if(loading)
+            return
+
+        NProgress.start()
+        setLoading(true)
+
+        try {
+            await api.post('/category', {
+                categoryId
+            })
+
+            setCategories([...categories, {
+                id: categoryId,
+                name
+            }])
+
+            toast.success('Category followed successfull')
+        } catch(e) {
+            const errors = e as AxiosError
+
+            if(!errors.response)
+                return toast.error('An error ocurred following this category, please try again')
+
+            errors.response.data.errors.forEach((error: string) => {
+                toast.error(error)
+            })
+        }
+
+        NProgress.done()
+        setLoading(false)
+    }
+
+    const unfollowCategory = async (categoryId: number) => {
+
+        if(loading)
+            return
+
+        NProgress.start()
+        setLoading(true)
+
+        try {
+            await api.delete(`/category/${categoryId}`, {
+                data: {}
+            })
+
+            setCategories(categories.filter(category => {
+                return category.id !== categoryId
+            }))
+
+            toast.success('Category successfully unfollowed')
+        } catch(e) {
+            const errors = e as AxiosError
+
+            if(!errors.response)
+                return toast.error('An error ocurred unfollowing this category, please try again')
+
+            errors.response.data.errors.forEach((error: string) => {
+                toast.error(error)
+            })
+        }
+
+        NProgress.done()
+        setLoading(false)
+
+    }
+
     const logout = () => {
         Cookies.set('token', '')
         api.defaults.headers.authorization = ''
@@ -458,6 +527,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
                     setTwitter(user.twitter || '')
                     setInstagram(user.instagram || '')
                     setGithubId(user.githubId || 0)
+                    setCategories(user.categories)
 
                     setIsAuth(true)
                     setLoading(false)
@@ -505,7 +575,9 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             signInWithGithub,
             updateUser,
             updatePassword,
-            logout
+            logout,
+            followCategory,
+            unfollowCategory
         }}>
             {children}
         </AuthContext.Provider>

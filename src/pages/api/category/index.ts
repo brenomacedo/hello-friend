@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import client from "../../database/client"
-import CategoryController from "../../database/controllers/CategoryController"
-import AuthMiddleware from "../../database/middlewares/auth"
+import client from "../../../database/client"
+import CategoryController from "../../../database/controllers/CategoryController"
+import AuthMiddleware from "../../../database/middlewares/auth"
 
 export default async function Category(req: NextApiRequest, res: NextApiResponse) {
 
@@ -14,14 +14,6 @@ export default async function Category(req: NextApiRequest, res: NextApiResponse
     if(req.method === 'POST') {
         const next = async () => {
             return await categoryController.followCategory(req, res)
-        }
-
-        return await AuthMiddleware(req, res, next)
-    }
-
-    if(req.method === 'DELETE') {
-        const next = async () => {
-            return await categoryController.unfollowCategory(req, res)
         }
 
         return await AuthMiddleware(req, res, next)

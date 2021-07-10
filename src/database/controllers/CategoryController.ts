@@ -48,7 +48,11 @@ class CategoryController {
     }
 
     async unfollowCategory(req: NextApiRequest, res: NextApiResponse) {
-        const { id: userId, categoryId } = req.body
+
+        const { id: userId } = req.body
+        const { id } = req.query
+
+        const categoryId = Number(id) || undefined
 
         const schema = Yup.number().required('The category id is required!')
 
@@ -61,7 +65,7 @@ class CategoryController {
         }
 
         try {
-            const relation = await unfollowUserCategory({ categoryId, userId }, this.prisma)
+            const relation = await unfollowUserCategory({ categoryId: categoryId as number, userId }, this.prisma)
 
             return res.status(200).json(relation)
         } catch {
