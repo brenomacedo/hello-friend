@@ -12,9 +12,6 @@ export async function createPost({ categoryId, description, userId, imageUrl }: 
     const post = await prisma.post.create({
         data: {
             description, categoryId, userId, imageUrl
-        },
-        include: {
-            user: true
         }
     })
 
@@ -44,6 +41,9 @@ export async function listPosts({ categoryId }: ListPosts, prisma: prismaClient)
                     author: true
                 }
             }
+        },
+        orderBy: {
+            createdAt: 'desc'
         }
     })
 
@@ -61,6 +61,9 @@ export async function listPostsByUser({ userId }: ListPostsByUser, prisma: prism
         where: { userId },
         include: {
             user: true
+        },
+        orderBy: {
+            createdAt: 'desc'
         }
     })
 

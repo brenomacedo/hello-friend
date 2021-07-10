@@ -14,15 +14,14 @@ type PostWithUser = Post & {
     })[]
 }
 
-export function RenderCreatedPost(post: PostWithUser) {
+export function RenderCreatedPost(post: Post) {
 
     return {
         id: post.id,
         description: post.description,
         imageUrl: post.imageUrl,
         createdAt: dayjs(post.createdAt).format('MMM-D-YYYY HH:mm:ss'),
-        updatedAt: dayjs(post.updatedAt).format('MMM-D-YYYY HH:mm:ss'),
-        user: RenderUser(post.user)
+        updatedAt: dayjs(post.updatedAt).format('MMM-D-YYYY HH:mm:ss')
     }
 
 }

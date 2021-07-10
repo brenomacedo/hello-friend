@@ -198,12 +198,12 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             router.push('/profile')
 
         } catch(e) {
-            const error = e as AxiosError
+            const errors = e as AxiosError
 
-            if(!error.response)
+            if(!errors.response)
                  toast.error('Unexpected error, please try again.')
             else {
-                error.response.data.errors.forEach((error: string) => {
+                errors.response.data.errors.forEach((error: string) => {
                     toast.error(error)
                 })
             }
@@ -360,9 +360,9 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             } catch(e) {
                 const errors = e as AxiosError
 
-                if(!errors.response) {
+                if(!errors.response)
                     toast.error('An unexpected error ocurred, please try again.')
-                } else {
+                else {
                     errors.response.data.errors.forEach((error: string) => {
                         toast.error(error)
                     })
@@ -432,11 +432,12 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             const errors = e as AxiosError
 
             if(!errors.response)
-                return toast.error('An error ocurred following this category, please try again')
-
-            errors.response.data.errors.forEach((error: string) => {
-                toast.error(error)
-            })
+                toast.error('An error ocurred following this category, please try again')
+            else {
+                errors.response.data.errors.forEach((error: string) => {
+                    toast.error(error)
+                })
+            }
         }
 
         NProgress.done()
@@ -466,10 +467,11 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
             if(!errors.response)
                 return toast.error('An error ocurred unfollowing this category, please try again')
-
-            errors.response.data.errors.forEach((error: string) => {
-                toast.error(error)
-            })
+            else {
+                errors.response.data.errors.forEach((error: string) => {
+                    toast.error(error)
+                })
+            }
         }
 
         NProgress.done()

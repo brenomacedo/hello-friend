@@ -13,6 +13,17 @@ import client from '../../database/client'
 import { RenderPosts } from '../../database/views/PostView'
 import { useState } from 'react'
 import { api } from '../../services/api'
+import { AxiosError } from 'axios'
+import { toast } from 'react-toastify'
+import NProgress from 'nprogress'
+
+type CreatedPost = {
+    id: number
+    description: string
+    imageUrl: string
+    createdAt: string
+    updatedAt: string
+}
 
 type Author = {
     id: number
@@ -82,10 +93,64 @@ export default function Profile({ posts: initialPosts }: ProfileProps) {
         if(newCategoryId === selectedCategory || loading)
             return
 
+        setLoading(true)
+
         const { data: posts } = await api.get<PostWithUser[]>(`/post?categoryId=${newCategoryId}`)
         setPosts(posts)
 
         setSelectedCategory(newCategoryId)
+        setLoading(false)
+    }
+
+    const handleCreatePost = async (description: string, categoryId: number) => {
+
+        if(loading)
+            return
+
+        NProgress.start()
+        setLoading(true)
+
+        try {
+            const { data: newPost } = await api.post<CreatedPost>('/post', {
+                description, categoryId
+            })
+
+            if(categoryId === selectedCategory || selectedCategory === 0)
+                setPosts([{
+                    ...newPost,
+                    user: {
+                        about: user.about || '',
+                        avatar: user.avatar || '',
+                        email: user.email || '',
+                        facebook: user.facebook || '',
+                        githubId: user.githubId || 0,
+                        id: user.id,
+                        instagram: user.instagram || '',
+                        name: user.name || '',
+                        title: user.title || '',
+                        twitter: user.twitter || '',
+                        type: user.type
+                    },
+                    comments: []
+                },...posts])
+
+                toast.success('Successfully created post!')
+
+        } catch(e) {
+            const errors = e as AxiosError
+
+            if(!errors.response)
+                toast.error('An unexpected error ocurred, please try again')
+            else {
+                errors.response.data.errors.forEach((error: string) => {
+                    toast.error(error)
+                })
+            }
+        }
+
+        NProgress.done()
+        setLoading(false)
+
     }
 
     return (
@@ -98,7 +163,7 @@ export default function Profile({ posts: initialPosts }: ProfileProps) {
                 <div className={styles.content}>
                     <Sidebar selected={selectedCategory} categories={user.categories} setCategory={handleSetSelectedCategory} />
                     <div className={styles.feed}>
-                        <WritePost />
+                        <WritePost handleCreatePost={handleCreatePost} />
                         {renderPosts()}
                     </div>
                 </div>
@@ -123,6 +188,9 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
                     }
                 }
             }
+        },
+        orderBy: {
+            createdAt: 'desc'
         }
     })
 
