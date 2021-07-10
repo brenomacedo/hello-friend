@@ -14,9 +14,10 @@ interface UserPostProps {
     description: string
     imageUrl: string | null
     createdAt: string
+    deletePost: (postId: number) => void
 }
 
-export default function UserPost({ createdAt, description, id, imageUrl }: UserPostProps) {
+export default function UserPost({ createdAt, description, id, imageUrl, deletePost }: UserPostProps) {
 
     const { user } = useAuth()
 
@@ -46,6 +47,36 @@ export default function UserPost({ createdAt, description, id, imageUrl }: UserP
             setCurrentDescription(editDescription)
             setUpdate(!update)
 
+        } catch(e) {
+            const errors = e as AxiosError
+
+            if(!errors.response)
+                toast.error('An error ocurred editing your post, please try again.')
+            else {
+                errors.response.data.errors.forEach((error: string) => {
+                    toast.error(error)
+                })
+            }
+        }
+
+        NProgress.done()
+        setLoading(false)
+    }
+
+    const handleDeletePost = async () => {
+        if(loading)
+            return
+
+        NProgress.start()
+        setLoading(true)
+
+        try {
+            await api.delete(`/post/${id}`, {
+                data: {}
+            })
+
+            deletePost(id)
+            toast.success('Post successfully deleted!')
         } catch(e) {
             const errors = e as AxiosError
 
@@ -94,7 +125,8 @@ export default function UserPost({ createdAt, description, id, imageUrl }: UserP
                     <Button onClick={toggleEdit}
                         width='100%' backgroundColor='#2196f3'>Edit</Button>
                 )}
-                <Button width='100%' backgroundColor='#f44336'>Delete</Button>
+                <Button onClick={() => handleDeletePost()}
+                    width='100%' backgroundColor='#f44336'>Delete</Button>
             </div>
         </div>
     )

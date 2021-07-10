@@ -46,11 +46,17 @@ export default function SeePosts() {
         return false
     }
 
+    const deletePost = (postId: number) => {
+        setPosts(posts.filter(post => {
+            return post.id !== postId
+        }))
+    }
+
     const renderPosts = () => {
         return posts.map(post => {
             return (
                 <UserPost createdAt={post.createdAt} description={post.description}
-                    id={post.id} imageUrl={post.imageUrl} />
+                    id={post.id} imageUrl={post.imageUrl} deletePost={deletePost} key={post.id} />
             )
         })
     }
