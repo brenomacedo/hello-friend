@@ -61,6 +61,7 @@ export default function Profile({ posts: initialPosts }: ProfileProps) {
 
     const [posts, setPosts] = useState(initialPosts)
     const [selectedCategory, setSelectedCategory] = useState<number>(0)
+    const [loading, setLoading] = useState(false)
 
     if(isAuth === undefined)
         return <Loading />
@@ -77,9 +78,12 @@ export default function Profile({ posts: initialPosts }: ProfileProps) {
         })
     }
 
-    const handleSetSelectedCategory = (newCategoryId: number) => {
-        if(newCategoryId === selectedCategory)
+    const handleSetSelectedCategory = async (newCategoryId: number) => {
+        if(newCategoryId === selectedCategory || loading)
             return
+
+        const { data: posts } = await api.get<PostWithUser[]>(`/post?categoryId=${newCategoryId}`)
+        setPosts(posts)
 
         setSelectedCategory(newCategoryId)
     }
