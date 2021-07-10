@@ -9,16 +9,43 @@ import useAuth from '../../hooks/useAuth'
 import Loading from '../../components/Loading'
 import router from 'next/router'
 import Logout from '../../components/Logout'
+import { ChangeEvent, createRef, FormEvent, useEffect, useState } from 'react'
+import { api } from '../../services/api'
+
+interface Category {
+    id: number
+    name: string
+}
 
 export default function Search() {
 
     const { isAuth } = useAuth()
+    const [categories, setCategories] = useState<Category[]>([])
 
     if(isAuth === undefined)
         return <Loading />
     else if(!isAuth) {
         router.push('/login')
         return false
+    }
+
+    const searchRef = createRef<HTMLInputElement>()
+
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault()
+
+        const { data: categories } = await api.get<Category[]>(`/category?search=${searchRef.current?.value}`)
+
+        setCategories(categories)
+    }
+
+    const renderCommunities = () => {
+        return categories.map(category => {
+            return (
+                <Community active={false} src={`/${category.name.toLowerCase()}.png`}
+                    label={category.name} />
+            )
+        })
     }
 
     return (
@@ -29,17 +56,20 @@ export default function Search() {
             <TopBar active='search' />
             <div className={styles.searchBoxContainer}>
                 <div className={styles.searchBox}>
-                    <div className={styles.searchBar}>
-                        <Input marginTop='0' width='100%' Icon={FiSearch}
+                    <form onSubmit={handleSubmit} className={styles.searchBar}>
+                        <Input marginTop='0' width='100%' Icon={FiSearch} ref={searchRef}
                             containerFlex='1' placeholder='Search a community' />
                         <Button width='3rem' marginTop='0'>
                             Go!
                         </Button>
-                    </div>
+                    </form>
                     <div className={styles.communities}>
-                        <Community active src='/games.png' label='Games' />
-                        <Community active src='/series.png' label='Series' />
-                        <Community active src='/films.png' label='Movies' />
+                        {renderCommunities()}
+                        {categories.length === 0 && (
+                            <div className={styles.zaroCategories}>
+                                <p>Search a category to follow</p>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

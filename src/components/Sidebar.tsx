@@ -18,7 +18,7 @@ export default function Sidebar({ selected, categories, setCategory }: SidebarPr
         return categories.map(category => {
             return (
                 <SidebarTile key={category.id} label={category.name} selected={selected === category.id}
-                    src={`${category.name.toLowerCase()}.png`} onClick={() => setCategory(category.id)} />
+                    src={`/${category.name.toLowerCase()}.png`} onClick={() => setCategory(category.id)} />
             )
         })
     }
