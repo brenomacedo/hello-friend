@@ -27,4 +27,15 @@
             }
         }
     }
+
+    .zeroCategories {
+        padding-top: 1rem;
+        display: flex;
+        justify-content: center;
+
+        p {
+            width: 80%;
+            text-align: center;
+        }
+    }
 }

@@ -38,7 +38,7 @@ export default function CommentsList({ comments }: CommentsListProps) {
 
     const renderComments = () => {
         return comments.map(comment => {
-            return <Comment {...comment} />
+            return <Comment {...comment} key={comment.id}/>
         })
     }
 

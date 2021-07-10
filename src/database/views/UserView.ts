@@ -52,7 +52,7 @@ export function RenderLoggedUser(user: UserWithCategory) {
         categories: user.categories.map(category => {
             return {
                 id: category.categoryId,
-                category: category.category.name
+                name: category.category.name
             }
         })
     }

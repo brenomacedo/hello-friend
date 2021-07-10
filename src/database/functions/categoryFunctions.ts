@@ -51,3 +51,22 @@ export async function unfollowUserCategory({ categoryId, userId }: UnfollowUserC
     return relation
 
 }
+
+interface SearchCategories {
+    search: string
+}
+
+export async function searchCategories({ search }: SearchCategories, prisma: prismaClient) {
+
+    const categories = await prisma.category.findMany({
+        where: {
+            name: {
+                contains: search,
+                mode: 'insensitive'
+            }
+        }
+    })
+
+    return categories
+
+}

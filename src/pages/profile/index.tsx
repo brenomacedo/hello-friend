@@ -57,7 +57,10 @@ interface ProfileProps {
 
 export default function Profile({ posts: initialPosts }: ProfileProps) {
 
-    const { isAuth } = useAuth()
+    const { isAuth, user } = useAuth()
+
+    const [posts, setPosts] = useState(initialPosts)
+    const [selectedCategory, setSelectedCategory] = useState<number>(0)
 
     if(isAuth === undefined)
         return <Loading />
@@ -66,14 +69,19 @@ export default function Profile({ posts: initialPosts }: ProfileProps) {
         return false
     }
 
-    const [posts, setPosts] = useState(initialPosts)
-
     const renderPosts = () => {
         return posts.map(post => {
             return (
                 <Post key={post.id} {...post} />
             )
         })
+    }
+
+    const handleSetSelectedCategory = (newCategoryId: number) => {
+        if(newCategoryId === selectedCategory)
+            return
+
+        setSelectedCategory(newCategoryId)
     }
 
     return (
@@ -84,7 +92,7 @@ export default function Profile({ posts: initialPosts }: ProfileProps) {
             <TopBar active='home' />
             <div className={styles.home}>
                 <div className={styles.content}>
-                    <Sidebar selected='Games' />
+                    <Sidebar selected={selectedCategory} categories={user.categories} setCategory={handleSetSelectedCategory} />
                     <div className={styles.feed}>
                         <WritePost />
                         {renderPosts()}

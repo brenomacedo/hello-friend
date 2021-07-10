@@ -45,7 +45,7 @@ export default function Comment({ author, content, id, postId, responses, userId
     const renderResponses = () => {
         return responses.map(response => {
             return (
-                <Response {...response} />
+                <Response {...response} key={response.id} />
             )
         })
     }

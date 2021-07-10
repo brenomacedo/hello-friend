@@ -5,11 +5,13 @@ interface SidebarTileProps {
     src: string
     label: string
     selected: boolean
+    onClick: () => void
 }
 
-export default function SidebarTile({ label, src, selected }: SidebarTileProps) {
+export default function SidebarTile({ label, src, selected, onClick }: SidebarTileProps) {
+
     return (
-        <div className={`${styles.container} ${selected && styles.selected}`}>
+        <div className={`${styles.container} ${selected && styles.selected}`} onClick={onClick}>
             <div className={styles.icon}>
                 <Image src={src} objectFit='cover'
                     width={30} height={30} />

@@ -6,6 +6,11 @@ import { toast } from 'react-toastify'
 import NProgress from 'nprogress'
 import router from "next/router"
 
+interface Category {
+    id: number
+    name: string
+}
+
 interface User {
     id: number
     type: 'email' | 'github' | ''
@@ -18,6 +23,7 @@ interface User {
     twitter?: string
     instagram?: string
     githubId?: number
+    categories: Category[]
 }
 
 interface AuthProps {
@@ -69,6 +75,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     const [twitter, _setTwitter] = useState('')
     const [instagram, _setInstagram] = useState('')
     const [githubId, _setGithubId] = useState(0)
+    const [categories, _setCategories] = useState<Category[]>([])
 
     const setToken = (token: string) => {
         _setToken(token)
@@ -124,6 +131,10 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
     const setGithubId = (githubId?: number) => {
         _setGithubId(githubId || 0)
+    }
+
+    const setCategories = (categories?: Category[]) => {
+        _setCategories(categories || [])
     }
 
     const signUp = async (name?: string, email?: string, password?: string, confirmPassword?: string) => {
@@ -247,6 +258,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             setFacebook(user.facebook)
             setInstagram(user.instagram)
             setTwitter(user.twitter)
+            setCategories(user.categories)
 
             setToken(token)
             setIsAuth(true)
@@ -298,6 +310,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             setInstagram(user.instagram)
             setTitle(user.twitter)
             setGithubId(user.githubId)
+            setCategories(user.categories)
 
             setToken(token)
             setIsAuth(true)
@@ -481,7 +494,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
                 githubId,
                 instagram,
                 title,
-                twitter
+                twitter,
+                categories
             },
             setLoading,
             setToken,
