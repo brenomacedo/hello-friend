@@ -8,6 +8,7 @@ import { api } from '../services/api'
 import NProgress from 'nprogress'
 import { AxiosError } from 'axios'
 import { toast } from 'react-toastify'
+import ThrowAxiosErrors from '../utils/throwAxiosErrors'
 
 interface UserPostProps {
     id: number
@@ -48,15 +49,7 @@ export default function UserPost({ createdAt, description, id, imageUrl, deleteP
             setUpdate(!update)
 
         } catch(e) {
-            const errors = e as AxiosError
-
-            if(!errors.response)
-                toast.error('An error ocurred editing your post, please try again.')
-            else {
-                errors.response.data.errors.forEach((error: string) => {
-                    toast.error(error)
-                })
-            }
+            ThrowAxiosErrors(e)
         }
 
         NProgress.done()

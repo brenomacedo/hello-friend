@@ -5,6 +5,7 @@ import { AxiosError } from "axios"
 import { toast } from 'react-toastify'
 import NProgress from 'nprogress'
 import router from "next/router"
+import ThrowAxiosErrors from "../utils/throwAxiosErrors"
 
 interface Category {
     id: number
@@ -198,16 +199,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             router.push('/profile')
 
         } catch(e) {
-            const errors = e as AxiosError
-
-            if(!errors.response)
-                 toast.error('Unexpected error, please try again.')
-            else {
-                errors.response.data.errors.forEach((error: string) => {
-                    toast.error(error)
-                })
-            }
-
+            ThrowAxiosErrors(e)
         }
 
         NProgress.done()
@@ -272,17 +264,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             router.push('/profile')
 
         } catch(e) {
-
-            const error = e as AxiosError
-
-            if(!error.response)
-                toast.error('Unexpected error, please try again.')
-            else {
-                error.response.data.errors.forEach((error: string) => {
-                    toast.error(error)
-                })
-            }
-
+            ThrowAxiosErrors(e)
         }
 
         NProgress.done()
@@ -358,15 +340,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
                 toast.success('User successfully updated!')
             } catch(e) {
-                const errors = e as AxiosError
-
-                if(!errors.response)
-                    toast.error('An unexpected error ocurred, please try again.')
-                else {
-                    errors.response.data.errors.forEach((error: string) => {
-                        toast.error(error)
-                    })
-                }
+                ThrowAxiosErrors(e)
             }
 
             NProgress.done()
@@ -394,15 +368,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
             toast.success('Password successfully updated!')
         } catch(e) {
-            const error = e as AxiosError
-
-            if(!error.response) {
-                toast.error('An unexpected error ocurred, try again.')
-            } else {
-                error.response.data.errors.forEach((error: string) => {
-                    toast.error(error)
-                })
-            }
+            ThrowAxiosErrors(e)
         }
 
         NProgress.done()
@@ -429,15 +395,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
             toast.success('Category followed successfull')
         } catch(e) {
-            const errors = e as AxiosError
-
-            if(!errors.response)
-                toast.error('An error ocurred following this category, please try again')
-            else {
-                errors.response.data.errors.forEach((error: string) => {
-                    toast.error(error)
-                })
-            }
+            ThrowAxiosErrors(e)
         }
 
         NProgress.done()
@@ -463,15 +421,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
             toast.success('Category successfully unfollowed')
         } catch(e) {
-            const errors = e as AxiosError
-
-            if(!errors.response)
-                return toast.error('An error ocurred unfollowing this category, please try again')
-            else {
-                errors.response.data.errors.forEach((error: string) => {
-                    toast.error(error)
-                })
-            }
+            ThrowAxiosErrors(e)
         }
 
         NProgress.done()

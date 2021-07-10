@@ -16,6 +16,7 @@ import { api } from '../../services/api'
 import { AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 import NProgress from 'nprogress'
+import ThrowAxiosErrors from '../../utils/throwAxiosErrors'
 
 type CreatedPost = {
     id: number
@@ -137,15 +138,7 @@ export default function Profile({ posts: initialPosts }: ProfileProps) {
                 toast.success('Successfully created post!')
 
         } catch(e) {
-            const errors = e as AxiosError
-
-            if(!errors.response)
-                toast.error('An unexpected error ocurred, please try again')
-            else {
-                errors.response.data.errors.forEach((error: string) => {
-                    toast.error(error)
-                })
-            }
+            ThrowAxiosErrors(e)
         }
 
         NProgress.done()

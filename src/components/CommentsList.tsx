@@ -45,7 +45,6 @@ export default function CommentsList({ comments }: CommentsListProps) {
     return (
         <div className={styles.container}>
             {renderComments()}
-            <LoadMore />
         </div>
     )
 }

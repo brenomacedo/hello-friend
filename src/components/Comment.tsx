@@ -63,7 +63,6 @@ export default function Comment({ author, content, id, postId, responses, userId
 
             <div className={styles.responses}>
                 {renderResponses()}
-                <LoadMore />
             </div>
             <div className={styles.writeResponses}>
                 {openField ? (
