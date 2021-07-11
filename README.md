@@ -1,34 +1,67 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align="center">🐺 Hello Friend 🐺</h1>
+<h3 align="center" style="width: 75%; margin: 0 auto;">
+    Hello Friend is a social network that consists of people sharing comments, opinions and experiences on some topic, interacting with each other.
+</h3>
 
-## Getting Started
+<br>
+<br>
 
-First, run the development server:
+<div style="display: flex; justify-content: center;">
+    <img src="https://i.imgur.com/BGfCK53.png">
+</div>
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+<br>
+<br>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<h2 align="center">Used technologies:</h2>
+<br>
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+<div>
+    <div style="display: flex; align-items: center; gap: 20px;">
+        <img width="40" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/1200px-Typescript_logo_2020.svg.png">  <h3>Typescript</h3>
+    </div>
+    <br>
+    <div style="display: flex; align-items: center; gap: 20px;">
+        <img width="40" src="https://www.pngitem.com/pimgs/m/664-6644509_icon-react-js-logo-hd-png-download.png">  <h3>React (Next.js)</h3>
+    </div>
+    <br>
+    <div style="display: flex; align-items: center; gap: 20px;">
+        <img width="40" src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png">  <h3>Github OAuth</h3>
+    </div>
+    <br>
+    <div style="display: flex; align-items: center; gap: 20px;">
+        <img width="40" src="https://seeklogo.com/images/P/prisma-logo-3805665B69-seeklogo.com.png">  <h3>Prisma</h3>
+    </div>
+    <br>
+    <div style="display: flex; align-items: center; gap: 20px;">
+        <img width="40" src="https://seeklogo.com/images/J/jest-logo-F9901EBBF7-seeklogo.com.png">  <h3>Jest (The backend and the frontend were tested)</h3>
+    </div>
+    <br>
+    <div style="display: flex; align-items: center; gap: 20px;">
+        <img width="40" src="https://www.pngkit.com/png/detail/377-3771972_sass.png">  <h3>Sass</h3>
+    </div>
+</div>
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+<br>
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+<h2 align="center">Some interesting funcionalities:</h2>
+<br>
+<div>
+    <h3>> Dark Mode (Static generation, preventing the "flash" in the screen.)</h3>
+    <h3>> Github authentication</h3>
+    <h3>> Responsive design</h3>
+</div>
 
-## Learn More
+<br>
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<h2 align="center">Some screenshots:</h2>
+<br>
+<div style="display: flex; align-items: center; flex-direction: column;">
+    <img style="width: 80%;" src="https://i.imgur.com/WG5Fs0V.png">
+    <br>
+    <img style="width: 80%;" src="https://i.imgur.com/X86Catb.png">
+    <br>
+    <img style="width: 80%;" src="https://i.imgur.com/jf8kLAw.png">
+    <br>
+    <img style="width: 80%;" src="https://i.imgur.com/xIGcPRa.png">
+</div>
