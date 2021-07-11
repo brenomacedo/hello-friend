@@ -18,8 +18,8 @@ type Author = {
 interface ResponseProps {
     id: number
     content: string
-    postId: number
-    userId: number
+    commentId: number
+    authorId: number
     author: Author
 }
 

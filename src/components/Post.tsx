@@ -39,8 +39,8 @@ type Comment = {
     responses: {
         id: number
         content: string
-        postId: number
-        userId: number
+        commentId: number
+        authorId: number
         author: Author
     }[]
 }
@@ -105,7 +105,8 @@ export default function Post({ comments, createdAt, description,
                 responses: []
             }])
 
-            commentRef.current?.setAttribute('value', '')
+            if(commentRef.current)
+                commentRef.current.value = ''
         } catch(e) {
             ThrowAxiosErrors(e)
         }
