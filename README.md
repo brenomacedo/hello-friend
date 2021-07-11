@@ -6,9 +6,9 @@
 <br>
 <br>
 
-<div style="display: flex; justify-content: center;">
+<p align="center">
     <img src="https://i.imgur.com/BGfCK53.png">
-</div>
+</p>
 
 <br>
 <br>
@@ -30,7 +30,7 @@
     </div>
     <br>
     <div style="display: flex; align-items: center; gap: 20px;">
-        <img width="40" src="https://seeklogo.com/images/P/prisma-logo-3805665B69-seeklogo.com.png">  <h3>Prisma</h3>
+        <img width="40" src="https://cdn.icon-icons.com/icons2/2107/PNG/512/file_type_light_prisma_icon_130444.png">  <h3>Prisma</h3>
     </div>
     <br>
     <div style="display: flex; align-items: center; gap: 20px;">
