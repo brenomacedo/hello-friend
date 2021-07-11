@@ -50,6 +50,7 @@ export default function Comment({ author, content, id, postId, responses: initia
     const [loading, setLoading] = useState(false)
     const [responses, setResponses] = useState(initialResponses)
     const [writeResponseRef, setWriteResponseRef] = useState('')
+    const [showResponses, setShowResponses] = useState(false)
 
     const { user } = useAuth()
 
@@ -107,7 +108,9 @@ export default function Comment({ author, content, id, postId, responses: initia
         })
     }
 
-
+    const toggleShowResponses = () => {
+        setShowResponses(!showResponses)
+    }
 
     return (
         <div className={styles.container}>
@@ -120,9 +123,10 @@ export default function Comment({ author, content, id, postId, responses: initia
                 <div className={styles.content}>{content}</div>
             </div>
 
-            <div className={styles.responses}>
+            {showResponses && (<div className={styles.responses}>
                 {renderResponses()}
-            </div>
+            </div>)}
+            <LoadMore open={showResponses} onClick={toggleShowResponses} />
             <div className={styles.writeResponses}>
                 {openField ? (
                     <button className={`${styles.writeResponseButton} ${styles.cancel}`}
