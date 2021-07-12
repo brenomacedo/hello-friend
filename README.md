@@ -50,6 +50,7 @@
     <h3>> Dark Mode (Static generation, preventing the "flash" in the screen.)</h3>
     <h3>> Github authentication</h3>
     <h3>> Responsive design</h3>
+    <h3>> Images upload</h3>
 </div>
 
 <br>
