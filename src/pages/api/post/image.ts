@@ -1,9 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import formidable from 'formidable'
-import fs from 'fs'
-import path from 'path'
-import UserController from "../../../database/controllers/UserController";
 import client from "../../../database/client";
+import PostController from "../../../database/controllers/PostController";
 import AuthMiddleware from "../../../database/middlewares/auth";
 
 export const config = {
@@ -12,14 +9,14 @@ export const config = {
     }
 }
 
-export default async function Avatar(req: NextApiRequest, res: NextApiResponse) {
+export default async function PostImage(req: NextApiRequest, res: NextApiResponse) {
 
-    const userController = new UserController(client)
+    const postController = new PostController(client)
 
-    if(req.method === 'PUT') {
+    if(req.method === 'POST') {
 
         const next = async () => {
-            return await userController.updateAvatar(req, res)
+            return await postController.createImage(req, res)
         }
 
         return await AuthMiddleware(req, res, next)
@@ -31,4 +28,5 @@ export default async function Avatar(req: NextApiRequest, res: NextApiResponse) 
             'This method is not allowed in this route'
         ]
     })
+
 }

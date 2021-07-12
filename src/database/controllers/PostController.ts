@@ -3,6 +3,11 @@ import { prismaClient } from "../../utils/types"
 import * as Yup from 'yup'
 import { createPost, deletePost, editPost, listPosts, listPostsByUser } from "../functions/postFunctions"
 import { RenderCreatedPost, RenderCreatedPosts, RenderPost, RenderPosts } from "../views/PostView"
+import formidable from 'formidable'
+import fs from 'fs'
+import crypto from 'crypto'
+import path from 'path'
+
 
 export default class PostController {
 
@@ -44,6 +49,96 @@ export default class PostController {
                 ]
             })
         }
+
+    }
+
+    async createImage(req: NextApiRequest, res: NextApiResponse) {
+
+        const { id: userId } = req as any
+
+        const allowedMimetypes = [
+            'image/jpeg',
+            'image/jpg',
+            'image/png'
+        ]
+
+        const form = new formidable.IncomingForm({
+            multiples: false,
+            keepExtensions: true,
+            uploadDir: './public/post'
+        })
+
+        form.on('fileBegin', (formName, file) => {
+            const hash = crypto.randomBytes(10).toString('hex')
+            file.name = `${hash}-${file.name}`
+            file.path = path.resolve('public', 'post', file.name)
+        })
+
+        form.on('file', (formName, file) => {
+            if(file.size > 2*1024*1024) {
+                return res.status(400).json({
+                    errors: [
+                        'This file is too big, the max size is 2MB'
+                    ]
+                })
+            }
+
+            if(!file.type || !allowedMimetypes.includes(file.type)) {
+                return res.status(400).json({
+                    errors: [
+                        'This file type is not allowed, send an png, jpg or jpeg file!'
+                    ]
+                })
+            }
+        })
+
+        const uploadFile = new Promise((resolve, reject) => {
+            form.parse(req, (err, fields, files) => {
+                if(err) {
+                    return reject('An error ocurred')
+                }
+
+                return resolve({ fields, image: files.image })
+            })
+        })
+
+        const image = await Promise.resolve(uploadFile).catch(err => res.status(400).json({
+            errors: [
+                'Unexpected error'
+            ]
+        })) as any
+
+        const schema = Yup.object().shape({
+            description: Yup.string().required('The post description is required!'),
+            imageUrl: Yup.string(),
+            categoryId: Yup.number().required('The categoryId is required!')
+        })
+
+        try {
+            await schema.validate(image.fields)
+        } catch(e) {
+            return res.status(400).json({
+                errors: e.errors
+            })
+        }
+
+        try {
+            const post = await createPost({
+                categoryId: Number(image.fields.categoryId),
+                description: image.fields.description,
+                userId: userId,
+                imageUrl: image.image.name
+            }, this.prisma)
+
+            return res.status(201).json(post)
+        } catch (e) {
+            res.status(400).json({
+                errors: [
+                    'Unexpected error'
+                ]
+            })
+        }
+
 
     }
 
