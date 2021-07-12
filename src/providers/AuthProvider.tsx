@@ -81,6 +81,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     const [githubId, _setGithubId] = useState(0)
     const [categories, _setCategories] = useState<Category[]>([])
 
+    console.log(avatar)
+
     const setToken = (token: string) => {
         _setToken(token)
     }
@@ -289,7 +291,9 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             setId(user.id)
             setType(user.type)
             setName(user.name)
-            setAvatar(user.avatar)
+            setAvatar(user.avatar?.match(/^http/)
+            ? user.avatar
+            : `/profile/${user.avatar}`)
             setEmail(user.email)
             setTitle(user.title)
             setAbout(user.about)

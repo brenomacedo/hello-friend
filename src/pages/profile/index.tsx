@@ -13,7 +13,6 @@ import client from '../../database/client'
 import { RenderPosts } from '../../database/views/PostView'
 import { useState } from 'react'
 import { api } from '../../services/api'
-import { AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 import NProgress from 'nprogress'
 import ThrowAxiosErrors from '../../utils/throwAxiosErrors'
@@ -103,7 +102,7 @@ export default function Profile({ posts: initialPosts }: ProfileProps) {
         setLoading(false)
     }
 
-    const handleCreatePost = async (description: string, categoryId: number) => {
+    const handleCreatePost = async (description: string, categoryId: number, image?: File) => {
 
         if(loading)
             return
@@ -112,30 +111,58 @@ export default function Profile({ posts: initialPosts }: ProfileProps) {
         setLoading(true)
 
         try {
-            const { data: newPost } = await api.post<CreatedPost>('/post', {
-                description, categoryId
-            })
+            if(!image) {
+                const { data: newPost } = await api.post<CreatedPost>('/post', {
+                    description, categoryId
+                })
 
-            if(categoryId === selectedCategory || selectedCategory === 0)
-                setPosts([{
-                    ...newPost,
-                    user: {
-                        about: user.about || '',
-                        avatar: user.avatar || '',
-                        email: user.email || '',
-                        facebook: user.facebook || '',
-                        githubId: user.githubId || 0,
-                        id: user.id,
-                        instagram: user.instagram || '',
-                        name: user.name || '',
-                        title: user.title || '',
-                        twitter: user.twitter || '',
-                        type: user.type
-                    },
-                    comments: []
-                },...posts])
+                if(categoryId === selectedCategory || selectedCategory === 0)
+                    setPosts([{
+                        ...newPost,
+                        user: {
+                            about: user.about || '',
+                            avatar: user.avatar || '',
+                            email: user.email || '',
+                            facebook: user.facebook || '',
+                            githubId: user.githubId || 0,
+                            id: user.id,
+                            instagram: user.instagram || '',
+                            name: user.name || '',
+                            title: user.title || '',
+                            twitter: user.twitter || '',
+                            type: user.type
+                        },
+                        comments: []
+                    },...posts])
+            } else {
+                const data = new FormData()
+                data.append('categoryId', String(categoryId))
+                data.append('description', description)
+                data.append('image', image)
 
-                toast.success('Successfully created post!')
+                const { data: newPost } = await api.post<CreatedPost>('/post/image', data)
+
+                if(categoryId === selectedCategory || selectedCategory === 0)
+                    setPosts([{
+                        ...newPost,
+                        user: {
+                            about: user.about || '',
+                            avatar: user.avatar || '',
+                            email: user.email || '',
+                            facebook: user.facebook || '',
+                            githubId: user.githubId || 0,
+                            id: user.id,
+                            instagram: user.instagram || '',
+                            name: user.name || '',
+                            title: user.title || '',
+                            twitter: user.twitter || '',
+                            type: user.type
+                        },
+                        comments: []
+                    },...posts])
+            }
+
+            toast.success('Successfully created post!')
 
         } catch(e) {
             ThrowAxiosErrors(e)

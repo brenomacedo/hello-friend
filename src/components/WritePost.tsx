@@ -2,16 +2,18 @@ import styles from '../styles/writepost.module.scss'
 import Image from 'next/image'
 import Button from './Button'
 import useAuth from '../hooks/useAuth'
-import { createRef, FormEvent } from 'react'
+import { ChangeEvent, createRef, FormEvent, useState } from 'react'
 import { toast } from 'react-toastify'
 
 interface WritePostProps {
-    handleCreatePost: (description: string, categoryId: number) => Promise<void>
+    handleCreatePost: (description: string, categoryId: number, image?: File) => Promise<void>
 }
 
 export default function WritePost({ handleCreatePost }: WritePostProps) {
 
     const { user } = useAuth()
+
+    const [image, setImage] = useState<File>()
 
     const categoryRef = createRef<HTMLSelectElement>()
     const descriptionRef = createRef<HTMLTextAreaElement>()
@@ -34,11 +36,24 @@ export default function WritePost({ handleCreatePost }: WritePostProps) {
 
         await handleCreatePost(
             descriptionRef.current?.value || '',
-            Number(categoryRef.current?.value)
+            Number(categoryRef.current?.value),
+            image
         )
 
         descriptionRef.current?.setAttribute('value', '')
         categoryRef.current?.setAttribute('value', '0')
+        clearImage()
+    }
+
+    const changeFile = (e: ChangeEvent<HTMLInputElement>) => {
+        if(!e.target.files)
+            return
+        console.log(e.target.files[0])
+        setImage(e.target.files[0])
+    }
+
+    const clearImage = () => {
+        setImage(undefined)
     }
 
     return (
@@ -52,9 +67,16 @@ export default function WritePost({ handleCreatePost }: WritePostProps) {
                     placeholder='What is in your mind today, Breno?'></textarea>
             </div>
             <div className={styles.images}>
-                <div className={styles.addImage}>
+                <label htmlFor='file2' className={styles.addImage}>
                     <p>Add Image</p>
-                </div>
+                </label>
+                {image && (
+                    <div className={styles.addImage} style={{
+                        backgroundImage: `url('${URL.createObjectURL(image)}')`
+                    }} onClick={clearImage}>
+                    </div>
+                )}
+                <input type="file" hidden id='file2' onChange={changeFile} />
             </div>
             <div className={styles.submit}>
                 <select ref={categoryRef} defaultValue={0} className={styles.select}>

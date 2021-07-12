@@ -128,7 +128,7 @@ export default function Post({ comments, createdAt, description,
             </div>
             <p>{description}</p>
             {imageUrl && (<div className={styles.postImage}>
-                <Image src='/postimage.jpg'  layout='fill' objectFit='contain' />
+                <Image src={`/post/${imageUrl}`}  layout='fill' objectFit='contain' />
             </div>)}
             <div className={styles.postInfos}>
                 <p><FaComment /> {currentComments.length}</p>
@@ -136,7 +136,7 @@ export default function Post({ comments, createdAt, description,
             <div className={styles.commentSection}>
                 <form className={styles.writeComment} onSubmit={handleSubmit}>
                     <div className={styles.profilePic}>
-                        <Image src={user.avatar || ''}
+                        <Image src={user.avatar || '/default-avatar.png'}
                             width={48} height={48} />
                     </div>
                     <textarea ref={commentRef}

@@ -38,6 +38,8 @@
         padding: 0.5rem 0;
         border-top: 1px solid var(--gray);
         border-bottom: 1px solid var(--gray);
+        display: flex;
+        gap: 1rem;
 
         .addImage {
             display: flex;
@@ -53,6 +55,9 @@
             cursor: pointer;
 
             transition: transform 0.3s;
+
+            background-position: center;
+            background-size: cover;
 
             p {
                 font-family: var(--poppins);
