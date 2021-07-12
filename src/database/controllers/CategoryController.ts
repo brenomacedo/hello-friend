@@ -22,7 +22,8 @@ class CategoryController {
 
     async followCategory(req: NextApiRequest, res: NextApiResponse) {
 
-        const { id: userId, categoryId } = req.body
+        const { id: userId } = req as any
+        const { categoryId } = req.body
 
         const schema = Yup.number().required('The category id is required!')
 
@@ -49,7 +50,7 @@ class CategoryController {
 
     async unfollowCategory(req: NextApiRequest, res: NextApiResponse) {
 
-        const { id: userId } = req.body
+        const { id: userId } = req as any
         const { id } = req.query
 
         const categoryId = Number(id) || undefined

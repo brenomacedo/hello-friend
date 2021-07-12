@@ -14,7 +14,8 @@ class ResponseController {
 
     async create(req: NextApiRequest, res: NextApiResponse) {
 
-        const { commentId, id: authorId, content } = req.body
+        const { id: authorId } = req as any
+        const { commentId, content } = req.body
 
         const schema = Yup.object().shape({
             commentId: Yup.number().required('The comment id is required!'),
@@ -44,7 +45,8 @@ class ResponseController {
 
     async edit(req: NextApiRequest, res: NextApiResponse) {
 
-        const { id: authorId, content } = req.body
+        const { id: authorId } = req as any
+        const { content } = req.body
         const { id: responseId } = req.query
 
         const id = Number(responseId) || undefined
@@ -77,7 +79,7 @@ class ResponseController {
 
     async delete(req: NextApiRequest, res: NextApiResponse) {
 
-        const { id: authorId } = req.body
+        const { id: authorId } = req as any
         const { id: responseId } = req.query
 
         const id = Number(responseId) || undefined

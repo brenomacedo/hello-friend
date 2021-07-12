@@ -142,7 +142,7 @@ class AuthController {
 
     async loginByToken(req: NextApiRequest, res: NextApiResponse) {
 
-        const { id } = req.body
+        const { id } = req as any
 
 
         const user = await findUserById({ id }, this.prisma)
@@ -162,7 +162,8 @@ class AuthController {
 
     async editPassword(req: NextApiRequest, res: NextApiResponse) {
 
-        const { id, password: newPassword, oldPassword } = req.body
+        const { id } = req as any
+        const { password: newPassword, oldPassword } = req.body
 
         const schema = Yup.object().shape({
             newPassword: Yup.string().required('The password is required!'),

@@ -6,7 +6,10 @@ import config from '../../../config.json'
 import { RenderCreatedUser, RenderUser } from "../views/UserView"
 import { createUser, deleteUser, editUser, findUserById, updatePassword } from "../functions/userFunctions"
 import { prismaClient } from "../../utils/types"
-import { followUserCategory, unfollowUserCategory } from "../functions/categoryFunctions"
+import formidable from 'formidable'
+import fs from 'fs'
+import path from 'path'
+import crypto from 'crypto'
 
 class UserController {
 
@@ -64,7 +67,8 @@ class UserController {
 
     async edit(req: NextApiRequest, res: NextApiResponse) {
 
-        const { id, name, title, facebook, twitter, instagram, about } = req.body
+        const { id } = req as any
+        const { name, title, facebook, twitter, instagram, about } = req.body
 
         const schema = Yup.object().shape({
             name: Yup.string().required('The name is required!'),
@@ -108,7 +112,7 @@ class UserController {
 
     async delete(req: NextApiRequest, res: NextApiResponse) {
 
-        const { id } = req.body
+        const { id } = req as any
 
         try {
             await deleteUser({ id }, this.prisma)
@@ -118,6 +122,93 @@ class UserController {
             return res.status(404).json({
                 errors: [
                     'User not found'
+                ]
+            })
+        }
+
+    }
+
+    async updateAvatar(req: NextApiRequest, res: NextApiResponse) {
+
+        const { id: userId } = req as any
+        const id = Number(userId) || undefined
+
+        const schema = Yup.string().required('The id must be provided')
+
+        try {
+            await schema.validate(id)
+        } catch(e) {
+            return res.status(400).json({
+                errors: e.errors
+            })
+        }
+
+        const allowedMimetypes = [
+            'image/jpeg',
+            'image/jpg',
+            'image/png'
+        ]
+
+        const form = new formidable.IncomingForm({
+            multiples: false,
+            keepExtensions: true,
+            uploadDir: './uploads/profile'
+        })
+
+
+        form.on('fileBegin', (formName, file) => {
+            const hash = crypto.randomBytes(10).toString('hex')
+            file.name = `${hash}-${file.name}`
+            file.path = path.resolve('uploads', 'profile', file.name)
+        })
+
+        form.on('file', (formName, file) => {
+            if(file.size > 2*1024*1024) {
+                return res.status(400).json({
+                    errors: [
+                        'This file is too big, the max size is 2MB'
+                    ]
+                })
+            }
+
+            if(!file.type || !allowedMimetypes.includes(file.type)) {
+                return res.status(400).json({
+                    errors: [
+                        'This file type is not allowed, send an png, jpg or jpeg file!'
+                    ]
+                })
+            }
+        })
+
+        const uploadFile = new Promise((resolve, reject) => {
+            form.parse(req, (err, fields, files) => {
+                if(err) {
+                    return reject('An error ocurred')
+                }
+
+                return resolve(files.image)
+            })
+        })
+
+        try {
+            const image = await Promise.resolve(uploadFile)
+
+            const user = await findUserById({ id: id as number }, this.prisma)
+            if(user?.avatar) {
+                console.log(path.join(process.cwd(), 'uploads', 'profile', user.avatar))
+                fs.unlinkSync(path.join(process.cwd(), 'uploads', 'profile', user.avatar))
+            }
+
+            await editUser({ id: id as number, data: {
+                avatar: (image as any).name
+            }}, this.prisma)
+
+            return res.status(200).json(image)
+
+        } catch {
+            return res.status(400).json({
+                errors: [
+                    'An unexpected error ocurred, please try again'
                 ]
             })
         }

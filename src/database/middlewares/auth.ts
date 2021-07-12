@@ -48,7 +48,7 @@ export default async function AuthMiddleware(req: NextApiRequest, res: NextApiRe
                 })
             }
 
-            req.body.id = decoded.id
+            (req as any).id = decoded.id
 
             const response = await next(req, res)
             resolve(response)

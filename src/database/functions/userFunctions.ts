@@ -122,6 +122,7 @@ interface EditUser {
         twitter?: string
         instagram?: string
         about?: string
+        avatar?: string
     }
 }
 

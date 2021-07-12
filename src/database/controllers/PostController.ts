@@ -14,7 +14,8 @@ export default class PostController {
 
     async create(req: NextApiRequest, res: NextApiResponse) {
 
-        const { id: userId, description, imageUrl, categoryId } = req.body
+        const { id: userId } = req as any
+        const { description, imageUrl, categoryId } = req.body
 
         const schema = Yup.object().shape({
             description: Yup.string().required('The post description is required!'),
@@ -69,7 +70,7 @@ export default class PostController {
 
     async indexByUser(req: NextApiRequest, res: NextApiResponse) {
 
-        const { id: userId } = req.body
+        const { id: userId } = req as any
 
         const posts = await listPostsByUser({ userId }, this.prisma)
 
@@ -79,8 +80,9 @@ export default class PostController {
 
     async edit(req: NextApiRequest, res: NextApiResponse) {
 
+        const { id: userId } = req as any
         const { id: postId } = req.query
-        const { description, id: userId } = req.body
+        const { description } = req.body
 
         const id = Number(postId) || undefined
 
@@ -112,8 +114,9 @@ export default class PostController {
     }
 
     async delete(req: NextApiRequest, res: NextApiResponse) {
+
         const { id: postId } = req.query
-        const { id: userId } = req.body
+        const { id: userId } = req as any
 
         const id = Number(postId) || undefined
 

@@ -14,7 +14,8 @@ class CommentController {
 
     async create(req: NextApiRequest, res: NextApiResponse) {
 
-        const { id: userId, postId, content } = req.body
+        const { id: userId } = req as any
+        const { postId, content } = req.body
 
         const schema = Yup.object().shape({
             postId: Yup.number().required('The postId is required!'),
@@ -37,7 +38,8 @@ class CommentController {
 
     async edit(req: NextApiRequest, res: NextApiResponse) {
 
-        const { content, id: userId } = req.body
+        const { id: userId } = req as any
+        const { content } = req.body
         const { id: commentId } = req.query
 
         const id = Number(commentId) || undefined
@@ -75,7 +77,7 @@ class CommentController {
 
     async delete(req: NextApiRequest, res: NextApiResponse) {
 
-        const { id: userId } = req.body
+        const { id: userId } = req as any
         const { id: commentId } = req.query
 
         const id = Number(commentId) || undefined
