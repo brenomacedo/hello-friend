@@ -152,14 +152,14 @@ class UserController {
         const form = new formidable.IncomingForm({
             multiples: false,
             keepExtensions: true,
-            uploadDir: './uploads/profile'
+            uploadDir: './public/profile'
         })
 
 
         form.on('fileBegin', (formName, file) => {
             const hash = crypto.randomBytes(10).toString('hex')
             file.name = `${hash}-${file.name}`
-            file.path = path.resolve('uploads', 'profile', file.name)
+            file.path = path.resolve('public', 'profile', file.name)
         })
 
         form.on('file', (formName, file) => {
@@ -194,9 +194,9 @@ class UserController {
             const image = await Promise.resolve(uploadFile)
 
             const user = await findUserById({ id: id as number }, this.prisma)
-            if(user?.avatar) {
-                console.log(path.join(process.cwd(), 'uploads', 'profile', user.avatar))
-                fs.unlinkSync(path.join(process.cwd(), 'uploads', 'profile', user.avatar))
+            if(user?.avatar && !user.avatar.includes('http')) {
+                console.log(path.join(process.cwd(), 'public', 'profile', user.avatar))
+                fs.unlinkSync(path.join(process.cwd(), 'public', 'profile', user.avatar))
             }
 
             await editUser({ id: id as number, data: {

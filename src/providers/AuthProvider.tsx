@@ -44,6 +44,7 @@ interface AuthProps {
     logout: () => void
     followCategory: (categoryId: number, name: string) => void
     unfollowCategory: (categoryId: number) => void
+    updateAvatar: (file: File) => void
 }
 
 interface RegisterResponse {
@@ -248,7 +249,9 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             setEmail(user.email)
             setTitle(user.title)
             setAbout(user.about)
-            setAvatar(user.avatar)
+            setAvatar(user.avatar
+                ? `/profile/${user.avatar}`
+                : '/default-avatar.png')
             setFacebook(user.facebook)
             setInstagram(user.instagram)
             setTwitter(user.twitter)
@@ -376,6 +379,28 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
     }
 
+    const updateAvatar = async (file: File) => {
+        if(loading)
+            return
+
+        NProgress.start()
+        setLoading(true)
+
+        try {
+            var data = new FormData()
+            data.append('image', file)
+
+            const { data: image } = await api.put<{name:string}>('/user/avatar', data)
+
+            setAvatar(`/profile/${image.name}`)
+        } catch(e) {
+            ThrowAxiosErrors(e)
+        }
+
+        NProgress.done()
+        setLoading(false)
+    }
+
     const followCategory = async (categoryId: number, name: string) => {
         if(loading)
             return
@@ -472,7 +497,12 @@ export default function AuthProvider({ children }: AuthProviderProps) {
                     setType(user.type)
                     setName(user.name)
                     setEmail(user.email || '')
-                    setAvatar(user.avatar || '')
+                    setAvatar(user.avatar
+                        ? (user.avatar.match(/^http/)
+                            ? user.avatar
+                            : `/profile/${user.avatar}`
+                        )
+                        : '/default-avatar.png')
                     setTitle(user.title || '')
                     setAbout(user.about || '')
                     setFacebook(user.facebook || '')
@@ -529,7 +559,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             updatePassword,
             logout,
             followCategory,
-            unfollowCategory
+            unfollowCategory,
+            updateAvatar
         }}>
             {children}
         </AuthContext.Provider>

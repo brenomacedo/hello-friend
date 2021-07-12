@@ -136,7 +136,7 @@ export default function Post({ comments, createdAt, description,
             <div className={styles.commentSection}>
                 <form className={styles.writeComment} onSubmit={handleSubmit}>
                     <div className={styles.profilePic}>
-                        <Image src='https://avatars.githubusercontent.com/u/55261375?v=4'
+                        <Image src={user.avatar || ''}
                             width={48} height={48} />
                     </div>
                     <textarea ref={commentRef}

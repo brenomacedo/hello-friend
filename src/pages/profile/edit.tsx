@@ -9,12 +9,27 @@ import Head from 'next/head'
 import useAuth from '../../hooks/useAuth'
 import Loading from '../../components/Loading'
 import router from 'next/router'
-import { createRef, useEffect } from 'react'
+import { createRef, FormEvent, useEffect } from 'react'
 import Logout from '../../components/Logout'
+import { api } from '../../services/api'
+import imgg from '../../../uploads/profile/3f54a32f2e926e09d7c3-1E98ph8.jpeg'
 
 export default function Edit() {
 
-    const { isAuth, user, updateUser, updatePassword } = useAuth()
+    const { isAuth, user, updateUser, updatePassword, updateAvatar } = useAuth()
+
+    useEffect(() => {
+
+        if(isAuth) {
+            nameRef.current?.setAttribute('value', user.name)
+            titleRef.current?.setAttribute('value', user.title || '')
+            aboutRef.current?.setAttribute('value', user.about || '')
+            facebookRef.current?.setAttribute('value', user.facebook || '')
+            twitterRef.current?.setAttribute('value', user.twitter || '')
+            instagramRef.current?.setAttribute('value', user.instagram || '')
+        }
+
+    }, [isAuth])
 
     if(isAuth === undefined)
         return <Loading />
@@ -64,18 +79,13 @@ export default function Edit() {
         router.push('/profile/see-posts')
     }
 
-    useEffect(() => {
+    const changeImage = async (e: FormEvent<HTMLInputElement>) => {
+        if(!e.currentTarget.files)
+            return
 
-        if(isAuth) {
-            nameRef.current?.setAttribute('value', user.name)
-            titleRef.current?.setAttribute('value', user.title || '')
-            aboutRef.current?.setAttribute('value', user.about || '')
-            facebookRef.current?.setAttribute('value', user.facebook || '')
-            twitterRef.current?.setAttribute('value', user.twitter || '')
-            instagramRef.current?.setAttribute('value', user.instagram || '')
-        }
+        updateAvatar(e.currentTarget.files[0])
 
-    }, [isAuth])
+    }
 
     return (
         <div className={styles.container}>
@@ -90,7 +100,7 @@ export default function Edit() {
                 <div className={styles.profile}>
                     <p>Profile</p>
                     <div className={styles.profilePic}>
-                        <Image src={user.avatar || '/default-avatar.png'} alt="breno"
+                        <Image src={user.avatar || ''} alt="breno"
                             objectFit="cover" width={72} height={72} />
                     </div>
                     <h3>{user.name}</h3>
@@ -101,9 +111,11 @@ export default function Edit() {
                         <span>posts</span>
                     </div>
 
-                    <Button width='10rem'>
-                        Upload new avatar
-                    </Button>
+                    <label className={styles.label} htmlFor='file'>
+                            Upload new avatar
+                    </label>
+
+                    <input type='file' multiple={false} id='file' hidden onChange={changeImage} />
 
                     <Button width='10rem' backgroundColor='#2196f3' onClick={navigateToSeeMyPosts}>
                         See my posts

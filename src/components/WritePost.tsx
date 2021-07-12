@@ -45,7 +45,7 @@ export default function WritePost({ handleCreatePost }: WritePostProps) {
         <form className={styles.container} onSubmit={handleSubmit}>
             <div className={styles.write}>
                 <div className={styles.profilePic}>
-                    <Image src='https://avatars.githubusercontent.com/u/55261375?v=4'
+                    <Image src={user.avatar || ''}
                         alt='breno' objectFit='cover' width={48} height={48} />
                 </div>
                 <textarea ref={descriptionRef}

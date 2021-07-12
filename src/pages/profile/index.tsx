@@ -56,8 +56,8 @@ type PostWithUser = {
         responses: {
             id: number
             content: string
-            postId: number
-            userId: number
+            commentId: number
+            authorId: number
             author: Author
         }[]
     }[]
