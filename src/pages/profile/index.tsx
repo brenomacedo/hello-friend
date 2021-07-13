@@ -104,6 +104,7 @@ export default function Profile({ posts: initialPosts }: ProfileProps) {
 
     const handleCreatePost = async (description: string, categoryId: number, image?: File) => {
 
+
         if(loading)
             return
 

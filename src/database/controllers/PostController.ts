@@ -226,7 +226,12 @@ export default class PostController {
         }
 
         try {
-            await deletePost({ id: id as any, userId }, this.prisma)
+            const post = await deletePost({ id: id as any, userId }, this.prisma)
+
+            if(post.imageUrl) {
+                fs.unlinkSync(path.resolve(process.cwd(), 'public', 'post', post.imageUrl))
+            }
+
             return res.status(200).send('Deleted successfully')
         } catch {
             return res.status(400).json({
