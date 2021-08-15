@@ -479,6 +479,21 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         setIsAuth(false)
     }
 
+    const getUserById: () => Promise<[User?, Error?]> = async () => {
+        try {
+            const { data: user } = await api.post<User>('/auth/verify', {}, {
+                headers: {
+                    authorization: `Bearer ${token}`
+                }
+            })
+
+            return [user, undefined]
+        } catch {
+            return [undefined, new Error('User not found')]
+        }
+
+    }
+
     useEffect(() => {
 
         const verifyUser = async () => {
@@ -486,11 +501,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             const token = Cookies.get('token')
 
             if(token) {
-                const { data: user } = await api.post<User>('/auth/verify', {}, {
-                    headers: {
-                        authorization: `Bearer ${token}`
-                    }
-                })
+                const [user, error] = await getUserById()
 
                 if(user) {
 

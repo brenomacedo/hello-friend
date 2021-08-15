@@ -12,7 +12,7 @@ interface ButtonProps {
 
 export default function Button({ children, width, backgroundColor, marginTop, color, onClick }: ButtonProps) {
     return (
-        <button onClick={onClick}
+        <button role='button' onClick={onClick}
             style={{ width, background: backgroundColor, marginTop, color: color }}
             className={styles.loginButton}>
             {children}

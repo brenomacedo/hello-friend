@@ -9,6 +9,7 @@ interface TopBarProps {
 
 export default function TopBar({ active }: TopBarProps) {
 
+
     const { user } = useAuth()
 
     const navigate = (to: string) => {

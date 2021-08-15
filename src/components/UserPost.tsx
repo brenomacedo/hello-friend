@@ -87,20 +87,20 @@ export default function UserPost({ createdAt, description, id, imageUrl, deleteP
     }
 
     return (
-        <div className={styles.container} style={{ flex: 1 }}>
+        <div role='main' className={styles.container} style={{ flex: 1 }}>
             <div className={styles.author}>
                 <div className={styles.profilePic}>
                     <Image src='https://avatars.githubusercontent.com/u/55261375?v=4'
                         width={48} height={48} />
                 </div>
                 <div className={styles.postInfo}>
-                    <p>{user.name}</p>
+                    <p>{user.name || ''}</p>
                     <span>{createdAt}</span>
                 </div>
             </div>
             {update ? (
                 <>
-                    <textarea className={styles.editField} value={editDescription}
+                    <textarea role='textbox' className={styles.editField} value={editDescription}
                         onChange={e => setEditDescription(e.target.value)}></textarea>
                     <Button width='100%' onClick={handleEditPost} marginTop='0'>Save</Button>
                 </>
