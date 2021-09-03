@@ -57,12 +57,15 @@
 
 <h2 align="center">Some screenshots:</h2>
 <br>
-<div style="display: flex; align-items: center; flex-direction: column;">
+<p align="center">
     <img style="width: 80%;" src="https://i.imgur.com/WG5Fs0V.png">
-    <br>
+</p>
+<p align="center">
     <img style="width: 80%;" src="https://i.imgur.com/X86Catb.png">
-    <br>
+</p>
+<p align="center">
     <img style="width: 80%;" src="https://i.imgur.com/jf8kLAw.png">
-    <br>
+</p>
+<p align="center">
     <img style="width: 80%;" src="https://i.imgur.com/xIGcPRa.png">
-</div>
+</p>
